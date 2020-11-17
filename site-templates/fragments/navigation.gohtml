@@ -43,20 +43,4 @@
             {{end}}
         </ul>
     </div>
-    {{if $haveOther}}
-    <br />
-    <div>
-        <strong>Services without documentation</strong>
-        <ul>
-        {{range $i, $element := .S.K8sStore.Slice }}
-            {{$svc := $element.Service}}
-            {{if not $element.Metadata.HasDoc}}
-            <li>
-                <samp>{{$svc.Namespace}}.{{$svc.Name}}</samp>
-            </li>
-            {{end}}
-        {{end}}
-        </ul>
-    </div>
-    {{end}}
 </nav>
