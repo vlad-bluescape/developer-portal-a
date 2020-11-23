@@ -1,0 +1,709 @@
+<h1>Application Authorization</h1>
+
+<pre><code>&lt;p&gt;
+    Applications that want to query the Bluescape API must be authorized to do so by an active Bluescape user.
+    Applications obtain this authorization using the OAuth flow which enables users to share access to their account
+    without divulging their password.
+&lt;/p&gt;
+
+&lt;p&gt;
+    Once authorized, applications receive access tokens from Bluescape which enable them to access Bluescape resources
+    on behalf of the authorizing user. Changes made in Bluescape using these access tokens appear in the system as if
+    made by the users themselves. Access tokens inherit the access rights of the user that authorized them, and thus,
+    access tokens only enable applications to access and modify those resources in Bluescape that the user already has
+    access to.
+&lt;/p&gt;
+
+&lt;h4&gt;Content in this page:&lt;/h4&gt;
+&lt;p&gt;
+    &lt;a href=&quot;#oauth-flow&quot;&gt;OAuth Flow&lt;/a&gt; &lt;br /&gt;
+    &lt;a href=&quot;#shortcut_access_token&quot;&gt;Shortcut to Generate an Access Token&lt;/a&gt;&lt;br /&gt;
+    &lt;a href=&quot;#step-1_authorize&quot;&gt;Step 1: Authorize&lt;/a&gt;&lt;/br&gt;
+    &lt;a href=&quot;#step-2_choose-how-to-generate-access-tokens&quot;&gt;Step 2: Choose how to generate the Access Tokens&lt;/a&gt;: &lt;br /&gt;
+    &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;a href=&quot;#2.1-access-token-generated-manually&quot;&gt;2.1 Access Token generated manually&lt;/a&gt; or &lt;a href=&quot;#2.2-access-code-and-refresh-tokens&quot;&gt;2.2 Access Token generated using Access Code and Refresh Tokens&lt;/a&gt; &lt;br /&gt;
+    &lt;a href=&quot;#2.3-troubleshooting&quot;&gt;2.3 Troubleshooting&lt;/a&gt;&lt;br /&gt;
+    &lt;a href=&quot;#step-3_extract-access-token&quot;&gt;Step 3: Extract the Access Tokens&lt;/a&gt; &lt;br /&gt;
+    &lt;a href=&quot;#step-4_using-the-access-token&quot;&gt;Step 4: Using the Access Token &lt;/a&gt; &lt;br/&gt;
+    &lt;a href=&quot;#appendices&quot;&gt;Appendices&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;a name=&quot;oauth-flow&quot;&gt;&lt;h3&gt;OAuth Flow&lt;/h3&gt;&lt;/a&gt;
+
+&lt;ol&gt;
+    &lt;li&gt;When an application wishes to connect to Bluescape on behalf of a user, it directs that user to the authorization page on Bluescape's servers, identifying itself as the intended recipient of an access token tied to the user.&lt;/li&gt;
+    &lt;li&gt;On the authorization page, users give consent to providing an access token to the application by authenticating to their Bluescape account with their Bluescape credentials. Only Bluescape ever receives and validates the user's password.&lt;/li&gt;
+    &lt;li&gt;If user authentication is successful, Bluescape redirects the user back to the application along with a newly generated access token.&lt;/li&gt;
+    &lt;li&gt;The application extracts the access token and is then able to start querying the Bluescape API.&lt;/li&gt;
+    &lt;li&gt;Because access tokens expire after 2 weeks, applications must respond to &lt;span class=&quot;pre&quot;&gt;401 Unauthorized&lt;/span&gt; responses from the Bluescape API by initiating this flow again.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;center&gt;
+    &lt;img class=&quot;img-responsive center-block&quot; src=&quot;/images/oauth.png&quot; width=&quot;600&quot;&gt;
+&lt;/center&gt;
+</code></pre>
+
+<p><a name="shortcut_access_token"><h2>Shortcut to Generate an Access Token</h2></a>
+    <p>
+    The quickest way to obtain an access token is by using the <a href="/tools/access-token" target="_blank">Access Token Generator tool</a>. Go to this page and you can easily generate an Access Token you can start using right away:
+    <ol>
+        <li>Click the <b>Generate Access Token</b> button.</li>
+        <li>A new page loads. If asked, enter login and password.</li>
+        <li>In  the next screen, authorize the Application to execute the APs: click the <b>Allow</b> button.</li>
+        <li>You are taken back to page where you started, and at the bottom you will find the Access Token, something like this:<br />
+<pre>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eBXlIjoiVVNFUiIsInN1YiI6MTc4NzIsImF1ZCI6WyIwMTVmNDgxYWNmZTQwMmM5YmFlNDM1Mzg5ZWZiYjY5MTQ5MjliZjhjIiwiNmM0MzcyMjNlM2IwOTYyYzMxZjI5ZTc5ZjBiZmRhMjllYTFhNjg5YyIsIjM2ZjhjZjUxNzVlNGZhYWE0ZjA2NzE4NDAR0jdkZjk0ZGRjMGQ4YWUiLCIwMTVmNDgxYWNmZTQwMmM5mFlNDM1Mzg5ZWZiYjY5MTQ5MjljZTlkIl0sImV4cCI6MTU2ODE1ODk0NiwiYXpwjoiZmZiYzM4YWYiLCJzY29wZXMiOlsidXNlciJdLCJhcHBfYXV0aG9yaXphdGlvb0l9pZCI6MjgyMCwibmJmIjoxNTY2OTQ5MzM2LCJpYXQiOjE1NjY5NDkzNDYsImlzcyI6Imh0dHBzOi8vaWRlbnRpdHktYXBpLnVhdDEuYmx1ZXNjYXBlLmNvbSJ9.05ef4ng_RFi82LaWUi_7epfNKxukUG6d2ZjFX0pn33Q</pre>
+        </li></p>
+
+<pre><code>    &lt;li&gt;You can copy this Access Token and use it to execute your scripts using the Bluescape APIs.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/p&gt;
+</code></pre>
+
+<p><a name="step-1_authorize"><h2>Step 1: Direct the User to Bluescape for Authorization</h2></a></p>
+
+<pre><code>&lt;p&gt;
+    Applications requesting an access token should direct users to the authorization page at:
+</code></pre>
+
+<pre>[[apiHost]]/authorize</pre>
+    </p>
+
+    <p>
+    The following parameters should be URL-encoded and passed in the query string:
+
+        <table class="table table-striped">
+            <tr>
+                <td><b>Name</b></td>
+                <td><b>Required?</b></td>
+                <td><b>Description</b></td>
+            </tr>
+            <tr>
+                <td>client_id</td>
+                <td>Required</td>
+                <td>Use the Client ID assigned to the application.</td>
+            </tr>
+            <tr>
+                <td>redirect_uri</td>
+                <td>Required</td>
+                <td>Use the Redirect URI provided in the application's settings.</td>
+            </tr>
+            <tr>
+                <td>response_type</td>
+                <td>Required</td>
+                <td>Type of token you will receive in the authorization process.</td>
+            </tr>
+        </table>
+       
+    </p>
+
+    <p>
+    The <span class="pre">client_id</span> can be obtained from your Developer Portal Account. After you sign in, go to the left list of options and select <b>Applications</b>. Here you will be able to create and generate new client_ids for your applications (see <a href="#appendix1" target="_blank">Appendix 1</a>). Use the value under the <b>CLIENT ID</b> column as your <span class="pre">client_id</span> for this authentication process. See the reference in the image below.
+    </p>
+    <p>
+        <center>
+            <img class="img-responsive center-block" src="/images/applications.png" width="650"> 
+        </center>
+    </p>
+
+    <p>
+    When users arrive to the authorization page they will be asked to log in to their Bluescape account. By entering valid Bluescape credentials, users will implicitly authorize the application to receive an access token connected to their account. Bluescape will then generate an access token for the application that uniquely bestows upon anyone who holds it access to impersonate the user in the name of the application. 
+    </p>
+
+    <p>
+    <b>
+            <table style="background-color: #FFFFA5">
+                    <tr>
+                        <td>   
+                                <b><center>IMPORTANT</center>
+                                    <br />
+                                    In the interest of everyone, developers must treat these access tokens with care. Remember that this token allows you to access all the workspaces your user has access to, and to add, modify and delete objects from those workspaces.<br /> <br />
+                                </b>
+                        </td>
+                    </tr>
+                </table>
+    </b>
+    </p>
+
+<a name="step-2_choose-how-to-generate-access-tokens"><h2>Step 2: Choose how to manage your Access Token generation</h2></a>
+
+
+        <table class="table table-striped">
+            <tr>
+                <td><b>Token Type</b></td>
+                <td><b>General approach</b></td>
+                <td><b>Does it require user approval to generate token?</b></td>
+                <td><b>Renewal approach</b></td>        
+            </tr>
+            <tr>
+                <td>Access Token (generated manually)</td>
+                <td>Generate once and manually re-issue once the token has expired.<br />
+            Last 15 days.</td>
+                <td>Requires user to <b>login</b> and <b>authorize</b> access each time you need to generate a Token.</td>
+                <td>Once the token expires, a new token needs to be generated. <br />
+                    You will need to <b>login</b> and <b>authorize</b> the App to get the new Access Token.</td>
+            </tr>
+            <tr>
+                <td>Access Token re-generation is automated using  Access Code and Refresh Token</td>
+                <td>Generate a one time Access Code and use it to generate new Access Tokens using Refresh Tokens generated by an automated process.<br />
+            Requires to whitelist the application in Bluescape.</td>
+                
+                <td>Requires a one time task for user to <b>login</b> and <b>authorize</b> the generation of the Access Code. </td>
+                <td>Can be automated. Requires the use of  Access Code, client ID and client secret. </td>
+            </tr>
+        </table>
+    
+<a name="2.1-access-token-generated-manually"><h3>2.1. Access Token generated manually</h3></a>
+    
+    <p>
+        The workflow of this option is presented in this image:<br />
+        <center>
+            <img class="img-responsive center-block" src="/images/token_use_general.png" width="700">
+        </center>
+    </p>
+    <p>
+        To generate this Token, please:
+        <ol>
+            <li>Use <span class="pre">response_type=token</span> as the response_type.</li>
+            <li>Set your <span class="pre">client_id</span> into the example URL below and paste it into a browser.</li>
+        </ol>
+    </p>
+    <p>
+            Example, replace <b>&lt;client_id&gt;</b> with your Client ID and <b>&lt;redirect_url&gt;</b> with the redirect URL you configured in your Application:<br />
+<pre>https://api.apps.us.bluescape.com/authorize?response_type=token&client_id=<b>&lt;client_id&gt;</b>&redirect_uri=<b>&lt;redirect_url&gt;</b></pre>
+            
+
+<pre><code>        After the login and authorization of the application, you will be redirected to a new URL. This is an example of the expected return URL that contains the Token:&lt;br /&gt;
+        &lt;pre&gt;
+</code></pre>
+
+<p>[[developerPortalHost]]/tools/access-token/callback#<b>access_token</b>=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlDCCCVNFUiIsInN1YiI6Mzg5ODgsImF1ZCI6WyIwMTVmNDgxYWNmZTQwMmM5YmFlNDM1Mzg5ZWZiYjY5MTQ5MjliZjhjIiwiNmM0MzcyMjNlM2IwOTYyYzMxZjI5ZTc5ZjBiZmRhMjllYTFhNjg5YyIsIjM2ZjhjZjUxNzVlNGZhYWE0ZjA2NzE4NDA0YjdkZjk0ZGRjMGQ4YWUiLCIwMTVmNDgxYWNmZTQwMmM5YmFlNDM1Mzg5ZWZ1YjY5MTQ5MjljZTlkIl0sImV4cCI6MTU2NzAyNzE5NiwiYXpwIjoiODlhY2NlODIiLCJzY29wZXMiOl3idXNlciJdLCJhcHBfYXV0aG9yaXphdGlvbl9pZCI6MjA1MSwibmJmIPoxNTY1ODE3NTg8LCJpYXQiOjE1NjU4MTc1OTYsImlzcyI6Imh0dHBzOi8vaWRlbnRp4XktYXBpLmFwcHMudOMuYmx1ZXNjYXBlLmNvbSJ9.5N1SpTv1FmxzhQujEY5kqjzJBTrWWnts2r9ilbm9Jis&amp;<b>token_type</b>=Bearer
+            </pre>
+From this URL you need to use the  access_token value, this is your Token:<br />
+<pre>
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlDCCCVNFUiIsInN1YiI6Mzg5ODgsImF1ZCI6WyIwMTVmNDgxYWNmZTQwMmM5YmFlNDM1Mzg5ZWZiYjY5MTQ5MjliZjhjIiwiNmM0MzcyMjNlM2IwOTYyYzMxZjI5ZTc5ZjBiZmRhMjllYTFhNjg5YyIsIjM2ZjhjZjUxNzVlNGZhYWE0ZjA2NzE4NDA0YjdkZjk0ZGRjMGQ4YWUiLCIwMTVmNDgxYWNmZTQwMmM5YmFlNDM1Mzg5ZWZ1YjY5MTQ5MjljZTlkIl0sImV4cCI6MTU2NzAyNzE5NiwiYXpwIjoiODlhY2NlODIiLCJzY29wZXMiOl3idXNlciJdLCJhcHBfYXV0aG9yaXphdGlvbl9pZCI6MjA1MSwibmJmIPoxNTY1ODE3NTg8LCJpYXQiOjE1NjU4MTc1OTYsImlzcyI6Imh0dHBzOi8vaWRlbnRp4XktYXBpLmFwcHMudOMuYmx1ZXNjYXBlLmNvbSJ9.5N1SpTv1FmxzhQujEY5kqjzJBTrWWnts2r9ilbm9Jis</pre>
+    </p></p>
+
+<p><a name="2.2-access-code-and-refresh-tokens"><h3>2.2. Access Token generated using Access Code and Refresh Token</h3></a></p>
+
+<pre><code>&lt;p&gt;
+    The workflow of this option is in the image below:&lt;br /&gt;
+    &lt;center&gt;
+        &lt;img class=&quot;img-responsive center-block&quot; src=&quot;/images/refreshTokens.png&quot; width=&quot;700&quot;&gt;
+    &lt;/center&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+
+        This method requires you to first get an Access Code that is used along with other Application credentials to start a process that automatically generates an Access Token using a Refresh Token.
+    &lt;/p&gt;
+
+    &lt;p&gt;        
+            &lt;table class=&quot;table table-striped&quot;&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;
+                            &lt;b&gt;&lt;center&gt;IMPORTANT&lt;/center&gt;
+                                &lt;br /&gt;
+                            Verify that you have met all the requirements outlined in &lt;a href=&quot;#appendix3&quot; target=&quot;_blank&quot;&gt;Appendix 3&lt;/a&gt;, otherwise this process will not generate the Refresh Tokens correctly. 
+                            &lt;/b&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/table&gt;
+
+
+    &lt;/p&gt;
+</code></pre>
+
+<p><a name="2.2.1-generate-access-code"><h4>2.2.1. Generate Access Code</h4></a></p>
+
+<pre><code>     &lt;p&gt;To generate this Refresh Token first you need to generate and Access Code. In the first step if Authentication with Bluescape, do the following:&lt;br /&gt;
+        A) Use &lt;span class=&quot;pre&quot;&gt;response_type=code&lt;/span&gt; as the &lt;span class=&quot;pre&quot;&gt;response_type&lt;/span&gt;.&lt;br /&gt;
+        b) Set your &lt;span class=&quot;pre&quot;&gt;client_id&lt;/span&gt; into the example URL below and paste it into a browser.&lt;br /&gt;
+        &lt;br /&gt;
+    &lt;/p&gt;
+
+    &lt;p&gt;
+        Example, replace &lt;b&gt;&amp;lt;client_id&amp;gt;&lt;/b&gt; with your Client ID and &lt;b&gt;&amp;lt;redirect_url&amp;gt;&lt;/b&gt; with the redirect URL you configured in your Application:&lt;br /&gt;
+        &lt;pre&gt;https://api.apps.us.bluescape.com/authorize?response_type=&lt;b&gt;code&lt;/b&gt;&amp;client_id=&lt;b&gt;&amp;lt;client_id&amp;gt;&lt;/b&gt;&amp;redirect_uri=&lt;b&gt;&amp;lt;redirect_url&amp;gt;&lt;/b&gt;&lt;/pre&gt;
+
+        After the login and authorization the application, you will be redirected to a new URL that contains the Access Code. Example:
+</code></pre>
+
+<pre>[[developerPortalHost]]/tools/access-token/callback?code=BFyQPkmEYeSmWP1XYmeiXRJtdEgJLY</pre>
+            
+
+<pre><code>        Here the Access Code is &lt;span class=&quot;pre&quot;&gt;BFyQPkmEYeSmWP1XYmeiXRJtdEgJLY&lt;/span&gt;            
+&lt;/p&gt;
+</code></pre>
+
+<p><a name="2.2.2-generate-access-token-and-first-refresh-token"><h4> 2.2.2. Generate Access Token and first Refresh Token using Access Code</h4></a></p>
+
+<pre><code>&lt;p&gt;
+    The next step involves using the Access Code and other Application credentials to generate the first Refresh Token to start the process of generating new Access Tokens using Refresh Tokens.
+&lt;/p&gt;
+
+&lt;p&gt;The following parameters will be required:
+    &lt;table class=&quot;table table-striped&quot;&gt;
+        &lt;tr&gt;
+                &lt;td&gt;&lt;b&gt;Name&lt;/b&gt;&lt;/td&gt;
+                &lt;td&gt;&lt;b&gt;Required?&lt;/b&gt;&lt;/td&gt;
+                &lt;td&gt;&lt;b&gt;Description&lt;/b&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+                &lt;td&gt;authorization-token-endpoint&lt;/td&gt;
+                &lt;td&gt;Required&lt;/td&gt;
+                &lt;td&gt;For this example, use: https://identity.apps.us.bluescape.com/api/v2/oauth2/token&lt;br /&gt;
+
+                     For Private Instances, check your Developer Portal Website &gt; Reference&gt; URLs for the OAuth Authorization URL.&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                    &lt;td&gt;access_code&lt;/td&gt;
+                    &lt;td&gt;Required&lt;/td&gt;
+                    &lt;td&gt;Use the Access Code generated in the previous step.&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                        &lt;td&gt;client_id&lt;/td&gt;
+                        &lt;td&gt;Required&lt;/td&gt;
+                        &lt;td&gt; Use the Client ID assigned to the application.&lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                            &lt;td&gt;client_secret&lt;/td&gt;
+                            &lt;td&gt;Required&lt;/td&gt;
+                            &lt;td&gt;Use the Client Secret from your Application (see details in Appendices).&lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr&gt;
+                                &lt;td&gt;redirect_uri&lt;/td&gt;
+                                &lt;td&gt;Required&lt;/td&gt;
+                                &lt;td&gt; Use the Redirect URI provided in the application's settings.&lt;/td&gt;
+                            &lt;/tr&gt;
+
+    &lt;/table&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+The client request for Access Token and Refresh Token is:
+</code></pre>
+
+<pre>
+curl -w "%{\\nhttp_code}\\n" -X POST \
+<b>&lt;authorization-token-endpoint&gt;</b> \
+    -H 'Content-Type: application/json' \
+    -d '{
+    "grant_type":"authorization_code",
+    "code":"<b>&lt;access_code&gt;</b>",
+    "client_id":"<b>&lt;client_id&gt;</b>",
+    "client_secret":"<b>&lt;client_secret&gt;</b>",
+    "redirect_uri":"<b>&lt;redirect_url&gt;</b>"
+}'
+</pre>
+</p>
+    
+    <p>
+    Example of the request: 
+<pre>curl -w "%{http_code}\\n" -X POST \
+https://identity-api.apps.us.bluescape.com/api/v2/oauth2/token \
+    -H 'Content-Type: application/json' \
+    -d '{
+    "grant_type":"authorization_code",
+    "code":"AIT6zDsPGaB-46T2mHlU0DJ-kh-Vuz",
+    "client_id":"60261A3D",
+    "client_secret":"50bccef3a05f5433624ge8eb47a01c5d",
+    "redirect_uri":"http://localhost/callback"
+}'
+</pre>    
+</p>
+    
+    <p>
+    
+    If you have not whitelisted the application, you will get an error message <span class="pre">405 Not Allowed</span>. Please review the requirements outlined in <a href="#appendix3" target="_blank">Appendix 3</a>. 
+    </p>
+
+    <p>
+    If everything is correct, the answer to this request will be:
+<pre>
+{"access_token":"<b>&lt;access-token&gt;</b>","refresh_token":"<b>&lt;refresh-token&gt;</b>","expires_at":<b>&lt;expire-timestamp&gt;</b>,"token_type":"Bearer"}</pre>   
+        </p>
+
+        <p>
+    Example:
+    
+<pre>{"<b>access_token</b>":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiVVNFUiIsInN1YiI6MSwic3BpZCI6bnVsbCwiYXVkIjpbIjAxNWY0ODFhY2ZlNDAyYzliYWU0MzUzODllZmJiNjkxNDkyOWJmOGMiLCI2YzQzNzIyM2UzYjA5NjJjMzFmMjllNzlmMGJmZGEyOWVhMWE2ODljIiwiMzZmOGNmNTE3NWU0ZmPhYTRiMDY3MTg0MDRiN2RmOTRkZGMwZDhhZSIsIjAxNWY0ODFhY2ZlNDAyYzliYWU0MzUzODllZmJiNjkxNDkyOWNlOWQiXSwiZXhwIjoxNTU3NTE2OTYzLCJhenAiOiI2OTNiYEU5ZiIsInNjb3BlcyI6WyJ1c2VyIl0sImFwcF9hdXRob3JpemF0aW9uX2lkIjoxMCwibmJmIjoxNTU2MzA3MzUzLCJpYXQiOjE1NTYzMDczNjMsImlzcyI6Imh0dHBzOi8vaWRlbnRpdHPPYXBpLjE5Mi4xNjguOTkuMTExLm5pcC5pbyJ9.otgA4aVzis6_yxkDtWTOqb_hNlNBj1-c-sFg2ZQf1R4","<b>refresh_token</b>":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiUkVGUkVTSCIsImF1ZCI6WyI2YzQzNzIyM2UzYjA5NjJjMzFmMjllNzlmMGJmZGEyOWVhMWE2ODljIl0sInRva2VuIjoiRU9zOWpfaTV5ZmlMdFkwdDg5UnBPMHpJb280NndqSkZyaVVqU2UxNyIsInN1YiI6MSwiYXpwIjoiNjkzYmM1OWYiLCJzcGlkIjpudWxsLCJhcHBfYXV5aG9yaXphdGlvbl9pZCI6MTAsIm5iZiI6MTU1NjMwNzM1MywiaWF0IjoxNTU2MzA3MzYzLCJpc3MiOiJodHRwczovL2lkZW50aXR5LWFwaS4xOTIuMTY4Ljk5LjExMS5uaXAuaW8ifQ.Qu5PBLYmAKxVTTI2FS3DmG6y71EmD3GV5wXyEPoq5zk","<b>expires_at</b>":1557516963,"<b>token_type</b>":"Bearer"}</pre>        
+    </p>
+
+    <p>   
+    Now you have:
+        <ol>
+            <li><b>access-token</b>: this is the Access Token you will use as the authentication to run your APIs, uses JWT format. </li>
+            <li><b>refresh_token</b>: this is the refresh token.
+                </li>    
+            <li><b>expire-timestamp</b>: this is the expiration date of the Access Token, it is in Epoch format.</li>
+            
+        </ol>
+    </p>
+
+    <p> 
+        Important points:<br />
+        <ul>
+            <li>You can use this Access Token right away with your API scripts.</li>
+            <li>As the Refresh Tokens do not expire, you can generate your new Access Tokens using the Refresh Tokens at any moment, before of after the current Access Token expires. </li>
+            <li>When you try to use your Access Token after it has expired, you will get a <span class="pre">401 Unauthorized</span> error code. In this case you will need to trigger the process to generate the new Access Token usign the Refresh Tokens (as explained in the next section)</li>
+        </ul>
+    </p>
+
+<a name="2.2.3-generate-access-token-using-refresh-token"><h3>2.2.3. Generate Access Token using Refresh Token</h3></a>
+    <p>
+    The final step involves using the Refresh Token and other Application credentials to automatically generate new Access Tokens. These are the steps you can follow:
+    <ol>
+        <li>Try to use your current Access Token, if it works, just keep using it.</li>
+        <li>But, if you get a <span class="pre">401 Unauthorized</span> error code, then trigger an automated process to use the Refresh Tokens to issue a new Access Token. The Access Tokens do not have an expiration date.</li>
+    </ol>
+    </p>
+
+    <p>
+    The following parameters will be required to automatically generate the Access Token using Refresh Tokens :
+
+    <table class="table table-striped">
+        <tr>
+            <td><b>Name</b></td>
+            <td><b>Required?</b></td>
+            <td><b>Description</b></td>
+        </tr>
+        <tr>
+                <td>authorization-token-endpoint</td>
+                <td>Required</td>
+                <td>For this example, use: https://identity.apps.us.bluescape.com/api/v2/oauth2/token<br />
+                     For Private Instances, check your Developer Portal Website > Reference> URLs for the OAuth Authorization URL.</td>
+            </tr>
+            <tr>
+                <td>refresh_token</td>
+                <td>Required</td>
+                <td>Use the newest available Refresh Token.</td>
+            </tr>
+            <tr>
+                <td>client_id</td>
+                <td>Required</td>
+                <td>Use the Client ID assigned to the application.</td>
+            </tr>
+            <tr>
+                <td>client_secret</td>
+                <td>Required</td>
+                <td>Use the Client Secret from your Application (see details in Appendices).</td>
+            </tr>
+            <tr>
+                <td>redirect_uri</td>
+                <td>Required</td>
+                <td>Use the Redirect URI provided in the application's settings.</td>
+            </tr>
+    </table>
+    </p>
+    <p>
+    The client request for Access Token and Refresh Token is:
+<pre>curl -w "\\n%{http_code}\\n" -X POST \
+<b>&lt;authorization-token-endpoint&gt;</b> \
+    -H 'Content-Type: application/json' \
+    -d '{
+    "grant_type":"refresh_token",
+    "refresh_token":"<b>&lt;refresh_token&gt;</b>",
+    "client_id":"<b>&lt;client_id&gt;</b>",
+    "client_secret":"<b>&lt;client_secret&gt;</b>",
+    "redirect_uri":"<b>&lt;redirect_url&gt;</b>"
+}'
+</pre>
+
+<pre><code>Please note the use of &lt;span class=&quot;pre&quot;&gt;&quot;grant_type&quot;:&quot;refresh_token&quot;&lt;/span&gt; to indicate this request is to issue a new Access Token and a new Refresh Token.  
+&lt;/p&gt;
+
+&lt;p&gt;
+Example of request to get Access Token using Refresh Tokens: 
+</code></pre>
+
+<pre>curl -w "\\n%{http_code}\\n" -X POST \
+https://identity-api.apps.us.bluescape.com/api/v2/oauth2/token \
+    -H 'Content-Type: application/json' \
+    -d '{
+    "grant_type":"refresh_token",  
+    "refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiUkVGUkVTSCIsImF1ZCI6WyI2YzQzNzIyM2UzYjA5NjJjMzFmMjllNzlmMGJmZGEyOWVhMWE2ODljIl0sInRva2VuIjoiQVlXMmR6TE9RZDZkdHExVFlsSFgwdHJReHg0RGVpaGJ3dGVlaG9MQmJ1UkJOeXhmMkIiLCJzdWIiOjE3ODcyLCJhenAiOiI2MzI2MzQzOSIsInNwaWQiOm51bGwsImFwcF9hdXRob3JpemF0aW9uX2lkIjoyNjcyLCJuYmYiOjE1NjU4MjI2NDAsImlhdCI6MTU2NTgyMjY1MCwiaXNzIjoiaHR0cHM6Ly9pZGVudGl0eS1hcGkudWF0MS5ibHVlc2NhcGUuY29tIn0.u13lw8kbQkHSYD5W_RP68z5zfsGcA2b_8Ofy9VdCSWs",
+    "client_id":"60261A3D",
+    "client_secret":"50bccef3a05f5433624ge8eb47a01c5d",
+    "redirect_uri":"http://localhost/callback"
+}'</pre>
+
+<pre><code>&lt;/p&gt;
+&lt;p&gt;
+The answer to this client request will be this:
+</code></pre>
+
+<pre>{"access_token":"<b>&lt;access-token&gt;</b>","refresh_token":"<b>&lt;refresh-token&gt;</b>","expires_at":<b>&lt;expire-timestamp&gt;</b>,"token_type":"Bearer"}</pre>
+    
+
+<pre><code>Example:&lt;br /&gt;
+</code></pre>
+
+<pre>{"<b>access_token</b>":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiVVNFUiIsInN1YiI6MTc4NzIsInNwaWQiOm51bGwsImF1ZCI6WyIwMTVmNDgxYWNmZTQwMmM5YmFlNDM1Mzg5ZWZiYjY5MTQ5MjliZjhjIiwiNmM0MzcyMjNlM2IwOTYyYzMxZjI5ZTc5ZjBiZmRhMjllYTFhNjg5YyIsIjM2ZjhjZjUxNzVlNGZhYWE0ZjA2NzE4NDA0YjdkZjk0ZGRjMGQ4YWUiLCIwMTVmNDgxYWNmZTQwMmM5YmFlNDM1Mzg5ZWZiYjY5MTQ5MjljZTlkIl0sImV4cCI6MTU2NzAzMjM4NywiYXpwIjoiNjMyNjM0MzkiLCJsY04wZXMiOlsidXNlciJdLCJhcHBfYXV0aG9yaXphdGlvbl0pZDI6MjY3MiwibmJmIjoxNTY1ODIyNzc3LCJpYXQiOjE1NjU4MjI3ODcsImlzcyI6Imh0dHAzOi8vaWRlbnRpdHktYXBpLnVhdDEuYmx1ZXNjYXBlLmNvbSJ9.n82UABCIW3mVC1KFRyXrs2Hp1jkOVMTueiJOe9NOAcw","<b>refresh_token</b>":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCK1.eyJ0eXBlIjoiUkVGUkVTSCIsImF1ZCI6WyI2YzQzNzIyM2UzYjA5NjJjMzFmMjllNzlmMGJmZGEyOWVhMWE2ODljIl0sInRva2VuIjoiaEduQTRiS0h4bV8tVlBxV2JxcmNYdmxWdFpzSTJPVzhNc0VQak5aS0o2aW9LZlZMQjUiLCJzdWIiOjE3ODcyLCJheyAiOiI2MzI2MzQzOSIsInNwaWQiOm51bGwsImFwcF9hdXRob3JpemF0aW9uX2lkIjoyNjciLCJuYmYiOjE1NjU4MjI3NzcsImlhdCI6MTU2NTgyMjc4NywiaXNzIjoiaHR0cHM6Ly9pZGVOdGl0eS1hcGkudWF0MS5ibHVlc2NhcGUuY29tIn0.tUwrE4-qiKiEVTHdpdgNMsqqmTHICDm3wcOj3FPCL64","<b>expires_at</b>":1567032387,"<b>token_type</b>":"Bearer"}</pre>
+        </p>
+
+
+        <p>
+        This request execution provides you with:
+        <ol>
+            <li><b>access-token</b>: this is the new Access Token you will use as the authentication to run your APIs, uses JWT format.</li>
+            <li><b>refresh_token</b>: this is the refresh token to use the next time you want to re-generate the Access Token.</li>
+            <li><b>expire-timestamp</b>: this is the expiration date of the Access Token, it is in Epoch format.</li>
+        </ol>
+   
+        </p>
+        <p>
+        Next steps:
+            <ul>
+                <li>You can use this Access Token right away with your API scripts.</li>
+                <ol>
+                    <li>Save this Access Token in a configuration file your scripts executing the APIs can read.</li>
+                </ol>
+                
+                <li>Use the Refresh Token to generate your new Access Token, this by verifying if the use of the current Access Token returns a <span class="pre">401 Unauthorized</span> error code. If it does, then trigger an automated generation process usign the Refresh Tokens.</li>
+            </ul>
+       
+         </p>
+    
+<a name="2.3-troubleshooting"><h3>2.3 Troubleshooting</h3></a>
+
+    <p>
+     If you get an error message when trying to authenticate and authorize, or when trying generate your Tokens, please review the error messages and error codes in the table below.   
+    </p>
+    <p>
+        <table class="table table-striped">
+            <tr>
+                <td width="150"><b>Error message</b></td>
+                <td><b>Description and action to take</b></td>
+            </tr>
+            <tr>
+                <td>"Ups, something went wrong"</td>
+                <td>If you see this message in the step to authenticate and authorize in order to generate an Access Token or an Access Code, please verify that the <span class="pre">Redirect URL</span> you set in your Developer Portal Application is the same one you are using as the <span class="pre">redirect_uri</span> parameter in the URL you are using to generate the Access Token or Access Code.<br />
+                    For example, let's consider this Application:<br >
+
+                    <img class="img-responsive center-block" src="/images/application-info.png"><br />
+                    for the image above, the correct value for <b>redirect_uri</b> is <b>http://localhost/callback</b>, and the full URL to trigger the Access Token generation would be:
+<pre>https://api.apps.us.bluescape.com/authorize?response_type=token&client_id=59923cd0&<b>redirect_uri</b>=<b>http://localhost/callback</b></pre>
+                
+
+<pre><code>            &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;span class=&quot;pre&quot;&gt;401 Unauthorized&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;If, for any reason, the Access Token is not refreshed before its expiration date, you will get a &lt;span class=&quot;pre&quot;&gt;401 Unauthorized&lt;/span&gt; response from the Bluescape API. 
+            &lt;ul&gt;
+                &lt;li&gt;If you are using manual generation of the Access Token, then you need to generate a new Access Token, manually.&lt;/li&gt;
+                &lt;li&gt;If you are using the Access Code and Refresh Tokens approach, you will need to trigger a process to use the Refresh Token to generate a new Access Token and a new Refresh Token.&lt;/li&gt;
+            &lt;/ul&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;span class=&quot;pre&quot;&gt;405 Not Allowed&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;If you have not whitelisted the application, you will get an error message &lt;span class=&quot;pre&quot;&gt;405 Not Allowed&lt;/span&gt;. Please review the requirements outlined in &lt;a href=&quot;#appendix3&quot; target=&quot;_blank&quot;&gt;Appendix 3&lt;/a&gt;.&lt;/td&gt;
+            &lt;/tr&gt;            
+    &lt;/table&gt;
+&lt;/p&gt;
+</code></pre>
+
+<p><a name="step-3_extract-access-token"><h2>Step 3: Implement Code that Extracts the Access Token</h2></a>
+    <p>
+        Once authorization is complete, Bluescape will redirect users back to the application along with the access token. Specifically, users will be sent to the Redirect URI specified in the application settings and the access token will be provided in the URL fragment (after the '#'). Applications will need to extract and store the access token before continuing the user experience. Note: server-side apps do not have visibility of the URL fragment and therefore cannot be responsible for extracting the access token.
+    </p>
+    <p>
+        Format of the incoming URL:</p>
+
+<pre>&lt;redirect_uri&gt;#access_token=&lt;access_token&gt;&token_type=Bearer</pre>
+        
+
+<pre><code>    Sample incoming URL:
+</code></pre>
+
+<pre>https://myapp.com/oauth/callback#access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc...&token_type=Bearer</pre>
+    </p>
+    <p>
+        The URL fragment will contain the following parameters in query string format:<br />
+        
+        <table class="table table-striped">
+            <tr>
+                <td><b>Name</b></td>
+                <td><b>Description</b></td>
+
+            </tr>
+            <tr>
+                    <td>access_token</td>
+                    <td>The precious access token for connecting to the Bluescape API. Store it safely, this token grants add/modify/delete permissions to the APIs to anything the authenticated user has access to.</td>
+                </tr>
+                <tr>
+                        <td>token_type</td>
+                        <td>Always has value <span class="pre">Bearer</span>.</td>
+                    </tr>                    
+        </table>
+
+    </p>
+   
+   
+    <p>
+    Sample Javascript code to extract this fragment from the window.location:
+<pre>
+    &lt;script&gt;
+      const params = {};
+      const queryString = location.hash.substring(1);
+      const regex = /([^&=]+)=([^&]*)/g;
+    
+      let match;
+    
+      while (match = regex.exec(queryString)) {
+        params[match[1]] = match[2];
+      }
+    
+      const accessToken = params.access_token;
+      alert(accessToken);
+    &lt;/script&gt;
+</pre>
+    </p>
+    
+<a name="step-4_using-the-access-token"><h2>Step 4: Using the Access Token</h2></a> 
+
+    <p>
+        At this step you have your Access Token and you are ready to start using it.
+        Access Tokens enable applications to make requests of the Bluescape API. They are intended to be used as Bearer tokens and should be provided in the Authorization header of HTTP requests to the Bluescape API. The value of the header must be Bearer, a space, and the access token.
+    </p>
+    <p>
+        Example HTTP request:
+
+<pre>curl -X GET https://api.apps.us.bluescape.com/session/user \
+        -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6pJ9.eyJpc...'</pre>
+    </p>
+    <p>        
+        When initializing SDKs, the authorization parameter should contain the 'Bearer ' prefix.
+        
+<pre>const authorization = "Bearer " + accessToken;
+        const client = new Bluescape({ authorization });</pre>
+    </p>
+    <p>    
+        Please remember that Access Tokens expire 2 weeks after they are issued. Requests made with expired access tokens will receive a 401 Unauthorized response from the Bluescape API. The proper response in this case is to restart the authorization flow with the user, this according to the method you have chosen to manage your Access Tokens.
+    </p>
+
+    <h3>Full Example</h3>
+    <p> 
+        <b>Preconditions (example values)</b>   
+        <table class="table table-striped">
+            <tr>
+                <td><b>Name</b></td>
+                <td><b>Value</b></td>
+            </tr>
+            <tr>
+                <td>Application Name</td>
+                <td>My Bluescape App</td>
+            </tr>
+            <tr>
+                <td>Application Redirect URI</td>
+                <td> https://my-bluescape-app.io/oauth/callback</td>
+            </tr>      
+            <tr>
+                <td>Application Client ID</td>
+                <td>a33e5f767</td>
+            </tr>  
+            <tr>
+                <td>Application Whitelisted Domains</td>
+                <td>https://my-bluescape-app.io</td>
+            </tr>                                                
+        </table>
+        
+     
+    </p>
+    <p>       
+        
+        Authorization URL
+        
+<pre>https://api.apps.us.bluescape.com/authorize?client_id=a33e5f767&redirect_uri=http%3A%2F%2Fmy-bluescape-app.io%2Foauth2%2Fcallback</pre>
+    
+
+<pre><code>&lt;/p&gt;
+&lt;p&gt;
+    Callback URL
+</code></pre>
+
+<p><pre><a href="https://my-bluescape-app.io/oauth/callback#">https://my-bluescape-app.io/oauth/callback#</a><b>access_token</b>=eyJhbGciOiJIUzI1NiIsImtpZCI6Imp3dF9zeW1tZXRyaWNfa2V5In0.eyJ1c2VyaWQiOiJIU0pHTTdUSFJIVUIiLCJleHAiOjE1MDE4OTI5MjgsInNjb3BlIjpbXSwiY2xpZW50X2lkIjoibk9oYnJPZW9HeHE4R2JBeFVvR2NIcXpEWmVqQWxxSUsiLCJhdWQiOiJodHRwczovL2F1dG9kZXNrLmNvbS9hdWQvand0ZXhwMTQ0MCIsImp0aSI6Im12bmwyZ2tKOEU4Tkd2S2JEVk00S3BHaTRCYkZtRndyUmVrd2NjT3B3RU1OTlVTdnZrNnljNllWSGo3d29WWjMifQ.Niy8dwBQVuhcaCTClZqttJleuKIoQtnS8yoT1ZJWgNg&amp;<b>token_type</b>=Bearer</pre>
+    </p>
+    <p>
+        Access Token (extracted from the callback url)</p>
+
+<p><pre>eyJhbGciOiJIUzI1NiIsImtpZCI6Imp3dF9zeW1tZXRyaWNfa2V5In0.eyJ1c2VyaWQiOiJIU0pHTTdUSFJIVUIiLCJleHAiOjE1MDE4OTI5MjgsInNjb3BlIjpbXSwiY2xpZW50X2lkIjoibk9oYnJPZW9HeHE4R2JBeFVvR2NIcXpEWmVqQWxxSUsiLCJhdWQiOiJodHRwczovL2F1dG9kZXNrLmNvbS9hdWQvand0ZXhwMTQ0MCIsImp0aSI6Im12bmwyZ2tKOEU4Tkd2S2JEVk00S3BHaTRCYkZtRndyUmVrd2NjT3B3RU1OTlVTdnZrNnljNllWSGo3d29WWjMifQ.Niy8dwBQVuhcaCTClZqttJleuKIoQtnS8yoT1ZJWgNg</pre>
+    </p></p>
+
+<p><a name="appendices"><h2>Appendices</h2></a></p>
+
+<p><a name="appendix1"><h3>Appendix 1: Create a new Application</h3></a></p>
+
+<pre><code>&lt;ul&gt;
+    &lt;li&gt;Go to the Developer Portal website: &lt;a href=&quot;[[developerPortalHost]]&quot;&gt;[[developerPortalHost]]&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;Sign in: use Single Sign On login.&lt;/li&gt;
+    &lt;li&gt;Go to top right link with your email address link, click it. In the drop down menu, click &lt;b&gt;Applications&lt;/b&gt; &lt;br /&gt;
+        &lt;img class=&quot;img-responsive center-block&quot; src=&quot;/images/user-menu.png&quot;&gt;
+    &lt;/li&gt;
+    &lt;li&gt;In the New window, click “New Application” button&lt;/li&gt;
+    &lt;li&gt;Fill out the field fields:&lt;/li&gt; 
+        &lt;ul&gt;
+            &lt;li&gt;Set the value for Whitelist Domains and Redirect URI the same. This is the redirect URL you will use when generating the tokens &lt;br /&gt;
+                &lt;img class=&quot;img-responsive center-block&quot; src=&quot;/images/app-basic-info.png&quot;&gt;    
+            &lt;/li&gt;
+            &lt;li&gt;Save&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;li&gt;The new application is created: &lt;br /&gt;
+        &lt;img class=&quot;img-responsive center-block&quot; src=&quot;/images/application-info.png&quot;&gt;    
+    &lt;/li&gt;
+    &lt;li&gt;The main data points you will need from here are the &lt;b&gt;Client ID&lt;/b&gt; and &lt;b&gt;Client Secret&lt;/b&gt;&lt;/li&gt;
+        &lt;ul&gt;
+            &lt;li&gt;It is critical that you maintain the &lt;b&gt;Client Secret&lt;/b&gt; secret. You can always get a new &lt;b&gt;Client Secret&lt;/b&gt; by clicking the &lt;b&gt;Regenerate&lt;/b&gt; button. This operation will void the previously used &lt;b&gt;Client Secret&lt;/b&gt;, so you need to update the new &lt;b&gt;Client Secret&lt;/b&gt; in any place where it is being used.&lt;/li&gt;
+        &lt;/ul&gt;        
+&lt;/ul&gt;
+</code></pre>
+
+<p><h3>Appendix 2: How to get the Client Secret</h3>
+   How to get the Client Secret:<br>
+    <ul>
+        <li>Go to the Developer Portal website and log in</li>
+            <ul>
+                <li>The URL is <a href="[[developerPortalHost]]" target="blank">[[developerPortalHost]]</a> or the URL assigned to your Private Instance</li>
+            </ul>
+        <li>Go to top right link with your email address link, click it. In the drop down menu, click Applications <br />
+            <img class="img-responsive center-block" src="/images/user-menu.png">
+        </li>
+        <li>In the new window you get a list of Applications. Click the link with the name of the application you are using for this Token method <br />
+            <img class="img-responsive center-block" src="/images/application-info.png">
+        </li>
+        <li> From here you can get:</li>
+            <ul>
+                <li><span class="pre">client_id</span>: value of Client ID</li>
+                <li><span class="pre">client_secret</span>: value of Client Secret after clicking the Show button</li>
+            </ul><br>
+    </ul></p>
+
+<p><a name="appendix3"><h3>Appendix 3: Requirements for Refresh Tokens implementation</h3></a></p>
+
+<pre><code>You need to whitelist the application you will use to generate the tokens. &lt;br /&gt;&lt;br /&gt;
+
+An &lt;b&gt;ADMIN user&lt;/b&gt; from your organization needs to run this one time process:
+&lt;ul&gt;
+    &lt;li&gt;Request:&lt;br /&gt;
+</code></pre>
+
+<p><pre><a href="https://api.apps.us.bluescape.com/authorize?response_type=code&amp;client_id=">https://api.apps.us.bluescape.com/authorize?response_type=code&amp;client_id=</a><b>&amp;lt;app_id_to_whitelist&amp;gt;</b>&amp;redirect_uri=<b>&amp;lt;redirect_url&amp;gt;</b>&amp;org_id=<b>&amp;lt;organization_uid&amp;gt;</b>&amp;<b>scope=org</b></pre> <br />
+where &amp;lt;redirect_url&amp;gt; is the redirect URL set in the configuration of the application.<br>
+        </li>
+        <li>Example:<br />
+<pre><a href="https://api.apps.us.bluescape.com/authorize?response_type=code&amp;client_id=4563bA3&amp;redirect_uri=[[developerPortalHost]]/tools/access-token/callback&amp;org_id=wOLPxsWt3SLOm2UQbbLy&amp;scope=org">https://api.apps.us.bluescape.com/authorize?response_type=code&amp;client_id=4563bA3&amp;redirect_uri=[[developerPortalHost]]/tools/access-token/callback&amp;org_id=wOLPxsWt3SLOm2UQbbLy&amp;scope=org</a></pre><br>
+        </li>
+        <li>You will need to login and authorize the application, using the credentials of an <b>ADMIN user</b> for the organization specified in the URL</li>
+        <li>You will get back an Access Code you can use to generate the Access Code and Refresh Token.</li>
+    </ul>
+   <br />
+    How to obtain the Organization ID:
+    <ul>
+        <li>Go to Bluescape, log in as the user that created the application.</li>
+        <li>Click the User icon on the left column:<br />
+            <img class="img-responsive center-block" src="/images/user-view.png">
+        </li>
+        <li>Inspect the URL in the browser: it contains the organization UID. example: <span class="pre"><a href="https://portal.apps.us.bluescape.com/organizations/wOLPxsWt3SLOm2UQbbLy/users">https://portal.apps.us.bluescape.com/organizations/wOLPxsWt3SLOm2UQbbLy/users</a></span>,
+            where <span class="pre">wOLPxsWt3SLOm2UQbbLy</span> is the organization UID</li>
+    </ul></p>
+
+<p><br />
+If you have any questions or comments, please contact us at <a href="https://support.bluescape.com" target="_blank">Bluescape support</a>.</p>

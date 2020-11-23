@@ -1,0 +1,58 @@
+<h1>What's New in the 19.11.1 Release</h1>
+
+<h3>Summary</h3>
+<p>
+    As communicated previously, the use of a version parameter on the API endpoints is now mandatory effective immediately. This means that you need to add the <span class='pre'>/v1/</span> or <span class='pre'>/v2/</span> parameter to your scripts to ensure they will continue to work with this release. Any API calls not using a version parameter will stop working
+</p>
+<h3>API Version v0</h3>
+<p>
+    <ul>
+        <li>The support for API version <span class="pre">/v0/</span> is now discontinued.</li>
+        <li>All API calls to an endpoint must now include a (<span class='pre'>/v1/</span> or <span class='pre'>/v2/</span>) version parameter.</li>
+    </ul>
+</p>
+<h3>API Version v2</h3>
+<p>
+    <ul>
+        <li>The release 19.11.1 includes new features and security improvements, and will use the version parameter <span class="pre">/v2/</span> on its API endpoints.</li>
+        <li>Scripts updated to use version parameter <span class="pre">/v2/</span> must also be updated to handle any field using id to instead use the newly introduced uid (see the id Fields are Migrating to uid section below for more detail).</li>
+    </ul>
+</p>
+<p>
+    See details in the <a href="/reference/versioning">Versioning page</a>.
+</p>
+<h3>New APIs</h3>
+<p>
+        The release 19.11.1 also includes two new APIs that enable the use case for sending and unsending a workspace to a Wall client.
+    <ul>
+        <li>Get All Walls in an Organization</li>
+        <li>Send to Wall</li>
+        <li>Unsend From Wall</li>
+    </ul>
+</p>
+<p>
+    See details in the <a href="/guides/wall-apis">Wall APIs page</a>.
+</p>
+
+
+<h3>id Fields are Migrating to uid</h3> 
+
+<pre><code>&lt;p&gt;
+    Starting with release 19.11.1, we are switching from integer based ids to string based uids for better security. All API calls currently using integer ids will need to switch to using strings, and the API will now return uids in the response.
+&lt;/p&gt;
+&lt;p&gt;
+    For example, the &lt;span class=&quot;pre&quot;&gt;/v1/&lt;/span&gt; route (/api/v1/users/&lt;b&gt;&amp;lt;user_id&amp;gt;&lt;/b&gt;/organizations/&lt;b&gt;&amp;lt;organization_id&amp;gt;&lt;/b&gt;/workspaces) will be replaced by (/api/v2/users/&lt;b&gt;&amp;lt;user_uid&amp;gt;&lt;/b&gt;/organizations/&lt;b&gt;&amp;lt;organization_uid&amp;gt;&lt;/b&gt;/workspaces) and the list of workspaces in the response will only contain the workspace uid, and not the workspace id.
+&lt;/p&gt;
+&lt;p&gt;
+    To allow for applications that have stored resource ids a chance to transition, from the release 19.11.1 and until &lt;span class=&quot;pre&quot;&gt;/v1/&lt;/span&gt; APIs are turned off, &lt;span class=&quot;pre&quot;&gt;/v1/&lt;/span&gt; responses that include an id field will also include the corresponding uid field.
+&lt;/p&gt;
+&lt;p&gt;
+    Another important aspect of using UIDs is that if you use Refresh Tokens to generate your Access Tokens for the API authentication, the Access Tokens using &lt;span class='pre'&gt;/v2/&lt;/span&gt; endpoints will NOT be compatible with &lt;span class='pre'&gt;/v1/&lt;/span&gt; endpoint APIs, and vice versa. This means that you will need to keep the versions of your Refresh and Access Tokens consistent with the API version used between endpoints, otherwise the authentication will fail. For example, if you use API version &lt;span class='pre'&gt;/v2/&lt;/span&gt; to generate your Refresh and Access Tokens, these tokens will only be valid with API version &lt;span class='pre'&gt;/v2/&lt;/span&gt; endpoints. 
+&lt;/p&gt;
+&lt;p&gt;
+    The example provided in the link below illustrates these changes by comparing the return response of an API call between versions &lt;span class=&quot;pre&quot;&gt;/v1/&lt;/span&gt; and &lt;span class=&quot;pre&quot;&gt;/v2/&lt;/span&gt;. 
+&lt;/p&gt;
+&lt;p&gt; 
+    See more details in the &lt;a href=&quot;/guides/id-to-uid&quot;&gt;id to uid migration page&lt;/a&gt;.
+&lt;/p&gt;
+</code></pre>
