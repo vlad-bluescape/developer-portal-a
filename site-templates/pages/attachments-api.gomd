@@ -1,130 +1,131 @@
 <h1>Attachments APIs</h1>
 
 <h2>What are Attachments?</h2>
-    <p>Attachments allow the user to pair together two elements so that they act as a single, interactable object.</p>
-    <p>
+<p>Attachments allow the user to pair together two elements so that they act as a single, interactable object.</p>
+
+<p>
     In a Bluescape Workspace, a user has the ability to manually drag an element A on top of an element B in order to form a link between the two. Now whenever the user selects or moves one element, the other will be selected and moved as well. 
     The Attachments APIs allow for a programmatic way to perform these attachment operations.
-    <p>
-        Coordinates can be specified in order to determine where the element to attach will be placed on the base element. It is important to note that when providing coordinates, these inputs will be relative to the base element they are being attached to. 
-        For example, if the user specifies the element to be attached at [0,0] this will place the attachment at the top left corner of the base element, and <i>not</i> at the center of the workspace.
-    </p>
-    <p>    
-        When executing an Attachments API, the user will see the source element be moved onto the base element specified, and a yellow border will appear around the
-        newly attached object. When deleting an Attachment, the user will see a blue border around the element that was unattached to signify the operation is complete.
-    </p>
+<p>
+    Coordinates can be specified in order to determine where the element to attach will be placed on the base element. It is important to note that when providing coordinates, these inputs will be relative to the base element they are being attached to. 
+    For example, if the user specifies the element to be attached at [0,0] this will place the attachment at the top left corner of the base element, and <i>not</i> at the center of the workspace.
+</p>
 
-    <h2>Table of Contents:</h2>
+<p>    
+    When executing an Attachments API, the user will see the source element be moved onto the base element specified, and a yellow border will appear around the
+    newly attached object. When deleting an Attachment, the user will see a blue border around the element that was unattached to signify the operation is complete.
+</p>
+
+<h2>Table of Contents:</h2>
 <p>
     <a href="#allowed-types">Allowed Element Types for Attachments</a> <br />
     <a href="#how-to-implement">How to Implement Attachments APIs</a> <br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#create-attachment">1. Create: attachment an element to another element</a> <br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#get-attachments">2. Get the list of attachments for an element</a> <br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#delete-attachment">3. Delete attachments in an element</a> <br />
-    <a href="#use-case-example">Use Case Example</a> <br />
-    
+    <a href="#use-case-example">Use Case Example</a> <br />  
 </p>
 
-    <a name="allowed-types"><h3>Allowed Element types for Attachments:</h3></a>
-    <p>
-    <table class="table table-striped">
-        <tr>
-            <td><b>ELEMENT</b></td>
-            <td><b>ALLOWED ATTACHMENTS</b></td>
-        </tr>
-        <tr>
-            <td><b>Notes</b></td>
-            <td>
+<a name="allowed-types"><h3>Allowed Element types for Attachments:</h3></a>
+<p>
+<table class="table table-striped">
+    <tr>
+        <td><b>ELEMENT</b></td>
+        <td><b>ALLOWED ATTACHMENTS</b></td>
+    </tr>
+    <tr>
+        <td><b>Notes</b></td>
+        <td>
+            <ul>
+                <li>Notes</li>    
+                <li>Images</li>
+                <li>Browsers</li>
+                <li>Documents</li>
+                <li>Text</li>
+                <li>Videos</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td><b>Images</b></td>
+        <td>
                 <ul>
-                    <li>Notes</li>    
-                    <li>Images</li>
-                    <li>Browsers</li>
-                    <li>Documents</li>
-                    <li>Text</li>
-                    <li>Videos</li>
-                </ul>
-            </td>
-        </tr>
-        <tr>
-            <td><b>Images</b></td>
-            <td>
-                    <ul>
-                            <li>Notes</li>    
-                            <li>Images</li>
-                            <li>Browsers</li>
-                            <li>Documents</li>
-                            <li>Text</li>
-                            <li>Videos</li>
-                        </ul>
-            </td>
-        </tr>
-        <tr>
-            <td><b>Documents</b></td>
-            <td>
-                    <ul>
-                            <li>Notes</li>    
-                            <li>Images</li>
-                            <li>Browsers</li>
-                            <li>Documents</li>
-                            <li>Text</li>
-                            <li>Videos</li>
-                        </ul>
-            </td>
-        </tr>
-        <tr>
-            <td><b>Browsers</b></td>
-            <td> <ul>
-                    <li>Notes</li>    
-                    <li>Images</li>
-                    <li>Browsers</li>
-                    <li>Documents</li>
-                    <li>Text</li>
-                    <li>Videos</li>
-                </ul></td>
-        </tr>
-        <tr>
-            <td><b>Videos</b></td>
-            <td> <ul>
-                    <li>Notes</li>    
-                    <li>Images</li>
-                    <li>Browsers</li>
-                    <li>Documents</li>
-                    <li>Text</li>
-                    <li>Videos</li>
-                </ul></td>
-        </tr>
-        <tr>
-            <td><b>Text</b></td>
-            <td>No elements can be attached to text, but text can be attached to other elements.</td>
-        </tr>
-        <tr>
-            <td><b>Canvas</b></td>
-            <td>No elements can be attached to canvas. Elements that are posted inside canvas creates membership, not adhesion.</td>
-        </tr>
-    </table>
-    </p>
-    <br />
+                        <li>Notes</li>    
+                        <li>Images</li>
+                        <li>Browsers</li>
+                        <li>Documents</li>
+                        <li>Text</li>
+                        <li>Videos</li>
+                    </ul>
+        </td>
+    </tr>
+    <tr>
+        <td><b>Documents</b></td>
+        <td>
+                <ul>
+                        <li>Notes</li>    
+                        <li>Images</li>
+                        <li>Browsers</li>
+                        <li>Documents</li>
+                        <li>Text</li>
+                        <li>Videos</li>
+                    </ul>
+        </td>
+    </tr>
+    <tr>
+        <td><b>Browsers</b></td>
+        <td> <ul>
+                <li>Notes</li>    
+                <li>Images</li>
+                <li>Browsers</li>
+                <li>Documents</li>
+                <li>Text</li>
+                <li>Videos</li>
+            </ul></td>
+    </tr>
+    <tr>
+        <td><b>Videos</b></td>
+        <td> <ul>
+                <li>Notes</li>    
+                <li>Images</li>
+                <li>Browsers</li>
+                <li>Documents</li>
+                <li>Text</li>
+                <li>Videos</li>
+            </ul></td>
+    </tr>
+    <tr>
+        <td><b>Text</b></td>
+        <td>No elements can be attached to text, but text can be attached to other elements.</td>
+    </tr>
+    <tr>
+        <td><b>Canvas</b></td>
+        <td>No elements can be attached to canvas. Elements that are posted inside canvas creates membership, not adhesion.</td>
+    </tr>
+</table>
+</p>
+<br />
 
 <a name="how-to-implement"><h2>How to Implement Attachments APIs</h2></a>
 
 <a name="create-attachment"><h3>Create: attach one element to another</h3></a>
-    <p>
-    <table class="table table-striped">
-            <tr>
-            <td><b>Endpoint</b></td>
-            <td>/v2/workspaces/&lt;workspace_uid&gt;/elements/&lt;surface_type&gt;/&lt;surface_id&gt;/attachments</td>
-            </tr>
-            <tr>
-                <td><b>Method</b></td>
-                <td>POST</td>
-            </tr>
-            <tr>
-            <td><b>Comments</b></td>
-            <td></td>
-            </tr>
-    </table>
-    </p>
-    <p>
+<p>
+<table class="table table-striped">
+    <tr>
+    <td><b>Endpoint</b></td>
+    <td>/v2/workspaces/&lt;workspace_uid&gt;/elements/&lt;surface_type&gt;/&lt;surface_id&gt;/attachments</td>
+    </tr>
+    <tr>
+        <td><b>Method</b></td>
+        <td>POST</td>
+    </tr>
+    <tr>
+    <td><b>Comments</b></td>
+    <td></td>
+    </tr>
+</table>
+</p>
+<p>
     
 Sample Request:
 {% include 'lang-selector' %} 
@@ -264,6 +265,7 @@ curl -X POST https://api.apps.us.bluescape.com/v2/workspaces/&lt;workspace_uid&g
         </tr>
 </table>
 </p>
+
 <p>
 Sample Request:
 {% include 'lang-selector' %}
@@ -371,7 +373,6 @@ Sample Response Body with the list of attachements an object has:
 </p>
 
 <a name="delete-attachment"><h3>Delete: remove an element's attachments</h3></a>
-
 <p>
 <table class="table table-striped">
         <tr>

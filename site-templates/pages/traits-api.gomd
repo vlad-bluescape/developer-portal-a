@@ -4,7 +4,6 @@
 <p>Traits are a new feature that allows to associate metadata to objects within a workspace via a REST API, they are open-ended metadata for workspace objects. For example, if you upload assets (images, documents, etc.) that belong to a specific project, you can add that project information as Traits to each asset in the workspace. Later, you could download those assets and the data in the Traits of each asset will let you know the original project data.</p>
 
 <h2>Highlights of Traits</h2>
-
     <p>Important points regarding Traits:
         <ul>
             <li>Traits are always represented as a JSON array.</li>
@@ -76,7 +75,6 @@
 <h2>How to implement Traits?</h2>
 
 <h3>Add Traits when creating an element</h3>
-
     <p>
        As mentioned above, you can add Traits to an element at the creation moment if the element is one of the following ones:
         <ul>
@@ -174,7 +172,7 @@ data_load = [{
 <p>
         
         
-        
+              
 
 
 </p>

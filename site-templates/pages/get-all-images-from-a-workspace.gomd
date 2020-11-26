@@ -26,10 +26,9 @@
 </table>
 
 <h2>Code sample</h2>
-
-        <p>
+    <p>
         See below code samples in Python and Node.js.
-        </p>
+    </p>
     
 <p>
 {% include 'lang-selector' %}

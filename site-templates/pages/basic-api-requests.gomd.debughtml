@@ -3,7 +3,7 @@
 <p>
     <em>
         This guide assumes you have obtained an access token from an authorized user. You can obtain an access token
-        either by completing the OAuth flow (see the <a href="/guides/app-auth">Application Authorization</a> guide) or by
+        either by completing the OAuth flow (see the <a href="/docs/page/app-auth">Application Authorization</a> guide) or by
         using the <a href="/tools/access-token">Access Token Generator</a> to generate a token using your own Bluescape
         login information.
     </em>

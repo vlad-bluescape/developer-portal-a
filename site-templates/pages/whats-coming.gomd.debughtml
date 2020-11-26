@@ -32,12 +32,9 @@
 
 <p><h3>FAQ</h3>
 <p>
-    <b>Q: So what does this mean to me?</b><br /></p>
-
-<pre><code>&lt;b&gt;A&lt;/b&gt;: After the release 19.11.1, API version&lt;span class=&quot;pre&quot;&gt;/v0/&lt;/span&gt;will be completely discontinued. This means that any calls to a endpoint not contiaining version parameters &lt;span class=&quot;pre&quot;&gt;/v1/&lt;/span&gt; or &lt;span class=&quot;pre&quot;&gt;/v2/&lt;/span&gt; will no longer work. You must add the &lt;span class=&quot;pre&quot;&gt;/v1/&lt;/span&gt; or &lt;span class=&quot;pre&quot;&gt;/v2/&lt;/span&gt; parameter to your API calls to ensure they will continue to work after release 19.11.1 is launched.&lt;br /&gt;&lt;br /&gt;
-</code></pre>
-
-<p></p></p>
+    <b>Q: So what does this mean to me?</b><br />
+    <b>A</b>: After the release 19.11.1, API version<span class="pre">/v0/</span>will be completely discontinued. This means that any calls to a endpoint not contiaining version parameters <span class="pre">/v1/</span> or <span class="pre">/v2/</span> will no longer work. You must add the <span class="pre">/v1/</span> or <span class="pre">/v2/</span> parameter to your API calls to ensure they will continue to work after release 19.11.1 is launched.<br /><br />
+</p></p>
 
 <p>
   <b>Q: Will my scripts using version 1 (<span class="pre">/v1/</span>) stop working?</b><br />

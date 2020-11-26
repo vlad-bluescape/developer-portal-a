@@ -32,52 +32,48 @@ After you receive the authentication token, you can get a list of all the worksp
 </table>
 
 <h2>Code sample</h2>
-
-<p>
+  <p>
     See below code samples in Python and Node.js.
-    </p>
+  </p>
 
-<pre><code>&lt;p&gt;
-</code></pre>
+    <p>
+{% include 'lang-selector' %}
+<pre class="lang lang-python">
+# Python Code (python 3.5+)
+import requests
+import pprint
 
-<p>{% include 'lang-selector' %}
-<pre class="lang lang-python"></p>
-
-<h1>Python Code (python 3.5+)</h1>
-
-<p>import requests
-import pprint</p>
-
-<p>'''
+'''
 Required modules:
     requests 2.22.0
-'''</p>
+'''
 
-<h1>Get the list of workspaces the user account associates to the Authentication Token can access</h1>
+# Get the list of workspaces the user account associates to the Authentication Token can access
 
-<p>token = 'SET_YOUR_TOKEN_HERE'</p>
+token = 'SET_YOUR_TOKEN_HERE'
 
-<p>if <strong>name</strong> == "<strong>main</strong>":
-   portal = "[[apiHost]]"</p>
+if __name__ == "__main__":
+   portal = "[[apiHost]]"
 
-<p># Get all the images from a workspace
-   API_version = 'v2'</p>
+   # Get all the images from a workspace
+   API_version = 'v2'
 
-<p>API_endpoint = '/' + API_version + '/users/me/workspaces'</p>
+   API_endpoint = '/' + API_version + '/users/me/workspaces'
 
-<p>the_request = requests.get(
+   the_request = requests.get(
        portal + API_endpoint,
        headers={"Authorization": "Bearer " + token}
-   )</p>
+   )
 
-<p># format answer to json
+  # format answer to json
    json_response = the_request.json()
-   # By default we get the first 25 workspaces</p>
+   # By default we get the first 25 workspaces
 
-<p># added to format display of json output
+  # added to format display of json output
    pprint.pprint(json_response)
 </pre>
-</p></p>
+</p>
+
 
 <p>
 <pre class="lang lang-node">

@@ -1,14 +1,13 @@
 <h2>Workflow: Adding Content Into a Workspace</h2> 
 
 <h3>Summary</h3>
-
     <p>
         This page explains the workflows for adding content into a Workspace. The content to add to the workspace is generally a document or an image that you want to share or collaborate on. 
     </p>
 
 <h3>Diagram</h3>
-
-    <p><img src="/images/workflow_upload_content_into_workspace.png" height="650">
+    <p>
+        <img src="/images/workflow_upload_content_into_workspace.png" height="650">
     </p>
 
 <h3>Manually Upload content from Local Folder</h3>
@@ -33,15 +32,14 @@
                 <li>Save or move the report files into a predetermined folder in your local drive (e.g. "/to_upload_into_bluescape")</li>
                 <li>Trigger your script that uses the Bluescape APIs to upload the report files directly into your Bluescape Workspace</li>
                 <li>Now you are ready to collaborate with your team.</li>
-
             </ul>
         </ul>
     </p>
     <p>
         Where do I start?
         <ul>
-            <li>You can use the code samples provided in the <a href="/guides">Guides section</a> to get familiarized with the way the Bluescape APIs work and learn about the authentication alternatives.</li>
-            <li>In particular, visit the example of how to <a href="/guides/upload-from-local-drive-into-a-canvas">upload content from a local drive into a Canvas</a>. This example explains the building blocks of how to upload content into a Workspace using the Bluescape APIs.</li>
+            <li>You can use the code samples provided in the <a href="/docs/page/guides">Guides section</a> to get familiarized with the way the Bluescape APIs work and learn about the authentication alternatives.</li>
+            <li>In particular, visit the example of how to <a href="/docs/page/upload-from-local-drive-into-a-canvas">upload content from a local drive into a Canvas</a>. This example explains the building blocks of how to upload content into a Workspace using the Bluescape APIs.</li>
             <li></li>
         </ul>
     </p>
@@ -57,8 +55,6 @@
                 <li>Depending on the way the external application works, you may need to use a staging repository to save your reports (if they are too big)</li>
                 <li>Use a script that uses the Bluescape APIs to upload the report files directly into your Bluescape Workspace.</li>
                 <li>Now you are ready to collaborate with your team.</li>
-
             </ul>
-        </ul>
-        
+        </ul>    
     </p>

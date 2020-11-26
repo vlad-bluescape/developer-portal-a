@@ -414,27 +414,24 @@ else:
     <tr>
         <th>Owner</th>
         <td>Always</td>
-        <td>Always</td></p>
-
-<pre><code>&lt;/tr&gt;
-&lt;tr&gt;
-    &lt;th&gt;Admin&lt;/th&gt;
-    &lt;td&gt;With Edit Permissions&lt;/td&gt;
-    &lt;td&gt;Yes if Sender*&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-    &lt;th&gt;User&lt;/th&gt;
-    &lt;td&gt;With Edit Permissions&lt;/td&gt;
-    &lt;td&gt;Yes if Sender*&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-    &lt;th&gt;Guest&lt;/th&gt;
-    &lt;td&gt;No, must be invited&lt;/td&gt;
-    &lt;td&gt;No&lt;/td&gt;
-&lt;/tr&gt;
-</code></pre>
-
-<p></table></p>
+        <td>Always</td>
+    </tr>
+    <tr>
+        <th>Admin</th>
+        <td>With Edit Permissions</td>
+        <td>Yes if Sender<em></td>
+    </tr>
+    <tr>
+        <th>User</th>
+        <td>With Edit Permissions</td>
+        <td>Yes if Sender</em></td>
+    </tr>
+    <tr>
+        <th>Guest</th>
+        <td>No, must be invited</td>
+        <td>No</td>
+    </tr>
+</table></p>
 
 <div class="well">
     <p>

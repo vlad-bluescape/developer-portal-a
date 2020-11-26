@@ -26,12 +26,10 @@
 </table>
 
 <h2>Code sample</h2>
-
-<pre><code>    &lt;p&gt;
-    See below code samples in Python and Node.js.
-    &lt;/p&gt;
-</code></pre>
-
+    <p>
+        See below code samples in Python and Node.js.
+    </p>
+    
 <p>
 {% include 'lang-selector' %}
 <pre class="lang lang-python">

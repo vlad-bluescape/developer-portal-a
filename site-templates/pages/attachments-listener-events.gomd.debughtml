@@ -1,7 +1,7 @@
 <h1>Attachments: Listener Events</h1>
 
 <p><p>
-    As part of the implementation of the <a href="/guides/attachments-api">Attachments APIs</a>, new Listener Events are available now:
+    As part of the implementation of the <a href="/docs/page/attachments-api">Attachments APIs</a>, new Listener Events are available now:
     <table class="table table-striped">
         <tr>
             <td>Event Type</td>

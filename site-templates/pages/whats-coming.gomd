@@ -37,7 +37,6 @@
 <h3>FAQ</h3>
 <p>
     <b>Q: So what does this mean to me?</b><br />
-
     <b>A</b>: After the release 19.11.1, API version<span class="pre">/v0/</span>will be completely discontinued. This means that any calls to a endpoint not contiaining version parameters <span class="pre">/v1/</span> or <span class="pre">/v2/</span> will no longer work. You must add the <span class="pre">/v1/</span> or <span class="pre">/v2/</span> parameter to your API calls to ensure they will continue to work after release 19.11.1 is launched.<br /><br />
 </p>
 

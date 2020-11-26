@@ -6,7 +6,7 @@
 
     <p>The Bluescape API is a <a href="/reference">REST API</a> that can be accessed through explicit HTTP calls; the APIs expose most of the features available in the Bluescape product. The Bluescape API enables developers to programmatically create and upload content into Bluescape workspaces. Applications are able to pull data and files from external sources like databases, content management systems and cloud storage and push them into Bluescape workspaces with ease. Organizations are free to move beyond the Bluescape web and wall interfaces for integrating the Bluescape visual layer into their collaboration and decision-making processes.</p>
 
-    <p>In addition, the Bluescape API enables applications to register <a href="/guides/listeners-api">listeners</a> on Bluescape workspaces that will be notified whenever content or comments are created, updated or deleted. Listeners are key to integrating Bluescape with the communication platforms that organizations use to keep their project teams connected and informed. Using listeners, developers can easily translate actions taken in Bluescape workspaces into emails, chat messages, database updates, and more.</p>
+    <p>In addition, the Bluescape API enables applications to register <a href="/docs/page/listeners-api">listeners</a> on Bluescape workspaces that will be notified whenever content or comments are created, updated or deleted. Listeners are key to integrating Bluescape with the communication platforms that organizations use to keep their project teams connected and informed. Using listeners, developers can easily translate actions taken in Bluescape workspaces into emails, chat messages, database updates, and more.</p>
 
     <h3>Basic Concepts</h3>
 
@@ -30,7 +30,7 @@
     <h3>Retrieving Workspace Content</h3>
 
     <p>
-      An important limitation of the Bluescape API that developers must be aware is the inability to read the content of a workspace and request details about specific objects. We certainly understand the value of being able to query this information and are working hard to provide this functionality soon. In the meantime, if applications require the ability track objects in workspaces and their locations, we encourage developers to record this data when content is added to workspaces, and use <a href="/guides/listeners-api">listeners</a> to keep records up to date.
+      An important limitation of the Bluescape API that developers must be aware is the inability to read the content of a workspace and request details about specific objects. We certainly understand the value of being able to query this information and are working hard to provide this functionality soon. In the meantime, if applications require the ability track objects in workspaces and their locations, we encourage developers to record this data when content is added to workspaces, and use <a href="/docs/page/listeners-api">listeners</a> to keep records up to date.
     </p>
 
     <h3>Getting Started</h3>

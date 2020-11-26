@@ -8,6 +8,7 @@
     All API endpoints share the same base URL:
 </p>
 
+
 <pre>
 [[apiHost]]
 </pre>
@@ -34,10 +35,9 @@ After you receive the authentication token, you can get a list of all the worksp
 
 
 <h2>Code sample</h2>
-
-<p>
+  <p>
     See below code samples in Python and Node.js.
-    </p>
+  </p>
 
     <p>
 {% include 'lang-selector' %}
