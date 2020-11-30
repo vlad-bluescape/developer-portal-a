@@ -1,0 +1,55 @@
+<h1>Guides</h1>
+
+<h2>Getting Started</h2>
+
+<h4>1. Application Authorization</h4>
+<p>
+    In order for applications to access the Bluescape API they must be authorized by an existing Bluescape user. The
+    Application Authorization guide explains how to use your application's credentials to obtain this authorization.
+</p>
+
+<a href="/docs/page/app-auth" class="action">Open Guide</a>
+
+
+<h4>2. Basic API Request</h4>
+<p>
+    Once an application has received an access token, it is free to start accessing the Bluescape API. The Basic API
+    Request guide presents some example requests to get you started with creating your application.
+</p>
+
+<a href="/docs/page/basic-api-requests" class="action">Open Guide</a>
+
+<h4>3. Get list of workspaces</h4>
+<p>
+        Get the list of all Workspaces that you can access. You can get the IDs and names of each Workspace.
+</p>
+
+<a href="/docs/page/get-list-of-workspaces" class="action">Open Guide</a>
+
+<h4>4. Get all images from a Workspace</h4>
+    <p>
+        Get the information for all the images uploaded in your Workspace. You can easily extend this script to download documents, notes, etc.
+    </p>
+
+<a href="/docs/page/get-all-images-from-a-workspace" class="action">Open Guide</a>
+
+<h4>5. Create a Canvas and add a note to it</h4>
+    <p>
+        Here you will learn how to create a new Canvas and how to add a Note to it. Creating a Canvas is very useful for organizing elements in a Workspace.
+    </p>
+
+<a href="/docs/page/create-canvas-and-add-note" class="action">Open Guide</a>
+
+<h4>6. Upload content from local drive in a Canvas</h4>
+    <p>
+        Learn how to automate the uploading of documents and images from a local folder on your hard drive to a new Canvas. 
+    </p>
+
+<a href="/docs/page/upload-from-local-drive-into-a-canvas" class="action">Open Guide</a>
+
+<h2>Listeners</h2>
+<p>
+    Listeners are a powerful tool for monitoring Bluescape workspaces and responding to user actions. The Listeners guide describes in detail how listeners work and how to get started using them.
+</p>
+
+<a href="/docs/page/listeners-api" class="action">Open Guide</a>

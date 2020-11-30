@@ -1,0 +1,29 @@
+<h1>Attachments: Listener Events</h1>
+
+<p>
+    As part of the implementation of the <a href="/docs/page/attachments-api">Attachments APIs</a>, new Listener Events are available now:
+    <table class="table table-striped">
+        <tr>
+            <td>Event Type</td>
+            <td>Description</td>
+        </tr>
+        <tr>
+            <td>ATTACH_ADD</td>
+            <td>Attach add events</td>
+        </tr>
+        <tr>
+            <td>ATTACH_ALL</td>
+            <td>All attach events</td>
+        </tr>
+        <tr>
+            <td>ATTACH_DELETE</td>
+            <td>Attach delete events</td>
+        </tr>
+    </table>
+   
+</p>
+<p>
+    You can see the full list of Listener events in the <a href="/reference/listener-events">Listener Events page</a>.
+</p>
+<br />
+If you have any questions or comments, please contact us at <a href="https://support.bluescape.com" target="_blank">Bluescape support</a>.
