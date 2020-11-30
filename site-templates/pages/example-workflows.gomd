@@ -7,7 +7,7 @@
 
 <h3>Diagram</h3>
     <p>
-        <img src="/assets/images/workflow_upload_content_into_workspace.png" height="650">
+        <img src="/docs/assets/images/workflow_upload_content_into_workspace.png" height="650">
     </p>
 
 <h3>Manually Upload content from Local Folder</h3>
@@ -15,7 +15,7 @@
         <ul>
             <li>Use the upload tool available in the Workspaces. You can upload images, videos and documents.</li>
             <li>Go to your workspace and on the left column menu click on the Add ("+") icon.<br />
-                <img src="/assets/images/upload_from_workspace.png" width="450"></li>
+                <img src="/docs/assets/images/upload_from_workspace.png" width="450"></li>
             <li>By clicking the Browse icon, you can upload content directly from your local drive.</li>
             <li>Or upload content directly from Box, Dropbox, Google Drive or OneDrive. Authentication will be required to access the content on these systems.</li>
         </ul>

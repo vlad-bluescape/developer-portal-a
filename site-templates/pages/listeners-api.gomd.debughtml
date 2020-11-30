@@ -52,7 +52,7 @@
     notifications with a link to view the new document.
 </p>
 
-<p><img class="img-responsive center-block" src="/assets/images/diagrams/UseCaseSlack.png"></p>
+<p><img class="img-responsive center-block" src="/docs/assets/images/diagrams/UseCaseSlack.png"></p>
 
 <p><a name="event-types"><h3>Event Types</h3></a></p>
 

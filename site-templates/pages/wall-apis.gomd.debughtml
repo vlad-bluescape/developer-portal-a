@@ -448,7 +448,7 @@ else:
     <li>On the header of the list of users, click the question mark icon at the right of "Workspace Role"</li>
     <li>You will get a popup with the permissions of your Collaborators</li>
     <li>Verify that you can see the <span class="pre">Send to Wall</span> permission</li>
-    <li><img src="/assets/images/collaborators_permissions_list.png" height="500"></li>
+    <li><img src="/docs/assets/images/collaborators_permissions_list.png" height="500"></li>
 </ul></p>
 
 <p><br />
