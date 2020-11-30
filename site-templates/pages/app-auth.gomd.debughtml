@@ -36,7 +36,7 @@
     </ol></p>
 
 <p><center>
-    <img class="img-responsive center-block" src="/images/oauth.png" width="600">
+    <img class="img-responsive center-block" src="/docs/assets/images/oauth.png" width="600">
 </center></p>
 
 <p><a name="shortcut_access_token"><h2>Shortcut to Generate an Access Token</h2></a>
@@ -94,7 +94,7 @@ The <span class="pre">client_id</span> can be obtained from your Developer Porta
 </p>
 <p>
     <center>
-        <img class="img-responsive center-block" src="/images/applications.png" width="650"> 
+        <img class="img-responsive center-block" src="/docs/assets/images/applications.png" width="650"> 
     </center>
 </p>
 
@@ -146,7 +146,7 @@ When users arrive to the authorization page they will be asked to log in to thei
 <p>
     The workflow of this option is presented in this image:<br />
     <center>
-        <img class="img-responsive center-block" src="/images/token_use_general.png" width="700">
+        <img class="img-responsive center-block" src="/docs/assets/images/token_use_general.png" width="700">
     </center>
 </p>
 <p>
@@ -174,7 +174,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlDCCCVNFUiIsInN1YiI6Mzg5ODgsImF1ZCI6
 <p>
     The workflow of this option is in the image below:<br />
     <center>
-        <img class="img-responsive center-block" src="/images/refreshTokens.png" width="700">
+        <img class="img-responsive center-block" src="/docs/assets/images/refreshTokens.png" width="700">
     </center>
 </p></p>
 
@@ -457,7 +457,7 @@ https://identity-api.apps.us.bluescape.com/api/v2/oauth2/token \
             <td>If you see this message in the step to authenticate and authorize in order to generate an Access Token or an Access Code, please verify that the <span class="pre">Redirect URL</span> you set in your Developer Portal Application is the same one you are using as the <span class="pre">redirect_uri</span> parameter in the URL you are using to generate the Access Token or Access Code.<br />
                 For example, let's consider this Application:<br >
 
-                <img class="img-responsive center-block" src="/images/application-info.png"><br />
+                <img class="img-responsive center-block" src="/docs/assets/images/application-info.png"><br />
                 for the image above, the correct value for <b>redirect_uri</b> is <b>http://localhost/callback</b>, and the full URL to trigger the Access Token generation would be:
                 <pre>https://api.apps.us.bluescape.com/authorize?response_type=token&client_id=59923cd0&<b>redirect_uri</b>=<b>http://localhost/callback</b></pre>
             
@@ -613,18 +613,18 @@ https://identity-api.apps.us.bluescape.com/api/v2/oauth2/token \
     <li>Go to the Developer Portal website: <a href="[[developerPortalHost]]">[[developerPortalHost]]</a></li>
     <li>Sign in: use Single Sign On login.</li>
     <li>Go to top right link with your email address link, click it. In the drop down menu, click <b>Applications</b> <br />
-        <img class="img-responsive center-block" src="/images/user-menu.png">
+        <img class="img-responsive center-block" src="/docs/assets/images/user-menu.png">
     </li>
     <li>In the New window, click “New Application” button</li>
     <li>Fill out the field fields:</li>
         <ul>
             <li>Set the value for Whitelist Domains and Redirect URI the same. This is the redirect URL you will use when generating the tokens <br />
-                <img class="img-responsive center-block" src="/images/app-basic-info.png"><br>
+                <img class="img-responsive center-block" src="/docs/assets/images/app-basic-info.png"><br>
             </li>
             <li>Save</li>
         </ul>
     <li>The new application is created: <br />
-        <img class="img-responsive center-block" src="/images/application-info.png"><br>
+        <img class="img-responsive center-block" src="/docs/assets/images/application-info.png"><br>
     </li>
     <li>The main data points you will need from here are the <b>Client ID</b> and <b>Client Secret</b></li>
         <ul>
@@ -640,10 +640,10 @@ https://identity-api.apps.us.bluescape.com/api/v2/oauth2/token \
             <li>The URL is <a href="[[developerPortalHost]]" target="blank">[[developerPortalHost]]</a> or the URL assigned to your Private Instance</li>
         </ul>
     <li>Go to top right link with your email address link, click it. In the drop down menu, click Applications <br />
-        <img class="img-responsive center-block" src="/images/user-menu.png">
+        <img class="img-responsive center-block" src="/docs/assets/images/user-menu.png">
     </li>
     <li>In the new window you get a list of Applications. Click the link with the name of the application you are using for this Token method <br />
-        <img class="img-responsive center-block" src="/images/application-info.png">
+        <img class="img-responsive center-block" src="/docs/assets/images/application-info.png">
     </li>
     <li> From here you can get:</li>
         <ul>
@@ -673,7 +673,7 @@ You need to whitelist the application you will use to generate the tokens. <br /
 <ul>
     <li>Go to Bluescape, log in as the user that created the application.</li>
     <li>Click the User icon on the left column:<br />
-        <img class="img-responsive center-block" src="/images/user-view.png">
+        <img class="img-responsive center-block" src="/docs/assets/images/user-view.png">
     </li>
     <li>Inspect the URL in the browser: it contains the organization UID. example: <span class="pre">https://portal.apps.us.bluescape.com/organizations/wOLPxsWt3SLOm2UQbbLy/users</span>, 
         where <span class="pre">wOLPxsWt3SLOm2UQbbLy</span> is the organization UID</li>

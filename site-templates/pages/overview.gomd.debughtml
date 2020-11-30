@@ -14,7 +14,7 @@
       Each Bluescape user is a member of one or more organizations. Workspaces belong to one organization. Every workspace has an owner, and optionally, one or more collaborators.
     </p>
 
-    <img class="img-responsive center-block" src="/images/BasicConcepts.png">
+    <img class="img-responsive center-block" src="/assets/images/BasicConcepts.png">
 
     <p>
       The above diagram illustrates a number of important concepts:
