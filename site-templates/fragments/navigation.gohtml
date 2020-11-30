@@ -32,7 +32,7 @@
     </div>
     <br />
     <div>
-        <strong>Reference</strong>
+        <strong>Reference OO</strong>
         <ul>
             {{range $i, $page := $.Pages}}
                 {{$class := ""}}
@@ -45,7 +45,7 @@
     </div>
     {{if $haveOther}}
     <br />
-    <div>
+    {{/* <div>
         <strong>Services without documentation</strong>
         <ul>
         {{range $i, $element := .S.K8sStore.Slice }}
@@ -57,6 +57,6 @@
             {{end}}
         {{end}}
         </ul>
-    </div>
+    </div> */}}
     {{end}}
 </nav>

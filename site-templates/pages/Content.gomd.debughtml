@@ -1,0 +1,58 @@
+<h1>Portal Content</h1>
+
+<p>You can put all sorts of information in the Developer Portal:</p>
+
+<table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>Location</th>
+<th>Preprocessing</th>
+<th>Go templates</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>landing page</td>
+<td><code>/landing.gomd</code></td>
+<td>Markdown</td>
+<td>Yes</td>
+</tr>
+
+<tr>
+<td>page</td>
+<td><code>/pages/</code><em>name</em><code>.gomd</code></td>
+<td>Markdown</td>
+<td>Yes</td>
+</tr>
+
+<tr>
+<td>site layout</td>
+<td><code>/layout.gohtml</code></td>
+<td></td>
+<td>Yes</td>
+</tr>
+
+<tr>
+<td>template fragments</td>
+<td><code>/fragments/</code><em>name</em><code>.gohtml</code></td>
+<td></td>
+<td>Yes</td>
+</tr>
+
+<tr>
+<td>CSS stylesheets</td>
+<td><code>/styles/</code></td>
+<td></td>
+<td>No</td>
+</tr>
+
+<tr>
+<td>Assets</td>
+<td><code>/assets/</code></td>
+<td></td>
+<td>No</td>
+</tr>
+</tbody>
+</table>

@@ -1,18 +1,18 @@
-<span>
+<p><span>
     {{define "landing-head"}}
     {{end}}
-</span>
+</span></p>
 
-# Welcome to the Ambassador Dev Portal !!
+<h1>Welcome to the Ambassador Dev Portal !!</h1>
 
-## Customizing the Portal
+<h2>Customizing the Portal</h2>
 
-This content is fully customizable for your specific needs. 
-For details on customizing the portal, see https://www.getambassador.io/reference/dev-portal.
+<p>This content is fully customizable for your specific needs.
+For details on customizing the portal, see <a href="https://www.getambassador.io/reference/dev-portal">https://www.getambassador.io/reference/dev-portal</a>.</p>
 
-## Available Services
+<h2>Available Services</h2>
 
-The following services are exposed through this Ambassador instance:
+<p>The following services are exposed through this Ambassador instance:</p>
 
 <table cellpadding="2em" width="100%">
     <thead>
