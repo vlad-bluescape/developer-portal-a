@@ -10,6 +10,8 @@
       type="text/css"
       media="all"
     >
+    <link rel="stylesheet" type="text/css" media="screen" href="//stackpath.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css" />
     <link rel="stylesheet" href="{{.Prefix}}styles/master.css" type="text/css" media="all">
     {{if eq .Ctx "landing"}} {{template "landing-head" $}}
     {{else if eq .Ctx "page"}} {{template "page-magic-head" $}}
