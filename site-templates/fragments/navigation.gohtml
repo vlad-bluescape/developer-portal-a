@@ -9,7 +9,7 @@
     {{end}}
   {{end}}
     <div>
-        <strong>APIs v3 DEV PORTAL</strong>
+        <strong>Bluescape v3 APIs</strong>
         <ul>
         {{range $i, $element := .S.K8sStore.Slice }}
             {{$svc := $element.Service}}
@@ -31,7 +31,7 @@
         </ul>
     </div>
     <br />
-    <div>
+    {{/* <div>
         <strong>Reference</strong>
         <ul>
             {{range $i, $page := $.Pages}}
@@ -42,7 +42,7 @@
                 <li><a class="{{$class}}" href="{{$.Prefix}}page/{{$page}}">{{$page}}</a></li>
             {{end}}
         </ul>
-    </div>
+    </div> */}}
     {{if $haveOther}}
     <br />
     <div>

@@ -1,6 +1,3 @@
-<p>&lt;!DOCTYPE html&gt;
-<html lang="en"></p>
-
 <h1>Wall APIs</h1>
 
 <h2>Highlights of Wall APIs</h2>
@@ -29,7 +26,7 @@
     <table class="table table-striped">
             <tr>
                 <td><b>Endpoint</b></td>
-                <td>/v2/organizations/&amp;lt;organization_uid&amp;gt;/walls&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</td>
+                <td>/v2/organizations/&amp;lt;organization_uid&amp;gt;/walls</td>
                 <td></td>
             </tr>
             <tr>
