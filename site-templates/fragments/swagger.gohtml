@@ -6,8 +6,10 @@
 {{end}}
 <span id="swagger-ui"></span>
 <script>
+{{/* trying to laod external frile from https://elementary.staging.alpha.dev.bluescape.io/explorer/openapi.json
+     -> Returns CORS issue */}}
  const ui = SwaggerUIBundle({
-     url: "/openapi/services/{{.CurrentNamespace}}/{{.CurrentService}}/openapi.json",
+     url: "https://elementary.staging.alpha.dev.bluescape.io/explorer/openapi.json",
      dom_id: '#swagger-ui',
      presets: [
          SwaggerUIBundle.presets.apis,

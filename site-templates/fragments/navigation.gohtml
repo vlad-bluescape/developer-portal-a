@@ -36,10 +36,11 @@
         <ul>
             {{range $i, $page := $.Pages}}
                 {{$class := ""}}
+                {{$other := $page}}
                 {{if eq $.CurrentPage $page}}
                     {{$class = "c-nav__selected"}}
                 {{end}}
-                <li><a class="{{$class}}" href="{{$.Prefix}}page/{{$page}}">{{$page}}</a></li>
+                <li><a class="{{$class}}" href="{{$.Prefix}}page/{{$page}}">{{$page}} -- {{$other}}</a></li>
             {{end}}
         </ul>
     </div>

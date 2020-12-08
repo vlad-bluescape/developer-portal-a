@@ -1,9 +1,17 @@
+<style>
+body {background-color: powderblue;}
+h1   {color: blue;}
+p    {color: red;}
+.indentedBlock1 {margin-left:10px; display:block}
+</style>
+
+
 <h1>Attachments APIs</h1>
 
 <h2>What are Attachments?</h2>
 <p>Attachments allow the user to pair together two elements so that they act as a single, interactable object.</p>
 
-<p>
+<p style="color: blue">
     In a Bluescape Workspace, a user has the ability to manually drag an element A on top of an element B in order to form a link between the two. Now whenever the user selects or moves one element, the other will be selected and moved as well. 
     The Attachments APIs allow for a programmatic way to perform these attachment operations.
 <p>
@@ -19,10 +27,12 @@
 <h2>Table of Contents:</h2>
 <p>
     <a href="#allowed-types">Allowed Element Types for Attachments</a> <br />
-    <a href="#how-to-implement">How to Implement Attachments APIs</a> <br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#create-attachment">1. Create: attachment an element to another element</a> <br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#get-attachments">2. Get the list of attachments for an element</a> <br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#delete-attachment">3. Delete attachments in an element</a> <br />
+    <a href="#how-to-implement">How to Implement Attachments APIs</a> <br />    
+    <span class="indentedBlock1">
+        <a href="#create-attachment">1. Create: attachment an element to another element</a> <br />
+        <a href="#get-attachments">2. Get the list of attachments for an element</a> <br />
+        <a href="#delete-attachment">3. Delete attachments in an element</a> <br />
+    </span>
     <a href="#use-case-example">Use Case Example</a> <br />  
 </p>
 
