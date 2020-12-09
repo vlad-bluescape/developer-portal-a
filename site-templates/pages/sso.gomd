@@ -1,0 +1,43 @@
+<div id="content" class="col-md-8">
+  <h1>Single Sign On</h1>
+
+
+
+  <p>Starting with the Release version 19.08.1, which was released on August 9, 2019, we are enabling Single Sign On (SSO) on this Developer Portal. Developers will now be able to use their existing Bluescape login credentials to login to the Developer Portal.</p>
+
+  <p><b>Q: Why is Bluescape enabling Single Sign On?</b><br />
+      <b>A</b>: Bluescape Single Sign on will allow developers to use their existing Bluescape login credentials to login to the Developer Portal. This simplifies the overall workflow and eliminates the need for establishing multiple accounts and login credentials.
+      <br /><br />
+  </p>
+      
+  <p>
+      <b>Q: Do I need to create a new account in the Developer Portal?</b><br />   
+      <b>A</b>: No, you only need to login to the Developer Portal using your existing Bluescape login credentials. <br />
+      Go to the <a href="/login">Login page</a>, click the "Authenticate with Bluescape" top button, and use your Bluescape credentials.
+      <br /><br />
+  </p>
+
+  <p>
+      <b>Q: What if I already have a Developer Portal account?</b><br />    
+      <b>A</b>: You can link your existing developer portal accounts with your Bluescape account. Your apps will be moved to the Bluescape developer account and you can manage them under a single account.
+      <br /><br />
+  </p>
+
+  <p>
+      <b>Q: Can I continue to use my non-Bluescape developer account?</b><br />  
+      <b>A</b>: You need to merge the existing developer accounts with a Bluescape account <b>before August 19, 2019</b>, or risk losing access to the Developer Portal.
+      <br /><br />
+  </p>
+
+  <p>
+      <b>Q: What if I do not have a Bluescape account?</b><br />      
+      <b>A</b>: You need a Bluescape account in order to create and use a Developer Portal account.  Please contact <a href="https://www.bluescape.com/contact/" target="_blank">Bluescape Sales</a> to inquire about acquiring a Bluescape account.
+      <br /><br />
+  </p>
+
+  <br />
+  If you have any questions or comments, please contact us at <a href="https://support.bluescape.com" target="_blank">Bluescape support</a>.
+
+      
+</div>
+</div>

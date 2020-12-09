@@ -31,7 +31,57 @@
         </ul>
     </div>
     <br />
-    {{/* <div>
+    {{if eq $.CurrentPage "references"}}
+    <div>
+        <strong>References</strong>
+        <ul>
+            <li><a href="/docs/page/urls">URLs</a></li>
+            <li><a href="/docs/page/pagination">Pagination</a></li>
+            <li><a href="/docs/page/listener-events">Listener Events</a></li>
+            <li><a href="/docs/page/permissions">Permissions</a></li>
+            <li><a href="/docs/page/versioning">Versioning</a></li>
+            <li><a href="/docs/page/sso">Single Sign On (SSO)</a></li>
+
+            {{/* <li><h3>API References</h3></li>
+            {% include 'reference/api-toc' %} */}}
+
+        </ul>
+    </div>
+    <br />
+    {{end}}
+    {{if eq $.CurrentPage "guides"}}
+    <div>
+        <ul>
+            <li class="spacer"><strong>Guides</strong></li>
+            <!--
+            <li><a href="/docs/page/whats-new">What's New</a></li> 
+            -->
+
+            <!-- v2 Additions -->
+            
+            <li><a href="/docs/page/guides">Getting Started</a></li>
+            <li class="subitemguide"><a href="/docs/page/app-auth">1. Application Authorization</a></li>
+            <li class="subitemguide"><a href="/docs/page/basic-api-requests">2. Basic API Requests</a></li>    
+            <li class="subitemguide"><a href="/docs/page/get-list-of-workspaces">3. Get list of workspaces</a></li>
+            <!-- <li> - <a href="/reference/TBD">Add parameters to your API call</a></li> -->
+            <li class="subitemguide"><a href="/docs/page/get-all-images-from-a-workspace">4. Get all images from a Workspace</a></li>
+            <li class="subitemguide"><a href="/docs/page/create-canvas-and-add-note">5. Create a Canvas and add a note to it</a></li>
+            <li class="subitemguide"><a href="/docs/page/upload-from-local-drive-into-a-canvas">6. Upload content from local drive into a Canvas</a></li>
+
+            <!---
+            <li><a href="/docs/page/simple-app">Simple Application</a></li>
+            --->
+            <li><a href="/docs/page/traits-api">Traits APIs</a></li>
+            <li><a href="/docs/page/attachments-api">Attachments APIs</a></li>
+            <!-- <li><a href="/docs/page/attachments-listener-events">Attachment Listener Events</a></li> -->
+            <li><a href="/docs/page/listeners-api">Listeners APIs</a></li>
+            <li><a href="/docs/page/id-to-uid">ID to UID change</a></li>
+            <li><a href="/docs/page/wall-apis">Wall APIs</a></li>
+        </ul>
+    </div>
+    <br />
+    {{end}}
+    <div>
         <strong>Reference</strong>
         <ul>
             {{range $i, $page := $.Pages}}
@@ -42,7 +92,7 @@
                 <li><a class="{{$class}}" href="{{$.Prefix}}page/{{$page}}">{{$page}}</a></li>
             {{end}}
         </ul>
-    </div> */}}
+    </div>
     {{if $haveOther}}
     <br />
     <div>
