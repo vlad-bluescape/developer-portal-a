@@ -1,0 +1,106 @@
+<h1>Versioning</h1>
+
+<p>The support for API version <span class="pre">/v1/</span> is now discontinued. This change went into effect with release version 20.04.1, on April 10, 2020.  </p>
+
+<p>You must update the version parameter pointing to the API endpoints 
+    from <span class="pre">/v1/</span> to <span class="pre">/v2/</span>.</p> 
+<p>
+    <table style="background-color: #FFFFA5">
+        <tr>
+            <td style="padding:15px">   
+                    <b><center>NOTICE</center>
+                        <br />
+                        The support for API version <span class="pre">/v1/</span> is now discontinued.
+                        All API calls must now include the <span class='pre'>/v2/</span> version parameter.
+                        You must also upgrade your scripts to make use of the newly introduced UID where applicable.
+                        See more details in the <a href="/docs/page/id-to-uid">id to uid migration page</a>.
+                    <br /> <br />
+                    </b>
+            </td>
+        </tr>
+    </table>
+</p>    
+
+<h1>Versions</h1>
+
+<table class="table table-striped">
+    <tr>
+        <td><b>Version</b></td>
+        <td><b>Path</b></td>
+        <td><b>Introduction release</b></td>
+        <td><b>Status</b></td>
+    </tr>
+    <tr>
+        <td>2.0</td>
+        <td><a href="/reference">/v2/</a></td>
+        <td>19.11.1 (November 22, 2019) </td>
+        <td>Current</td>
+    </tr>
+    <tr>
+        <td>1.0</td>
+        <td><a href="/v1/reference">/v1/</a></td>
+        <td>19.08.1 (August 9, 2019) </td>
+        <td>Discontinued</td>
+    </tr>
+    <tr>
+        <td>0.0</td>
+        <td><a href="/v0/reference">/v0/</a></td>
+        <td>Product Baseline</td>
+        <td>Discontinued</td>
+    </tr>
+</table>
+        
+
+<h2>FAQ</h2>
+
+<p><br />   
+    <p>
+        <b>Q: Will my current scripts stop working after the 20.04.1 Release (released on April 10, 2020)?</b><br />
+        
+        
+        <b>A</b>: Any scripts using the <span class="pre">/v1/</span> endpoint will no longer work. You will need to update the version parameter pointing to the API endpoints 
+        from <span class="pre">/v1/</span> to <span class="pre">/v2/</span>. 
+    </p> 
+
+<pre><code>&lt;b&gt;&lt;a name=&quot;v2New&quot;&gt;&lt;/a&gt;Q: What's New in V2?&lt;/b&gt;&lt;br /&gt; 
+
+&lt;b&gt;A&lt;/b&gt;: With the &lt;span class=&quot;pre&quot;&gt;/v2/&lt;/span&gt; endpoint, scripts previously using the id field will need to be replaced with the uid field. Before updating to &lt;span class=&quot;pre&quot;&gt;/v2/&lt;/span&gt;, check all scripts that are potentially impacted by the migration of id to uid fields in API bodies and responses. See more details in the &lt;a href=&quot;/docs/page/id-to-uid&quot;&gt;id to uid migration page&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;
+</code></pre>
+
+<p></p><br>
+<p><br>
+        For example, to view all the workspaces that a user can access, make the following change:<br />
+        Previous format:
+        <pre>[[apiHost]]/v1/users/me/workspaces</pre></p>
+
+<pre><code>        New format:
+        &lt;pre&gt;[[apiHost]]/v2/users/me/workspaces&lt;/pre&gt;&lt;br /&gt;
+
+        To add a new canvas to a workspace, make the following change:&lt;br /&gt;
+
+        Previous Format: &lt;br /&gt;
+    &lt;pre&gt;[[apiHost]]/v1/workspaces/&amp;lt;workspace_id&amp;gt;/canvas&lt;/pre&gt;
+        New format (note the new addition of &lt;span class=&quot;pre&quot;&gt;elements&lt;/span&gt; in the path):&lt;br /&gt;
+        &lt;pre&gt;[[apiHost]]/v2/workspaces/&amp;lt;&lt;b&gt;workspace_UID&lt;/b&gt;&amp;gt;/elements/canvas&lt;/pre&gt;
+</code></pre>
+
+<p></p></p>
+
+<p>
+    <b>Q: Why is Bluescape adding versioning to the APIs?</b><br />
+    
+    <b>A</b>: Bluescape is adopting the use of Semantic Versioning 2.0.0 for our APIs, see <a href="https://semver.org/" target="_blank">https://semver.org/</a> for full details. Previously there were no guarantees which APIs would break in any release -- if your code stopped working because we changed our APIs, you had to call us to confirm. With the adoption of semantic versioning, there will be clear communication about any incompatible changes, which can only happen in a major release. Major releases will be clearly announced, like the release Version 20.04.1. Within a major version, we commit to introducing only backwards-compatible changes. If you are using Bluescape APIs, you can now be confident that a minor or patch release to our APIs will not invalidate your hard work.<br /><br />
+</p>
+
+<p>
+    <b>Still have questions?</b> If you have any questions or comments, please contact us at <a href="https://support.bluescape.com" target="_blank">Bluescape support</a>
+
+</p>
+    
+
+<p><!--
+<h2>Previous versions</h2>
+    <ul>
+        <li><a href="/v0/reference">/v0/ : version documentation</a></li>
+    </ul> 
+--></p>
