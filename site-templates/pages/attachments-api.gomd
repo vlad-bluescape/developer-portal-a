@@ -17,14 +17,16 @@
 </p>
 
 <h2>Table of Contents:</h2>
+<code>
 <p>
     <a href="#allowed-types">Allowed Element Types for Attachments</a> <br />
     <a href="#how-to-implement">How to Implement Attachments APIs</a> <br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#create-attachment">1. Create: attachment an element to another element</a> <br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#get-attachments">2. Get the list of attachments for an element</a> <br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#delete-attachment">3. Delete attachments in an element</a> <br />
+        <a href="#create-attachment">1. Create: attachment an element to another element</a> <br />
+        <a href="#get-attachments">2. Get the list of attachments for an element</a> <br />
+        <a href="#delete-attachment">3. Delete attachments in an element</a> <br />
     <a href="#use-case-example">Use Case Example</a> <br />  
 </p>
+</code>
 
 <a name="allowed-types"><h3>Allowed Element types for Attachments:</h3></a>
 <p>
