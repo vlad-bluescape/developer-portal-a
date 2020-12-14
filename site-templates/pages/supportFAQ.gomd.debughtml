@@ -1,0 +1,67 @@
+<div class="row">
+  <div id="content" class="col-md-8">
+    <h1>FAQ</h1>
+
+    <h3>How do I set up my developer environment?</h3>
+    <p>
+    There's no explicit sandbox or developer environment available to work against. Instead, you'll need to use a workspace you've created or are a member of.
+    </p>
+
+    <p>
+    During development, integrate your application with throwaway workspaces that are not being used for real work. Once you are confident that content is being created correctly, switch to connecting with the workspaces your organization uses regularly.
+    </p>
+
+    <p>
+    You will likely need a server for Bluescape to communicate with that also has access to the sources of data and content you will want to import into your workspaces using our API. We provide a number of SDKs to help you get started creating Bluescape content and listening for Bluescape notifications.
+    </p>
+
+    <p>
+    While developing integrations, HTTPS is not required for receiving requests sent from Bluescape. We strongly recommend using HTTPS once your integrations go into production.
+    </p>
+
+    <h3>Is Bluescape down?</h3>
+
+    <p>
+    We are dedicated to keeping Bluescape's services fully functional for users and developers at all times. In the unfortunate event that you're having trouble connecting to your workspaces or our API, here are some steps you can take to determine the state of the situation:
+    </p>
+
+    <ol>
+      <li>Check <a href="https://support.bluescape.com" target="_BLANK">support.bluescape.com</a> for any service disruption advisories.</li>
+      <li>Send a simple HTTP GET to the <a href="https://health.apps.us.bluescape.com/" target="_BLANK">https://health.apps.us.bluescape.com/</a> API method. A <span class="pre">HTTP 200</span> application/json response of <span class="pre">{"ok":true}</span> indicates at least part of the Bluescape Service is available.</li>
+      <li>Still unsure if Bluescape is down? Contact our enthusiastic support team at the <a href="https://support.bluescape.com" target="_blank">Support page</a>.</li>
+    </ol>
+
+    <h3>How do I authenticate my requests to Bluescape?</h3>
+
+    <p>
+    When working with the Bluescape API, there are two kinds of authentication that you are responsible for: <strong>application authorization</strong> and <strong>user authentication</strong>.
+    </p>
+
+    <h4>Application Authorization</h4>
+
+    <p>
+    Requests made against the Bluescape API are done by registered applications on behalf of users. Bluescape uses OAuth 2.0 to enable users to authorize applications to query the API on their behalf. Applications that have been authorized by users are given access tokens to use when accessing the API. These access tokens must be included in API requests in the <span class="pre">Authorization</span> header. The header value is defined as <span class="pre">Bearer &lt;access-token&gt;</span>.
+    </p>
+
+    <p>
+      <a href="/docs/page/app-auth">Please visit the Application Authorization guide for more information.</a>
+    </p>
+
+    <h3>Is the Bluescape API rate limited?</h3>
+
+    <p>
+      Though we do not publish rate limits, Bluescape does apply rate limiting to the API in order to ensure that all clients are able to communicate quickly and reliably with our services. Because the rate limits are unpublished, you won't know that you're about to hit a rate limit in advance. You will receive a <span class="pre">HTTP 429 Too Many Requests</span> rate limited message in response to a request and will then need to wait for the next rate limiting window to open. The next rate limit is indicated by a HTTP header called Retry-After, presented in seconds to wait before attempting another request. If the value were 10, then you should wait 10 seconds or more before retrying that request.
+    </p>
+
+    <p>
+    You may find that you can't perform certain bursty actions, like attempting to create a large amount of content in a nightly process. Our recommendation is to attempt to slow down the process of issuing API calls. If that is difficult or you can't seem to work within the established limits, contact us to discuss your specific situation.
+    </p>
+
+    <h3>How do I cancel/delete my account?</h3>
+    <p>
+      Please email our support team at <a href="mailto:support@bluescape.com">support@bluescape.com</a> if you have any problems with your account or you would like to cancel it.
+    </p>
+
+  </div>
+
+<p></div></p>
