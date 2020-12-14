@@ -1,7 +1,4 @@
 <div class="row">
-  <div id="menu" class="col-md-4">
-    {% include 'support/menu' %}
-  </div>
   <div id="content" class="col-md-8">
 
     <h1>Getting help with Bluescape APIs</h1>
@@ -9,7 +6,7 @@
     <h3>Step 1: Read our FAQs and Guides</h3>
 
     <p>
-      Review commonly asked questions in our <a href="/docs/page/support/faq">FAQ</a>.
+      Review commonly asked questions in our <a href="/docs/page/supportFAQ">FAQ</a>.
     </p>
 
     <p>
