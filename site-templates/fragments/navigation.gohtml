@@ -49,7 +49,7 @@
     </div>
     <br />
     {{end}}
-    {{if eq $.CurrentPage "guides"}}
+    {{if or (eq $.CurrentPage "guides") (eq $.CurrentPage "app-auth") (eq $.CurrentPage "basic-api-requests") (eq $.CurrentPage "get-list-of-workspaces") (eq $.CurrentPage "get-all-images-from-a-workspace") (eq $.CurrentPage "create-canvas-and-add-note") (eq $.CurrentPage "upload-from-local-drive-into-a-canvas")  (eq $.CurrentPage "traits-api") (eq $.CurrentPage "attachments-api") (eq $.CurrentPage "listeners-api") (eq $.CurrentPage "id-to-uid") (eq $.CurrentPage "wall-apis") }}
     <div>
         <ul>
             <li class="spacer"><strong>Guides</strong></li>
