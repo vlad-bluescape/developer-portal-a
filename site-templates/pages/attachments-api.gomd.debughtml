@@ -1,7 +1,7 @@
 <h1>Attachments APIs</h1>
 
-<p><h2>What are Attachments?</h2>
-<p>Attachments allow the user to pair together two elements so that they act as a single, interactable object.</p></p>
+<h2>What are Attachments?</h2>
+<p>Attachments allow the user to pair together two elements so that they act as a single, interactable object.</p>
 
 <p>
     In a Bluescape Workspace, a user has the ability to manually drag an element A on top of an element B in order to form a link between the two. Now whenever the user selects or moves one element, the other will be selected and moved as well. 
@@ -16,17 +16,16 @@
     newly attached object. When deleting an Attachment, the user will see a blue border around the element that was unattached to signify the operation is complete.
 </p>
 
-<p><h2>Table of Contents:</h2>
-<code>
+<h2>Table of Contents:</h2>
+
 <p>
     <a href="#allowed-types">Allowed Element Types for Attachments</a> <br />
     <a href="#how-to-implement">How to Implement Attachments APIs</a> <br />
         <a href="#create-attachment">1. Create: attachment an element to another element</a> <br />
         <a href="#get-attachments">2. Get the list of attachments for an element</a> <br />
         <a href="#delete-attachment">3. Delete attachments in an element</a> <br />
-    <a href="#use-case-example">Use Case Example</a> <br /><br>
+    <a href="#use-case-example">Use Case Example</a> <br />  
 </p>
-</code></p>
 
 <p><a name="allowed-types"><h3>Allowed Element types for Attachments:</h3></a>
 <p>
