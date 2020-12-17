@@ -4,7 +4,7 @@
 
     <h1>Overview</h1>
 
-    <p>The Bluescape API is a <a href="/reference">REST API</a> that can be accessed through explicit HTTP calls; the APIs expose most of the features available in the Bluescape product. The Bluescape API enables developers to programmatically create and upload content into Bluescape workspaces. Applications are able to pull data and files from external sources like databases, content management systems and cloud storage and push them into Bluescape workspaces with ease. Organizations are free to move beyond the Bluescape web and wall interfaces for integrating the Bluescape visual layer into their collaboration and decision-making processes.</p>
+    <p>The Bluescape API is a <a href="/docs/page/reference">REST API</a> that can be accessed through explicit HTTP calls; the APIs expose most of the features available in the Bluescape product. The Bluescape API enables developers to programmatically create and upload content into Bluescape workspaces. Applications are able to pull data and files from external sources like databases, content management systems and cloud storage and push them into Bluescape workspaces with ease. Organizations are free to move beyond the Bluescape web and wall interfaces for integrating the Bluescape visual layer into their collaboration and decision-making processes.</p>
 
     <p>In addition, the Bluescape API enables applications to register <a href="/docs/page/listeners-api">listeners</a> on Bluescape workspaces that will be notified whenever content or comments are created, updated or deleted. Listeners are key to integrating Bluescape with the communication platforms that organizations use to keep their project teams connected and informed. Using listeners, developers can easily translate actions taken in Bluescape workspaces into emails, chat messages, database updates, and more.</p>
 
@@ -38,9 +38,6 @@
     <p>
       Getting started with Bluescape API is easy, and developers should be able to create basic applications in minutes. Here are the first steps to take:
     </p>
-<p>
-REMOVED SECTION OF JAVASCRIPT THAT WAS CAUSING CRASHING HERE. REPLACE FUNCTIONALITY LATER
-</p>
   </div>
 
 </div>
