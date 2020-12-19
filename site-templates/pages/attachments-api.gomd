@@ -1,4 +1,12 @@
-<h1>Attachments APIs</h1>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    alert("This box was created using JQuery");
+})
+</script>
+
+<h1>Attachments APIs RUNNING JQUERY</h1>
 
 <h2>What are Attachments?</h2>
 <p>Attachments allow the user to pair together two elements so that they act as a single, interactable object.</p>
