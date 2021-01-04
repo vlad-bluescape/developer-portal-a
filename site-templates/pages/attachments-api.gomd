@@ -1,4 +1,11 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="//stackpath.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="/docs/assets/javascript/3scale-ff711763a1842cd3.js?1603418589"></script>
+<script src="/docs/assets/javascript/excanvas.compiled-4cc61ca43a73869a.js?1603418589"></script>
+<script src="/docs/assets/javascript/lang-selector-32cc704839786550.js?1603418589"></script>
+<script src="/docs/assets/javascript/app-scope-95556ed0f0459ead.js?1603418589"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="/docs/assets/css/default-ac03eed0614e3f6b.css?1603418586" />
+<link rel="stylesheet" type="text/css" media="screen" href="/docs/assets/css/style-77a33d1c7c720b91.css?1603418586" />
 
 <script>
 $(document).ready(function(){
@@ -7,6 +14,8 @@ $(document).ready(function(){
 </script>
 
 <h1>Attachments APIs RUNNING JQUERY</h1>
+
+<b>See selection of language for examples, at the bottom of the page</b> 
 
 <h2>What are Attachments?</h2>
 <p>Attachments allow the user to pair together two elements so that they act as a single, interactable object.</p>
@@ -1012,5 +1021,243 @@ If you have any questions or comments, please contact us at <a href="https://sup
 
 
 
+###################<br />
+###################<br />
+SEE EXAMPLES OF LANGUAGE SELECTION, BELOW<br />
+###################<br />
+###################<br />
 
+<h4>Listener targeting all events in a workspace</h4>
+
+<p>Any objects created, updated or deleted in the workspace will trigger a notification.</p>
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+
+<pre class="lang lang-curl">curl -X POST https://api.apps.us.bluescape.com/listeners \
+  -H 'Authorization: Bearer eyJhbGciOi...' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "url": "http://sample-app.com/bluescape/listeners/incoming",
+    "workspaceId": &lt;SET_WORKSPACE_ID&gt;,
+    "eventTypes": ["WORKSPACE_ALL"]
+  }'
+</pre>
+
+<pre class="lang lang-node">  const body = {
+    "type" : "workspace",
+    "url": "http://sample-app.com/bluescape/listeners/incoming",
+    "workspaceId": &lt;SET_WORKSPACE_ID&gt;,
+    "eventTypes": ["WORKSPACE_ALL"]
+  };
+  sendRequest(body);
+</pre>
+
+<pre class="lang lang-python">  data_load = {
+    'type' : 'workspace',
+    'url' : 'http://sample-app.com/bluescape/listeners/incoming',
+    'workspaceId' : &lt;SET_WORKSPACE_ID&gt;,
+    'eventTypes' : ['WORKSPACE_ALL']
+  }
+  sendRequest(data_load)
+</pre>
+
+<h4>Listener targeting the creation of new documents in a workspace</h4>
+
+<p>Only documents being added to the workspace will trigger a notification.</p>
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+
+<pre class="lang lang-curl">curl -X POST https://api.apps.us.bluescape.com/listeners \
+  -H 'Authorization: Bearer eyJhbGciOi...' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "url": "http://sample-app.com/bluescape/listeners/incoming",
+    "workspaceId": &lt;SET_WORKSPACE_ID&gt;,
+    "eventTypes": ["DOCUMENT_CREATE"]
+  }'
+</pre>
+
+<pre class="lang lang-node">  const body = {
+    "type" : "workspace",
+    "url": "http://sample-app.com/bluescape/listeners/incoming",
+    "workspaceId": &lt;SET_WORKSPACE_ID&gt;,
+    "eventTypes": ["DOCUMENT_CREATE"]
+  };
+  sendRequest(body);
+</pre>
+
+<pre class="lang lang-python">  data_load = {
+    'type' : 'workspace',
+    'url' : 'http://sample-app.com/bluescape/listeners/incoming',
+    'workspaceId' : &lt;SET_WORKSPACE_ID&gt;,
+    'eventTypes' : ['DOCUMENT_CREATE']
+  }
+  sendRequest(data_load)
+</pre>
+
+<h4>Listener targeting all actions on a specific document</h4>
+
+<p>Notifications will only be sent if the specific document is updated or deleted.</p>
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+
+<pre class="lang lang-curl">curl -X POST https://api.apps.us.bluescape.com/listeners \
+  -H 'Authorization: Bearer eyJhbGciOi...' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "url": "http://sample-app.com/bluescape/listeners/incoming",
+    "workspaceId": &lt;SET_WORKSPACE_ID&gt;,
+    "targetId": &lt;SET_DOC_ID&gt;,  // the document ID
+    "eventTypes": ["DOCUMENT_ALL"]
+  }'
+</pre>
+
+<pre class="lang lang-node">  const body = {
+    "type" : "workspace",
+    "url": "http://sample-app.com/bluescape/listeners/incoming",
+    "workspaceId": &lt;SET_WORKSPACE_ID&gt;,
+    "targetId": &lt;SET_DOC_ID&gt;,  // the document ID
+    "eventTypes": ["DOCUMENT_ALL"]
+  };
+  sendRequest(body);
+</pre>
+
+<pre class="lang lang-python">  data_load = {
+    'type' : 'workspace',
+    'url' : 'http://sample-app.com/bluescape/listeners/incoming',
+    'workspaceId' : &lt;SET_WORKSPACE_ID&gt;,
+    'targetId': &lt;SET_DOC_ID&gt;,  // the document ID
+    'eventTypes' : ['DOCUMENT_ALL']
+  }
+  sendRequest(data_load)
+</pre>
+
+<h4>Listener targeting updates to a specific note</h4>
+
+<p>Notifications will only be sent if the specific note is updated.</p>
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+
+<pre class="lang lang-curl">curl -X POST https://api.apps.us.bluescape.com/listeners \
+  -H 'Authorization: Bearer eyJhbGciOi...' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "url": "http://sample-app.com/bluescape/listeners/incoming",
+    "workspaceId": &lt;SET_WORKSPACE_ID&gt;,
+    "targetId": &lt;SET_NOTE_ID&gt;,  // the note ID
+    "eventTypes": ["NOTE_UPDATE"]
+  }'
+</pre>
+
+<pre class="lang lang-node">  const body = {
+    "type" : "workspace",
+    "url": "http://sample-app.com/bluescape/listeners/incoming",
+    "workspaceId": &lt;SET_WORKSPACE_ID&gt;,
+    "targetId": &lt;SET_NOTE_ID&gt;,  // the note ID
+    "eventTypes": ["NOTE_UPDATE"]
+  };
+  sendRequest(body);
+</pre>
+
+<pre class="lang lang-python">  data_load = {
+    'type' : 'workspace',
+    'url' : 'http://sample-app.com/bluescape/listeners/incoming',
+    'workspaceId' : &lt;SET_WORKSPACE_ID&gt;,
+    'eventTypes' : ['NOTE_UPDATE']
+  }
+  sendRequest(data_load)
+</pre>
+<a name="setup-server"><h4>Setting Up a Basic Server</h4></a>
+
+<p>
+  Before the listener can actually be set, we will need some way to recieve the inital <span class="pre">TEST_HOOK</span>
+  and all subsequent events that are sent out. For this we will set up a basic node express server (or Flask if using Python). 
+</p>
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class = "lang lang-curl">hidden</pre>
+<pre class="lang lang-node">/*
+How to run:
+node this_script_name.js
+
+Requires "axios" module (0.19.0), run:
+npm install axios
+website: https://github.com/axios/axios
+
+Requires "express" module, run:
+npm install express
+website: https://github.com/expressjs/express
+*/
+
+var app = require('express')(),
+    server = require('http').createServer(app);
+
+app.listen(3000, function() {
+    console.log('Server Running!');
+});
+app.post("/", (req, res, next) => {
+  console.log("Webhook Recieved!")
+  res.status(200).send('OK');
+});
+</pre>
+
+<pre class="lang lang-python">  # How to run:
+  # python this_script_name.py
+  
+  # Requires "flask" module, run:
+  # pip install -U flask
+  # website: https://pypi.org/project/Flask/
+  
+  
+  import sys
+  from flask import Flask, request, abort
+  import requests
+  from requests.exceptions import HTTPError
+  
+  app = Flask(__name__)
+  
+  @app.route('/', methods=['POST'])
+  def respondToWebhook():
+      print("webhook"); 
+      sys.stdout.flush()
+      if request.method == 'POST':
+          print(request.json)
+          return '', 200
+      else:
+          abort(400)
+          
+  if __name__ == '__main__':
+      app.run(port=3000)
+</pre>
+
+<p>
+  Here we have created a node server that is listening on port 3000 (express default) and when it recieves incoming traffic,
+  makes a POST back with a <span class="pre">200</span> status code to confirm to Bluescape that the <span class="pre">TEST_HOOK</span>
+  has been recieved and properly handled.
+</p>
 
