@@ -128,8 +128,25 @@
 </p>
 <p></p>
 
-<p>Sample Request:
-{% include 'lang-selector' %}
+<p>Sample Request:</p>
+
+<p>{{/* SCRIPT IDEA 1 <em>/}}
+{{/</em>
+{% include 'lang-selector' %}</p>
+
+<p><div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+*/}}</p>
+
+<p>{{/* SCRIPT IDEA 2 */}}
+<div class="lang-selector">
+    <button data-lang="curl" onclick="displayCurl()" id="curlButton" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
 <pre class="lang lang-node">
 var request = require('request');</p>
 
