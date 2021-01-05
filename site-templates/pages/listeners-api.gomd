@@ -145,7 +145,11 @@
 
 <p>Any objects created, updated or deleted in the workspace will trigger a notification.</p>
 
-{% include 'lang-selector' %}
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
 
 <pre class="lang lang-curl">
 curl -X POST [[apiHost]]/listeners \
@@ -182,7 +186,11 @@ curl -X POST [[apiHost]]/listeners \
 
 <p>Only documents being added to the workspace will trigger a notification.</p>
 
-{% include 'lang-selector' %}
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
 
 <pre class="lang lang-curl">
 curl -X POST [[apiHost]]/listeners \
@@ -219,7 +227,11 @@ curl -X POST [[apiHost]]/listeners \
 
 <p>Notifications will only be sent if the specific document is updated or deleted.</p>
 
-{% include 'lang-selector' %}
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
 
 <pre class="lang lang-curl">
 curl -X POST [[apiHost]]/listeners \
@@ -259,7 +271,11 @@ curl -X POST [[apiHost]]/listeners \
 
 <p>Notifications will only be sent if the specific note is updated.</p>
 
-{% include 'lang-selector' %}
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
 
 <pre class="lang lang-curl">
 curl -X POST [[apiHost]]/listeners \
@@ -329,8 +345,36 @@ curl -X POST [[apiHost]]/listeners \
   and all subsequent events that are sent out. For this we will set up a basic node express server (or Flask if using Python). 
 </p>
 
-{% include 'lang-selector' %}
-<pre class = "lang lang-curl">hidden</pre>
+<div class="lang-selector">
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class = "lang lang-curl">
+/*
+How to run:
+node this_script_name.js
+
+Requires "axios" module (0.19.0), run:
+npm install axios
+website: https://github.com/axios/axios
+
+Requires "express" module, run:
+npm install express
+website: https://github.com/expressjs/express
+*/
+
+var app = require('express')(),
+    server = require('http').createServer(app);
+
+app.listen(3000, function() {
+    console.log('Server Running!');
+});
+app.post("/", (req, res, next) => {
+  console.log("Webhook Recieved!")
+  res.status(200).send('OK');
+});
+</pre>
 <pre class="lang lang-node">
 /*
 How to run:
@@ -426,8 +470,47 @@ app.post("/", (req, res, next) => {
   Now that we've gotten all of the prep work out of the way, we can create our listener object!
 </p>
 
-{% include 'lang-selector' %}
-<pre class = "lang lang-curl">hidden</pre>
+<div class="lang-selector">
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class = "lang lang-curl">
+  var axios = require('axios');
+  const token = &lt;SET_TOKEN&gt;;
+  const portal = 'https://api.apps.us.bluescape.com';
+  const api_version = 'v2';
+  const api_endpoint = '/listeners';
+
+  const data_load = {
+      'type' : 'workspace',
+      'url' : &lt;SET_URL_ENDPOINT&gt;,          // If using the reverse proxy, this is the url of the forwarding address.     
+      'workspaceId' : &lt;SET_WORKSPACE_ID&gt;,  // Otherwise use your publically reachable endpoint.
+      'eventTypes' : ['IMAGE_CREATE']
+  }
+
+  request_values = {
+      method: 'POST',
+      url: portal + '/' + api_version + api_endpoint,
+      headers : {
+          'Authorization': "Bearer " + token,
+          'Content-Type' : 'application/json'    
+      },
+      data: data_load
+    };
+
+  axios(request_values)
+      .then(function (response) {
+        if (response.status == 200)
+        {
+            console.log("Success");
+            console.log(response.data);
+        }
+      })
+      .catch (function (error) {
+          console.log('Error: ' + error.message);
+    });
+</pre>
 <pre class="lang lang-node">
   var axios = require('axios');
   const token = &lt;SET_TOKEN&gt;;
@@ -510,8 +593,16 @@ app.post("/", (req, res, next) => {
   has been sent, extract the needed data from it, and send out the Slack message.
 </p>
 
-{% include 'lang-selector' %}
-<pre class = "lang lang-curl">hidden</pre>
+<div class="lang-selector">
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class = "lang lang-curl">
+  const processSomething = callback => {
+    setTimeout(callback, 5000);
+  }
+</pre>
 <pre class="lang lang-node">
   const processSomething = callback => {
     setTimeout(callback, 5000);
@@ -539,8 +630,57 @@ app.post("/", (req, res, next) => {
   Now it's time to add some code to our app.post() method.
 </p>
 
-{% include 'lang-selector' %}
-<pre class="lang lang-curl">hidden</pre>
+<div class="lang-selector">
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class="lang lang-curl">
+  function sendRequest(payload) {
+    request_values = {
+      method: 'POST',
+      url: `https://slack.com/api/chat.postMessage`,
+      headers : {
+          'Authorization': "Bearer " + token,
+          'Content-Type' : 'application/json'    
+      },
+      data: payload
+    };
+
+    axios(request_values)
+    .then(function (response) {
+      if (response.status == 200)
+      {
+          console.log("Success");
+          console.log(response.data);
+      }
+    })
+    .catch (function (error) {
+        console.log('Error: ' + error.message);
+    });
+  }
+  
+  app.post("/", (req, res, next) => {
+    console.log("Test Hook Recieved");
+    
+    processSomething(() => {
+      const webhookUrl = req.params.url;
+      const workspaceId = req.params.workspaceId;
+      const workspaceLink = "https://client.apps.us.bluescape.com/" + workspaceId;
+      if (webhookUrl) {
+        console.log("Image Created");
+        const payload = {
+            "channel": "YOUR_CHANNEL_ID",
+            "text": "An image has been added to your workspace! You can view changes here: " + workspaceLink,
+            "mrkdwn" : true
+        };
+          sendRequest(payload);
+        }
+      });
+  
+    res.status(200).send('OK');
+  });
+</pre>
 <pre class="lang lang-node $node-lang">
   function sendRequest(payload) {
     request_values = {

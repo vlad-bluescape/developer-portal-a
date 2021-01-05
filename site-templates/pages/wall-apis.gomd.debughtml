@@ -37,7 +37,13 @@
     </table></p>
 
 <h4>Request</h4>
-{% include 'lang-selector' %}
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
 <pre class="lang lang-python">
     # Python Code (python 3.5+)
     import requests
@@ -179,7 +185,13 @@
             </tr>
     </table>
 <h4>Request</h4>
-{% include 'lang-selector' %}
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
 <pre class="lang lang-python">
     # Python Code (python 3.5+)
     import requests
@@ -295,45 +307,48 @@
     </table>
 <h4>Request</h4>
 
-<p>{% include 'lang-selector' %}
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
 <pre class="lang lang-python">
     # Python Code (python 3.5+)
     import requests
-    from requests.exceptions import HTTPError</p>
+    from requests.exceptions import HTTPError
 
-<pre><code>'''
-Required modules:
-    requests 2.22.0
-'''
+    '''
+    Required modules:
+        requests 2.22.0
+    '''
 
-token = 'ADD_YOUR_TOKEN_HERE'    
-portal = '[[apiHost]]'
-workspace_uid = 'ADD_YOUR_WORKSPACE_UID'  # REMEMBER TO ADD WORKSPACE UID
-API_version = 'v2'    
-API_endpoint = '/' + API_version + '/workspaces/' + workspace_uid + '/session/unsend_from_wall'
+    token = 'ADD_YOUR_TOKEN_HERE'    
+    portal = '[[apiHost]]'
+    workspace_uid = 'ADD_YOUR_WORKSPACE_UID'  # REMEMBER TO ADD WORKSPACE UID
+    API_version = 'v2'    
+    API_endpoint = '/' + API_version + '/workspaces/' + workspace_uid + '/session/unsend_from_wall'
+    
+    data_load = {
+        'wallUid' : 'SET_WALLUID_HERE' 
+    }
 
-data_load = {
-    'wallUid' : 'SET_WALLUID_HERE' 
-}
+    the_request = requests.put(
+            portal + API_endpoint,
+            headers={"Authorization": "Bearer " + token,
+                        "Content-Type": "application/json"
+                    },
+            json=data_load
+        )
 
-the_request = requests.put(
-        portal + API_endpoint,
-        headers={&quot;Authorization&quot;: &quot;Bearer &quot; + token,
-                    &quot;Content-Type&quot;: &quot;application/json&quot;
-                },
-        json=data_load
-    )
-
-if the_request.status_code != 200:
-    # Error found        
-    print(&quot;Error found:&quot;)
-    pprint.pprint(the_request)
-else:
-    # Successful execution returns Null
-    print(&quot;Execution successful!&quot;)    
-</code></pre>
-
-<p></pre></p>
+    if the_request.status_code != 200:
+        # Error found        
+        print("Error found:")
+        pprint.pprint(the_request)
+    else:
+        # Successful execution returns Null
+        print("Execution successful!")    
+</pre>
 
 <pre class="lang lang-node">
     // Node.js Javascript
