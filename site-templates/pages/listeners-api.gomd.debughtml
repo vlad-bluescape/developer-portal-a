@@ -144,7 +144,11 @@
 
 <p>Any objects created, updated or deleted in the workspace will trigger a notification.</p>
 
-<p>{% include 'lang-selector' %}</p>
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
 
 <pre class="lang lang-curl">
 curl -X POST [[apiHost]]/listeners \
@@ -181,7 +185,11 @@ curl -X POST [[apiHost]]/listeners \
 
 <p>Only documents being added to the workspace will trigger a notification.</p>
 
-<p>{% include 'lang-selector' %}</p>
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
 
 <pre class="lang lang-curl">
 curl -X POST [[apiHost]]/listeners \
@@ -218,7 +226,11 @@ curl -X POST [[apiHost]]/listeners \
 
 <p>Notifications will only be sent if the specific document is updated or deleted.</p>
 
-<p>{% include 'lang-selector' %}</p>
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
 
 <pre class="lang lang-curl">
 curl -X POST [[apiHost]]/listeners \
@@ -258,7 +270,11 @@ curl -X POST [[apiHost]]/listeners \
 
 <p>Notifications will only be sent if the specific note is updated.</p>
 
-<p>{% include 'lang-selector' %}</p>
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
 
 <pre class="lang lang-curl">
 curl -X POST [[apiHost]]/listeners \
@@ -328,33 +344,61 @@ curl -X POST [[apiHost]]/listeners \
   and all subsequent events that are sent out. For this we will set up a basic node express server (or Flask if using Python). 
 </p>
 
-<p>{% include 'lang-selector' %}
-<pre class = "lang lang-curl">hidden</pre>
-<pre class="lang lang-node">
+<div class="lang-selector">
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class = "lang lang-curl">
 /*
 How to run:
-node this_script_name.js</p>
+node this_script_name.js
 
-<p>Requires "axios" module (0.19.0), run:
+Requires "axios" module (0.19.0), run:
 npm install axios
-website: <a href="https://github.com/axios/axios">https://github.com/axios/axios</a></p>
+website: https://github.com/axios/axios
 
-<p>Requires "express" module, run:
+Requires "express" module, run:
 npm install express
-website: <a href="https://github.com/expressjs/express">https://github.com/expressjs/express</a>
-*/</p>
+website: https://github.com/expressjs/express
+*/
 
-<p>var app = require('express')(),
-    server = require('http').createServer(app);</p>
+var app = require('express')(),
+    server = require('http').createServer(app);
 
-<p>app.listen(3000, function() {
+app.listen(3000, function() {
     console.log('Server Running!');
 });
-app.post("/", (req, res, next) =&gt; {
+app.post("/", (req, res, next) => {
   console.log("Webhook Recieved!")
   res.status(200).send('OK');
 });
-</pre></p>
+</pre>
+<pre class="lang lang-node">
+/*
+How to run:
+node this_script_name.js
+
+Requires "axios" module (0.19.0), run:
+npm install axios
+website: https://github.com/axios/axios
+
+Requires "express" module, run:
+npm install express
+website: https://github.com/expressjs/express
+*/
+
+var app = require('express')(),
+    server = require('http').createServer(app);
+
+app.listen(3000, function() {
+    console.log('Server Running!');
+});
+app.post("/", (req, res, next) => {
+  console.log("Webhook Recieved!")
+  res.status(200).send('OK');
+});
+</pre>
 
 <pre class="lang lang-python">
   # How to run:
@@ -394,7 +438,7 @@ app.post("/", (req, res, next) =&gt; {
 
 <p><a name="setup-proxy"><h4>Seting Up the Reverse Proxy</h4></a></p>
 
-<p><div class="well">
+<div class="well">
     <p>
         <b>*Note:</b> This step is only required if you intend to run from your local machine and wish to use localhost.
         If you have a publicly reachable URL already established to route traffic then you may use that in lieu of a reverse
@@ -405,9 +449,9 @@ app.post("/", (req, res, next) =&gt; {
 <p>
   Now that the server has been set up, we have one more step before we can set the listener. We now need something to route the incoming
   traffic to our node server so that we actually recieve the <span class="pre">TEST_HOOK</span> and events on the port that we are listening for.
-  For this we will use <a href="https://ngrok.com/"target="_blank">ngrok</a>. Ngrok is a free service which serves as a reverse proxy that establishes secure tunnels from a public endpoint
+  For this we will use <a href="https://ngrok.com/"target="_blank">ngrok</a>. Ngrok is a free service which serves as a reverse proxy that establishes secure tunnels from a public endpoint 
   to a locally running network (in this case <span class="pre">localhost:3000</span>).
-</p></p>
+</p>
 
 <p>
   Doing this is quick and easy. First download ngrok from their <a href="https://ngrok.com/download"target="_blank">official page</a>.
@@ -419,39 +463,42 @@ app.post("/", (req, res, next) =&gt; {
   one of the addresses listed in the <span class="pre">Forwarding</span> section to be used for initializing our listeners.
 </p>
 
-<p><a name="create-listener"><h4>Creating the Listener</h4></a></p>
+<a name="create-listener"><h4>Creating the Listener</h4></a>
 
 <p>
   Now that we've gotten all of the prep work out of the way, we can create our listener object!
 </p>
 
-<p>{% include 'lang-selector' %}
-<pre class = "lang lang-curl">hidden</pre>
-<pre class="lang lang-node">
+<div class="lang-selector">
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class = "lang lang-curl">
   var axios = require('axios');
-  const token = &amp;lt;SET_TOKEN&amp;gt;;
-  const portal = '<a href="https://api.apps.us.bluescape.com'">https://api.apps.us.bluescape.com'</a>;
+  const token = &lt;SET_TOKEN&gt;;
+  const portal = 'https://api.apps.us.bluescape.com';
   const api_version = 'v2';
-  const api_endpoint = '/listeners';</p>
+  const api_endpoint = '/listeners';
 
-<p>const data_load = {
+  const data_load = {
       'type' : 'workspace',
-      'url' : &amp;lt;SET_URL_ENDPOINT&amp;gt;,          // If using the reverse proxy, this is the url of the forwarding address.<br>
-      'workspaceId' : &amp;lt;SET_WORKSPACE_ID&amp;gt;,  // Otherwise use your publically reachable endpoint.
+      'url' : &lt;SET_URL_ENDPOINT&gt;,          // If using the reverse proxy, this is the url of the forwarding address.     
+      'workspaceId' : &lt;SET_WORKSPACE_ID&gt;,  // Otherwise use your publically reachable endpoint.
       'eventTypes' : ['IMAGE_CREATE']
-  }</p>
+  }
 
-<p>request_values = {
+  request_values = {
       method: 'POST',
       url: portal + '/' + api_version + api_endpoint,
       headers : {
           'Authorization': "Bearer " + token,
-          'Content-Type' : 'application/json'<br>
+          'Content-Type' : 'application/json'    
       },
       data: data_load
-    };</p>
+    };
 
-<p>axios(request_values)
+  axios(request_values)
       .then(function (response) {
         if (response.status == 200)
         {
@@ -462,7 +509,43 @@ app.post("/", (req, res, next) =&gt; {
       .catch (function (error) {
           console.log('Error: ' + error.message);
     });
-</pre></p>
+</pre>
+<pre class="lang lang-node">
+  var axios = require('axios');
+  const token = &lt;SET_TOKEN&gt;;
+  const portal = 'https://api.apps.us.bluescape.com';
+  const api_version = 'v2';
+  const api_endpoint = '/listeners';
+
+  const data_load = {
+      'type' : 'workspace',
+      'url' : &lt;SET_URL_ENDPOINT&gt;,          // If using the reverse proxy, this is the url of the forwarding address.     
+      'workspaceId' : &lt;SET_WORKSPACE_ID&gt;,  // Otherwise use your publically reachable endpoint.
+      'eventTypes' : ['IMAGE_CREATE']
+  }
+
+  request_values = {
+      method: 'POST',
+      url: portal + '/' + api_version + api_endpoint,
+      headers : {
+          'Authorization': "Bearer " + token,
+          'Content-Type' : 'application/json'    
+      },
+      data: data_load
+    };
+
+  axios(request_values)
+      .then(function (response) {
+        if (response.status == 200)
+        {
+            console.log("Success");
+            console.log(response.data);
+        }
+      })
+      .catch (function (error) {
+          console.log('Error: ' + error.message);
+    });
+</pre>
 
 <pre class="lang lang-python">
   import requests
@@ -509,13 +592,21 @@ app.post("/", (req, res, next) =&gt; {
   has been sent, extract the needed data from it, and send out the Slack message.
 </p>
 
-<p>{% include 'lang-selector' %}
-<pre class = "lang lang-curl">hidden</pre>
-<pre class="lang lang-node">
-  const processSomething = callback =&gt; {
+<div class="lang-selector">
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class = "lang lang-curl">
+  const processSomething = callback => {
     setTimeout(callback, 5000);
   }
-</pre></p>
+</pre>
+<pre class="lang lang-node">
+  const processSomething = callback => {
+    setTimeout(callback, 5000);
+  }
+</pre>
 
 <pre class="lang lang-python">
   def processSomething():
@@ -537,58 +628,103 @@ app.post("/", (req, res, next) =&gt; {
   Now it's time to add some code to our app.post() method.
 </p></p>
 
-<p>{% include 'lang-selector' %}
-<pre class="lang lang-curl">hidden</pre>
+<div class="lang-selector">
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class="lang lang-curl">
+  function sendRequest(payload) {
+    request_values = {
+      method: 'POST',
+      url: `https://slack.com/api/chat.postMessage`,
+      headers : {
+          'Authorization': "Bearer " + token,
+          'Content-Type' : 'application/json'    
+      },
+      data: payload
+    };
+
+    axios(request_values)
+    .then(function (response) {
+      if (response.status == 200)
+      {
+          console.log("Success");
+          console.log(response.data);
+      }
+    })
+    .catch (function (error) {
+        console.log('Error: ' + error.message);
+    });
+  }
+  
+  app.post("/", (req, res, next) => {
+    console.log("Test Hook Recieved");
+    
+    processSomething(() => {
+      const webhookUrl = req.params.url;
+      const workspaceId = req.params.workspaceId;
+      const workspaceLink = "https://client.apps.us.bluescape.com/" + workspaceId;
+      if (webhookUrl) {
+        console.log("Image Created");
+        const payload = {
+            "channel": "YOUR_CHANNEL_ID",
+            "text": "An image has been added to your workspace! You can view changes here: " + workspaceLink,
+            "mrkdwn" : true
+        };
+          sendRequest(payload);
+        }
+      });
+  
+    res.status(200).send('OK');
+  });
+</pre>
 <pre class="lang lang-node $node-lang">
   function sendRequest(payload) {
     request_values = {
       method: 'POST',
-      url: <code>https://slack.com/api/chat.postMessage</code>,
+      url: `https://slack.com/api/chat.postMessage`,
       headers : {
           'Authorization': "Bearer " + token,
-          'Content-Type' : 'application/json'<br>
+          'Content-Type' : 'application/json'    
       },
       data: payload
-    };</p>
-
-<pre><code>axios(request_values)
-.then(function (response) {
-  if (response.status == 200)
-  {
-      console.log(&quot;Success&quot;);
-      console.log(response.data);
-  }
-})
-.catch (function (error) {
-    console.log('Error: ' + error.message);
-});
-</code></pre>
-
-<p>}</p>
-
-<p>app.post("/", (req, res, next) =&gt; {
-    console.log("Test Hook Recieved");</p>
-
-<pre><code>processSomething(() =&gt; {
-  const webhookUrl = req.params.url;
-  const workspaceId = req.params.workspaceId;
-  const workspaceLink = &quot;https://client.apps.us.bluescape.com/&quot; + workspaceId;
-  if (webhookUrl) {
-    console.log(&quot;Image Created&quot;);
-    const payload = {
-        &quot;channel&quot;: &quot;YOUR_CHANNEL_ID&quot;,
-        &quot;text&quot;: &quot;An image has been added to your workspace! You can view changes here: &quot; + workspaceLink,
-        &quot;mrkdwn&quot; : true
     };
-      sendRequest(payload);
-    }
+
+    axios(request_values)
+    .then(function (response) {
+      if (response.status == 200)
+      {
+          console.log("Success");
+          console.log(response.data);
+      }
+    })
+    .catch (function (error) {
+        console.log('Error: ' + error.message);
+    });
+  }
+  
+  app.post("/", (req, res, next) => {
+    console.log("Test Hook Recieved");
+    
+    processSomething(() => {
+      const webhookUrl = req.params.url;
+      const workspaceId = req.params.workspaceId;
+      const workspaceLink = "https://client.apps.us.bluescape.com/" + workspaceId;
+      if (webhookUrl) {
+        console.log("Image Created");
+        const payload = {
+            "channel": "YOUR_CHANNEL_ID",
+            "text": "An image has been added to your workspace! You can view changes here: " + workspaceLink,
+            "mrkdwn" : true
+        };
+          sendRequest(payload);
+        }
+      });
+  
+    res.status(200).send('OK');
   });
-
-res.status(200).send('OK');
-</code></pre>
-
-<p>});
-</pre></p>
+</pre>
 
 <p><pre class="lang lang-python"><br>
   app = Flask(<strong>name</strong>)

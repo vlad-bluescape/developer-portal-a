@@ -37,7 +37,13 @@ After you receive the authentication token, you can get a list of all the worksp
   </p>
 
     <p>
-{% include 'lang-selector' %}
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
 <pre class="lang lang-python">
 # Python Code (python 3.5+)
 import requests

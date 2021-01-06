@@ -78,15 +78,19 @@
     Putting this all together, a request to Add a User to an Organization looks like:
 </p>
 
-<p>{% include 'lang-selector' %}
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
 <pre class="lang lang-curl">
-curl -X POST [[apiHost]]/organizations/eidzMVOsv4peKG-4DLKA/users <br>
-  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsImtpZCI6Imp3d...' <br>
-  -H 'Content-Type: application/json' <br>
+curl -X POST [[apiHost]]/organizations/eidzMVOsv4peKG-4DLKA/users \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsImtpZCI6Imp3d...' \
+  -H 'Content-Type: application/json' \
   -d '{
     "email": "michael.scott@bluescape.com"
   }'
-</pre></p>
+</pre>
 
 <p><br /></p>
 
