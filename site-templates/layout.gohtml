@@ -35,8 +35,9 @@
     <div class="o-page">
         {{template "header" $}}
         {{define "header"}}{{end}}
-        {{if not (or (eq .Ctx "page") (eq $.CurrentPage "docs/page/overview"))}}
-        {{else}}
+        {{if not (eq .Ctx "page")}}
+        {{else if eq $.CurrentPage "overview"}}
+        {{else}}}
         {{template "navigation" $}}
         {{end}}
         {{define "navigation"}}{{end}}
