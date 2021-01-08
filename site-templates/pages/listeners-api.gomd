@@ -1,0 +1,776 @@
+<h1>Listeners APIs</h1>
+
+<p>
+    Bluescape Listeners, commonly called webhooks, enable applications to receive notifications via HTTP POST whenever
+    important changes happen inside of Bluescape workspaces and organizations. Applications register listeners by
+    specifying a target (either a workspace or a specific object in a workspace) and a list of events they would like to
+    be notified about. Until listeners are unregistered, Bluescape servers will continue to send notifications to the
+    specified URLs with JSON-encoded data about each Bluescape event that occurs. Developing applications that respond
+    to Bluescape activity in real-time in order to perform automated tasks and bridge to other systems could not be
+    easier.
+</p>
+
+<h2>Table of Contents:</h2>
+<p>
+    <a href="#requirements">Requirements</a> <br />
+    <a href="#use-case">Use Case: Notifications</a> <br />
+    <a href="#event-types">Event Types</a> <br />
+    <a href="#verification">Listener Verification</a> <br />
+    <a href="#targets">Listener Targets</a> <br />
+    <a href="#alternate-event-types">Alternate eventType Listeners</a> <br />
+    <a href="#listener-states">Listener States</a> <br />
+    <a href="#full-example">Full Use Case Example</a> <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#setup-server">1. Setting up a Basic Server</a> <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#setup-proxy">2. Seting Up the Reverse Proxy</a> <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#create-listener">3. Creating a Listener</a> <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#act-on-listener">4. Acting on Listener Events</a>
+    
+</p>
+<br />
+
+<p>
+  Please remember that the term "Listener" must be understood from your perspective, as the API user interacting with a Workspace: you will set a Listener to listen to events that occur in that Workspace. 
+</p>
+
+<a name="requirements"><h3>Requirements</h3></a>
+
+<p>
+    Because listeners are notified of Bluescape activity as soon as it happens, applications that implement listeners
+    must be available 24/7, have a public IP address or domain name, and be ready to receive HTTP requests at the
+    various URLs registered as listeners. For developers that want to register listeners and receive events on their
+    local machines, services exist to expose local servers to the internet, including <a href="https://ngrok.com/"
+                                                                                         target="_blank">ngrok</a> and <a href="https://pagekite.net/" target="_blank">pagekite</a>.
+</p>
+
+<a name="use-case"><h3>Use Case: Notifications</h3></a>
+
+<p>
+    Every project team has its established communication channels, and Bluescape Listeners are the perfect tool for
+    dispatching notifications to project teams over any communication channel that has an API of its own. Imagine your
+    application receives a notification from Bluescape about a document that was just uploaded to a workspace. With just
+    a few lines of code, applications can request the list of users with access to that workspace and send them Slack
+    notifications with a link to view the new document.
+</p>
+
+<img class="img-responsive center-block" src="/docs/assets/images/diagrams/UseCaseSlack.png">
+
+<a name="event-types"><h3>Event Types</h3></a>
+
+<p>
+    All notifications sent to listeners contain an event type denoting what kind of activity occurred in the workspace
+    to trigger the notification. For example, the payload sent to a listener when a note is created in a workspace will
+    have an event type of CREATE_NOTE. Here is an example of such a payload:
+</p>
+
+<pre>
+{
+  workspace_id: 'hf5aTv5fTfGyATSvoklO',
+  event:
+  {
+    id: '5b452d36a7b544001319ed04',
+    created_at: '2019-07-23T12:34:00.000Z',
+    type: 'CREATE_NOTE'
+  },
+  note:
+  {
+    id: '5b452d36d8456b69b4000001',
+    backgroundColor: 'Teal',
+    text: 'hi',
+    x: 0,
+    y: 1,
+    width: 560,
+    height: 320,
+    order: 1,
+    actualHeight: 320,
+    actualWidth: 560,
+    fontWeight: '400',
+    fontSize: '43px',
+    textTransform: 'inherit'
+  }
+}
+</pre>
+
+<p>
+    When <a href="/reference/apis#Listeners:postListeners" target="_blank">creating listeners</a>, applications must
+    specify which event types each listener should receive. Applications wishing to receive notifications about all
+    event types in a workspace should specify <span class="pre">[ "ALL" ]</span>. Applications wishing to receive
+    notifications about specific event types should specify the list of event types that are of interest. For example,
+    specifying <span class="pre">[ "NOTE_CREATE", "NOTE_DELETE" ]</span> would ensure that a listener only receives
+    notifications about the creation and deletion of notes in a workspace.
+</p>
+
+<p>
+    The full list of event types that can be subscribed to is available <a href="/reference/listener-events">here</a> in
+    the Reference section.
+</p>
+
+<div class="well">
+    <strong>NOTE:</strong> At this point, we only support listening for the creation, deletion and update of content
+    inside workspaces. We are actively working on the ability to define listeners for organizations, users, and
+    workspaces. Once these are released, applications will be able to respond to things like members being added and
+    removed and workspaces being created, deleted, published, and shared.
+</div>
+
+<a name="verification"><h3>Listener Verification</h3></a>
+
+<p>
+    When the api to <a href="/reference/apis#Listeners:postListeners" target="_blank">create a listener</a> is called,
+    Bluescape will immediately attempt to send a test payload to the <span class="pre">url</span> specified with an
+    event type of <span class="pre">TEST_HOOK</span>. The creation of the listener will only be successful if Bluescape
+    receives a <span class="pre">200</span> code in response. This means that your application must handle the incoming
+    <span class="pre">TEST_HOOK</span> and respond back with a <span class="pre">200</span> in order for the listener to
+    be established.
+</p>
+
+
+<a name="targets"><h3>Listener Targets</h3></a>
+
+<p>
+    Listeners can be attached to workspaces in general or to specific objects within a workspace. When a listener is
+    attached to a workspace (by providing only a <span class="pre">workspaceId</span> during creation), it will receive
+    notifications about all events that occur in the workspace. When a listener is attached to a specific object, such
+    as a document or note (by providing the object's ID as the <span class="pre">targetId</span>), the listener will
+    only receive notifications about that object.
+</p>
+
+<a name="alternate-event-types"><h3>Alternate eventType Listeners</h3></a>
+
+<p>
+  Here are listed some variations of listeners that can be set by specifying what event types they
+  are listening for, as well as a few language examples to help you get started. For more information on the 
+  <span class="pre">sendRequest()</span> call used to execute the API request, refer to the method in the previous section.
+</p>
+
+<h4>Listener targeting all events in a workspace</h4>
+
+<p>Any objects created, updated or deleted in the workspace will trigger a notification.</p>
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class="lang lang-curl">
+curl -X POST [[apiHost]]/listeners \
+  -H 'Authorization: Bearer eyJhbGciOi...' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "url": "http://sample-app.com/bluescape/listeners/incoming",
+    "workspaceId": &lt;SET_WORKSPACE_ID&gt;,
+    "eventTypes": ["WORKSPACE_ALL"]
+  }'
+</pre>
+
+<pre class="lang lang-node">
+  const body = {
+    "type" : "workspace",
+    "url": "http://sample-app.com/bluescape/listeners/incoming",
+    "workspaceId": &lt;SET_WORKSPACE_ID&gt;,
+    "eventTypes": ["WORKSPACE_ALL"]
+  };
+  sendRequest(body);
+</pre>
+
+<pre class="lang lang-python">
+  data_load = {
+    'type' : 'workspace',
+    'url' : 'http://sample-app.com/bluescape/listeners/incoming',
+    'workspaceId' : &lt;SET_WORKSPACE_ID&gt;,
+    'eventTypes' : ['WORKSPACE_ALL']
+  }
+  sendRequest(data_load)
+</pre>
+
+<h4>Listener targeting the creation of new documents in a workspace</h4>
+
+<p>Only documents being added to the workspace will trigger a notification.</p>
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class="lang lang-curl">
+curl -X POST [[apiHost]]/listeners \
+  -H 'Authorization: Bearer eyJhbGciOi...' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "url": "http://sample-app.com/bluescape/listeners/incoming",
+    "workspaceId": &lt;SET_WORKSPACE_ID&gt;,
+    "eventTypes": ["DOCUMENT_CREATE"]
+  }'
+</pre>
+
+<pre class="lang lang-node">
+  const body = {
+    "type" : "workspace",
+    "url": "http://sample-app.com/bluescape/listeners/incoming",
+    "workspaceId": &lt;SET_WORKSPACE_ID&gt;,
+    "eventTypes": ["DOCUMENT_CREATE"]
+  };
+  sendRequest(body);
+</pre>
+
+<pre class="lang lang-python">
+  data_load = {
+    'type' : 'workspace',
+    'url' : 'http://sample-app.com/bluescape/listeners/incoming',
+    'workspaceId' : &lt;SET_WORKSPACE_ID&gt;,
+    'eventTypes' : ['DOCUMENT_CREATE']
+  }
+  sendRequest(data_load)
+</pre>
+
+<h4>Listener targeting all actions on a specific document</h4>
+
+<p>Notifications will only be sent if the specific document is updated or deleted.</p>
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class="lang lang-curl">
+curl -X POST [[apiHost]]/listeners \
+  -H 'Authorization: Bearer eyJhbGciOi...' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "url": "http://sample-app.com/bluescape/listeners/incoming",
+    "workspaceId": &lt;SET_WORKSPACE_ID&gt;,
+    "targetId": &lt;SET_DOC_ID&gt;,  // the document ID
+    "eventTypes": ["DOCUMENT_ALL"]
+  }'
+</pre>
+
+<pre class="lang lang-node">
+  const body = {
+    "type" : "workspace",
+    "url": "http://sample-app.com/bluescape/listeners/incoming",
+    "workspaceId": &lt;SET_WORKSPACE_ID&gt;,
+    "targetId": &lt;SET_DOC_ID&gt;,  // the document ID
+    "eventTypes": ["DOCUMENT_ALL"]
+  };
+  sendRequest(body);
+</pre>
+
+<pre class="lang lang-python">
+  data_load = {
+    'type' : 'workspace',
+    'url' : 'http://sample-app.com/bluescape/listeners/incoming',
+    'workspaceId' : &lt;SET_WORKSPACE_ID&gt;,
+    'targetId': &lt;SET_DOC_ID&gt;,  // the document ID
+    'eventTypes' : ['DOCUMENT_ALL']
+  }
+  sendRequest(data_load)
+</pre>
+
+<h4>Listener targeting updates to a specific note</h4>
+
+<p>Notifications will only be sent if the specific note is updated.</p>
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class="lang lang-curl">
+curl -X POST [[apiHost]]/listeners \
+  -H 'Authorization: Bearer eyJhbGciOi...' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "url": "http://sample-app.com/bluescape/listeners/incoming",
+    "workspaceId": &lt;SET_WORKSPACE_ID&gt;,
+    "targetId": &lt;SET_NOTE_ID&gt;,  // the note ID
+    "eventTypes": ["NOTE_UPDATE"]
+  }'
+</pre>
+
+<pre class="lang lang-node">
+  const body = {
+    "type" : "workspace",
+    "url": "http://sample-app.com/bluescape/listeners/incoming",
+    "workspaceId": &lt;SET_WORKSPACE_ID&gt;,
+    "targetId": &lt;SET_NOTE_ID&gt;,  // the note ID
+    "eventTypes": ["NOTE_UPDATE"]
+  };
+  sendRequest(body);
+</pre>
+
+<pre class="lang lang-python">
+  data_load = {
+    'type' : 'workspace',
+    'url' : 'http://sample-app.com/bluescape/listeners/incoming',
+    'workspaceId' : &lt;SET_WORKSPACE_ID&gt;,
+    'eventTypes' : ['NOTE_UPDATE']
+  }
+  sendRequest(data_load)
+</pre>
+
+<a name="listener-states"><h3>Listener States</h3></a>
+
+<p>
+    Listener states allow for existing listeners to be disabled without being deleted. When a listener is first created,
+    it will have a state of <span class="pre">ACTIVE</span>. If an application wishes to temporarily disable
+    notifications to that listener, it can update the listener's status to <span class="pre">IN_ACTIVE</span> using the
+    <a href="/reference/apis#Listeners:putListenersByListenerid">Update a Listener</a> operation. While <span class="pre">IN_ACTIVE</span>,
+    the listener will not receive any notifications from Bluescape. A listener can be re-enabled by setting its status
+    back to <span class="pre">ACTIVE</span>.
+</p>
+
+<p>
+    When listeners receive an HTTP POST from the Bluescape API, they are expected to return a <span
+        class="pre">200</span> response code to indicate the notification was received successfully. If the Bluescape
+    service does not receive a <span class="pre">200</span> response code, it will send the notification again, up to
+    five times. If all attempts to send the notification fail, the Bluescape service will automatically set the
+    listener's status to <span class="pre">SUSPENDED</span> and notifications will no longer be sent to that listener.
+    In order to reactivate the listener, applications will need to set the listener's status back to <span class="pre">ACTIVE</span>.
+</p>
+
+<a name="full-example"><h2>Use Case Example:</h2></a>
+
+<p>
+  Here is an example of a top to bottom implementation of listeners. This will cover creating the listener, setting up a server 
+  to recieve the <span class="pre">TEST_HOOK</span> in order respond back with a <span class="pre">200 OK</span>, and finally
+  acting on the incoming listener events in order to send slack updates to a dedicated channel.
+</p>
+
+<a name="setup-server"><h4>Setting Up a Basic Server</h4></a>
+
+<p>
+  Before the listener can actually be set, we will need some way to recieve the inital <span class="pre">TEST_HOOK</span>
+  and all subsequent events that are sent out. For this we will set up a basic node express server (or Flask if using Python). 
+</p>
+
+<div class="lang-selector">
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class = "lang lang-curl">
+/*
+How to run:
+node this_script_name.js
+
+Requires "axios" module (0.19.0), run:
+npm install axios
+website: https://github.com/axios/axios
+
+Requires "express" module, run:
+npm install express
+website: https://github.com/expressjs/express
+*/
+
+var app = require('express')(),
+    server = require('http').createServer(app);
+
+app.listen(3000, function() {
+    console.log('Server Running!');
+});
+app.post("/", (req, res, next) => {
+  console.log("Webhook Recieved!")
+  res.status(200).send('OK');
+});
+</pre>
+<pre class="lang lang-node">
+/*
+How to run:
+node this_script_name.js
+
+Requires "axios" module (0.19.0), run:
+npm install axios
+website: https://github.com/axios/axios
+
+Requires "express" module, run:
+npm install express
+website: https://github.com/expressjs/express
+*/
+
+var app = require('express')(),
+    server = require('http').createServer(app);
+
+app.listen(3000, function() {
+    console.log('Server Running!');
+});
+app.post("/", (req, res, next) => {
+  console.log("Webhook Recieved!")
+  res.status(200).send('OK');
+});
+</pre>
+
+<pre class="lang lang-python">
+  # How to run:
+  # python this_script_name.py
+  
+  # Requires "flask" module, run:
+  # pip install -U flask
+  # website: https://pypi.org/project/Flask/
+  
+  
+  import sys
+  from flask import Flask, request, abort
+  import requests
+  from requests.exceptions import HTTPError
+  
+  app = Flask(__name__)
+  
+  @app.route('/', methods=['POST'])
+  def respondToWebhook():
+      print("webhook"); 
+      sys.stdout.flush()
+      if request.method == 'POST':
+          print(request.json)
+          return '', 200
+      else:
+          abort(400)
+          
+  if __name__ == '__main__':
+      app.run(port=3000)
+</pre>
+
+<p>
+  Here we have created a node server that is listening on port 3000 (express default) and when it recieves incoming traffic,
+  makes a POST back with a <span class="pre">200</span> status code to confirm to Bluescape that the <span class="pre">TEST_HOOK</span>
+  has been recieved and properly handled.
+</p>
+
+<a name="setup-proxy"><h4>Seting Up the Reverse Proxy</h4></a>
+
+<div class="well">
+    <p>
+        <b>*Note:</b> This step is only required if you intend to run from your local machine and wish to use localhost.
+        If you have a publicly reachable URL already established to route traffic then you may use that in lieu of a reverse
+        proxy. If this is the case then you may skip this step and simply input your URL into the <span class="pre">url</span>
+        parameter in the following section.
+    </p>
+</div>
+<p>
+  Now that the server has been set up, we have one more step before we can set the listener. We now need something to route the incoming
+  traffic to our node server so that we actually recieve the <span class="pre">TEST_HOOK</span> and events on the port that we are listening for.
+  For this we will use <a href="https://ngrok.com/"target="_blank">ngrok</a>. Ngrok is a free service which serves as a reverse proxy that establishes secure tunnels from a public endpoint 
+  to a locally running network (in this case <span class="pre">localhost:3000</span>).
+</p>
+
+<p>
+  Doing this is quick and easy. First download ngrok from their <a href="https://ngrok.com/download"target="_blank">official page</a>.
+  Once you have extracted the file, step into the directory and run the service at the port we are listening to with 
+  <span class="pre">ngrok.exe http 3000</span> for windows, or simply <span class="pre">./ngrok http &lt;PORT_TO_ROUTE_TO&gt;</span>
+  if using Linux or Mac.
+  <br />
+  Great! Now you have a reverse proxy set up to route your traffic to your desired endpoint, in our case <span class="pre">localhost:3000</span>. From here simply copy
+  one of the addresses listed in the <span class="pre">Forwarding</span> section to be used for initializing our listeners.
+</p>
+
+<a name="create-listener"><h4>Creating the Listener</h4></a>
+
+<p>
+  Now that we've gotten all of the prep work out of the way, we can create our listener object!
+</p>
+
+<div class="lang-selector">
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class = "lang lang-curl">
+  var axios = require('axios');
+  const token = &lt;SET_TOKEN&gt;;
+  const portal = 'https://api.apps.us.bluescape.com';
+  const api_version = 'v2';
+  const api_endpoint = '/listeners';
+
+  const data_load = {
+      'type' : 'workspace',
+      'url' : &lt;SET_URL_ENDPOINT&gt;,          // If using the reverse proxy, this is the url of the forwarding address.     
+      'workspaceId' : &lt;SET_WORKSPACE_ID&gt;,  // Otherwise use your publically reachable endpoint.
+      'eventTypes' : ['IMAGE_CREATE']
+  }
+
+  request_values = {
+      method: 'POST',
+      url: portal + '/' + api_version + api_endpoint,
+      headers : {
+          'Authorization': "Bearer " + token,
+          'Content-Type' : 'application/json'    
+      },
+      data: data_load
+    };
+
+  axios(request_values)
+      .then(function (response) {
+        if (response.status == 200)
+        {
+            console.log("Success");
+            console.log(response.data);
+        }
+      })
+      .catch (function (error) {
+          console.log('Error: ' + error.message);
+    });
+</pre>
+<pre class="lang lang-node">
+  var axios = require('axios');
+  const token = &lt;SET_TOKEN&gt;;
+  const portal = 'https://api.apps.us.bluescape.com';
+  const api_version = 'v2';
+  const api_endpoint = '/listeners';
+
+  const data_load = {
+      'type' : 'workspace',
+      'url' : &lt;SET_URL_ENDPOINT&gt;,          // If using the reverse proxy, this is the url of the forwarding address.     
+      'workspaceId' : &lt;SET_WORKSPACE_ID&gt;,  // Otherwise use your publically reachable endpoint.
+      'eventTypes' : ['IMAGE_CREATE']
+  }
+
+  request_values = {
+      method: 'POST',
+      url: portal + '/' + api_version + api_endpoint,
+      headers : {
+          'Authorization': "Bearer " + token,
+          'Content-Type' : 'application/json'    
+      },
+      data: data_load
+    };
+
+  axios(request_values)
+      .then(function (response) {
+        if (response.status == 200)
+        {
+            console.log("Success");
+            console.log(response.data);
+        }
+      })
+      .catch (function (error) {
+          console.log('Error: ' + error.message);
+    });
+</pre>
+
+<pre class="lang lang-python">
+  import requests
+  from requests.exceptions import HTTPError
+  import pprint
+  
+  token = &lt;SET_TOKEN&gt;
+  portal = 'https://api.apps.us.bluescape.com'
+  workspace_uid = &lt;SET_WORKSPACE_ID&gt;
+  
+  
+  if __name__ == "__main__":
+  
+      API_endpoint = '/v2/listeners'
+  
+      data_load = {
+          'type' : 'workspace',
+          'url' : &lt;SET_URL_ENDPOINT&gt;,         # If using the reverse proxy, this is the url of the forwarding address.
+          'workspaceId' : &lt;SET_WORKSPACE_ID&gt;, # Otherwise use your publically reachable endpoint.
+          'eventTypes' : ['WORKSPACE_ALL']
+      }
+  
+      the_request = requests.get(
+              portal + API_endpoint,
+              headers={"Authorization": "Bearer " + token,
+                          "Content-Type": "application/json"
+                      },
+              params = data_load
+          )
+  
+      json_response = the_request.json()
+      pprint.pprint(json_response)
+</pre>
+
+<a name="act-on-listener"><h4>Acting on Listener Events</h4></a>
+
+<p>
+  After running the code from the previous section we now have an active listener set up that is ready to broadcast any events related to it's eventType parameter, as well as
+  a node server that will recieve these events. Now all that's left to do is implement some sort of functionality for what should happen
+  when an event is recieved. For this example we will be connecting to a Slack Application that will send a message to a dedicated channel
+  with information about what has changed whenever an event is recieved.
+  <br />
+  In order to do this we will add a handler function to the response POST on the server that will determine what event
+  has been sent, extract the needed data from it, and send out the Slack message.
+</p>
+
+<div class="lang-selector">
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class = "lang lang-curl">
+  const processSomething = callback => {
+    setTimeout(callback, 5000);
+  }
+</pre>
+<pre class="lang lang-node">
+  const processSomething = callback => {
+    setTimeout(callback, 5000);
+  }
+</pre>
+
+<pre class="lang lang-python">
+  def processSomething():
+    # No timeout needed for python. This method will be populated later on.
+</pre>
+
+
+<p>
+  The function is defined with a timeout of 5 seconds. This turns the handling of the event into an asyncronous action in order to give 
+  ample time for the server to respond to the <span class="pre">TEST_HOOK</span> before preforming any actions so that the listener does 
+  not time out while the data is being processed. This callback notation is only needed due to the asyncronous nature of Node.
+</p>
+
+<br />
+<p>
+  Now it's time to populate our method with some code. For this example we will be sending a slack update whenever a listener 
+  event is triggered. For this you must have already created a Slack app with permissions <span class="pre">channels:read</span>
+  and <span class="pre">chat:bot:write</span> as well as have registered it to your Slack workspace. This can be done 
+  <a href="https://api.slack.com/apps">here</a>. To learn more about this process <a href="https://api.slack.com/messaging/sending">check here</a>.
+  Now it's time to add some code to our app.post() method.
+</p>
+
+<div class="lang-selector">
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class="lang lang-curl">
+  function sendRequest(payload) {
+    request_values = {
+      method: 'POST',
+      url: `https://slack.com/api/chat.postMessage`,
+      headers : {
+          'Authorization': "Bearer " + token,
+          'Content-Type' : 'application/json'    
+      },
+      data: payload
+    };
+
+    axios(request_values)
+    .then(function (response) {
+      if (response.status == 200)
+      {
+          console.log("Success");
+          console.log(response.data);
+      }
+    })
+    .catch (function (error) {
+        console.log('Error: ' + error.message);
+    });
+  }
+  
+  app.post("/", (req, res, next) => {
+    console.log("Test Hook Recieved");
+    
+    processSomething(() => {
+      const webhookUrl = req.params.url;
+      const workspaceId = req.params.workspaceId;
+      const workspaceLink = "https://client.apps.us.bluescape.com/" + workspaceId;
+      if (webhookUrl) {
+        console.log("Image Created");
+        const payload = {
+            "channel": "YOUR_CHANNEL_ID",
+            "text": "An image has been added to your workspace! You can view changes here: " + workspaceLink,
+            "mrkdwn" : true
+        };
+          sendRequest(payload);
+        }
+      });
+  
+    res.status(200).send('OK');
+  });
+</pre>
+<pre class="lang lang-node $node-lang">
+  function sendRequest(payload) {
+    request_values = {
+      method: 'POST',
+      url: `https://slack.com/api/chat.postMessage`,
+      headers : {
+          'Authorization': "Bearer " + token,
+          'Content-Type' : 'application/json'    
+      },
+      data: payload
+    };
+
+    axios(request_values)
+    .then(function (response) {
+      if (response.status == 200)
+      {
+          console.log("Success");
+          console.log(response.data);
+      }
+    })
+    .catch (function (error) {
+        console.log('Error: ' + error.message);
+    });
+  }
+  
+  app.post("/", (req, res, next) => {
+    console.log("Test Hook Recieved");
+    
+    processSomething(() => {
+      const webhookUrl = req.params.url;
+      const workspaceId = req.params.workspaceId;
+      const workspaceLink = "https://client.apps.us.bluescape.com/" + workspaceId;
+      if (webhookUrl) {
+        console.log("Image Created");
+        const payload = {
+            "channel": "YOUR_CHANNEL_ID",
+            "text": "An image has been added to your workspace! You can view changes here: " + workspaceLink,
+            "mrkdwn" : true
+        };
+          sendRequest(payload);
+        }
+      });
+  
+    res.status(200).send('OK');
+  });
+</pre>
+
+<pre class="lang lang-python">  
+  app = Flask(__name__)
+  token = ''
+  def sendRequest(payload):
+      API_endpoint = "https://slack.com/api/chat.postMessage"
+  
+      the_request = requests.get(
+          API_endpoint,
+          headers={
+              "Authorization": "Bearer " + token,
+              "Content-Type": "application/json"
+                      },
+          params = payload
+      )
+  
+  @app.route('/', methods=['POST'])
+  def respondToWebhook():
+      print("webhook"); 
+      sys.stdout.flush()
+      if request.method == 'POST':
+          print(request.json)
+          return '', 200
+      else:
+          abort(400)
+          
+  def processSomething():
+      if request.method == 'POST':
+          workspaceId = request.params.workspaceId
+          workspaceLink = "https://client.apps.us.bluescape.com/" + workspaceId
+          payload = {
+              "channel": "YOUR_CHANNEL_ID",
+              "text": "An image has been added to your workspace! You can view changes here: " + workspaceLink,
+              "mrkdwn" : True
+          }
+          sendRequest(payload)
+  
+  if __name__ == '__main__':
+      app.run(port=3000)
+</pre>
+<p>
+  That's it! We now have functional listener pipeline that is able to send notifications along with info about what as happened
+  any time an event is triggered.
+</p>
+
+<br />
+If you have any questions or comments, please contact us at <a href="https://support.bluescape.com" target="_blank">Bluescape support</a>.

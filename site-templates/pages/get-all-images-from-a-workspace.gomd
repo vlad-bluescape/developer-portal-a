@@ -1,0 +1,224 @@
+<h1>Get all the images from a workspace</h1>
+
+<p>
+<b>Objective</b>: get a list of all the images in a Workspace. You will need the Workspace UID. This list will contain, for each image, details such as: image name, creation date, traits, comments, etc.
+</p>
+
+<table class="table table-striped">
+        <tr>
+          <td><b>Endpoint</b></td>
+          <td>/v2/workspaces/&lt;workspace_uid&gt;/elements/images</td>
+        </tr>
+        <tr>
+            <td><b>Method</b></td>
+            <td>GET</td>
+        </tr>
+        <!-- 
+        <tr>
+            <td><b>Developer Portal URL</b></td>
+            <td><a href="/reference/apis#Images:getWorkspacesElementsImagesByWorkspaceid">[[developerPortalHost]]reference/apis#Images:getWorkspacesElementsImagesByWorkspaceid</a></td>
+        </tr>
+        -->
+        <tr>
+          <td><b>Comments</b></td>
+          <td>You need to know the workspace UID.</td>
+        </tr>
+</table>
+
+<h2>Code sample</h2>
+    <p>
+        See below code samples in Python and Node.js.
+    </p>
+    
+<p>
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class="lang lang-python">
+# Python Code (python 3.5+)
+import requests
+import pprint
+
+'''
+Required modules:
+   requests 2.22.0
+'''
+
+token = 'ADD_YOUR_TOKEN_HERE'
+
+if __name__ == "__main__":
+   portal = "[[apiHost]]"
+   workspace_uid = 'ADD_WORKSPACE_UID'   
+   API_version = 'v2'
+
+   # Get all the images from a workspace
+
+   API_endpoint = '/' + API_version + '/workspaces/' + workspace_uid + '/elements/images'
+
+   the_request = requests.get(
+       portal + API_endpoint,
+       headers={"Authorization": "Bearer " + token,
+                "Content-Type": "application/json"
+                }
+   )
+
+   json_response = the_request.json()
+
+   # Uncomment line below if you want to see the whole structure of the json answer
+   # pprint.pprint(json_response)
+
+   for object_item in json_response['images']:
+       print("\tImage: ", object_item['url'])
+</pre>
+</p>
+
+<p>
+<pre class="lang lang-node">
+// Node.js Javascript   
+/*
+
+How to run:
+node this_script_name.js
+
+Requires "axios" module (0.19.0), run:
+npm install axios
+
+website: https://github.com/axios/axios
+
+*/
+
+var axios = require('axios');
+
+const token = 'SET_YOUR_TOKEN_HERE';
+const portal = 'https://api.apps.us.bluescape.com';
+const workspace_uid = 'SET_WORKSPACE-UID_HERE';
+const api_version = 'v2';
+const api_endpoint = '/workspaces/' + workspace_uid + '/elements/images';
+
+var request_values = {
+    url: portal + '/' + api_version + api_endpoint,
+    method : 'GET' ,
+    headers : {
+        'Authorization': "Bearer " + token,
+        'Content-Type' : 'application/json'    
+    }
+};
+
+axios(request_values)
+    .then(function (response) {
+        if (response.status == 200)
+        {
+            console.log("Success");
+            console.log(response.data);
+        }
+    })
+    .catch (function (error) {
+        console.log('Error: ' + error.message);
+    });               
+</pre>        
+</p>
+
+<p>
+You can modify this script to return a list of each specific object from the workspace by changing the last element in the API entrypoint:
+<span class="pre">API_endpoint = '/v2/workspaces/' + workspace_uid + '/elements/images'</span>. Here, replace the final <span class="pre">'/images'</span> element with:
+<ul>
+ <li>"/documents" </li>
+ <li>"/notes" </li>
+ <li>"/images"</li>
+ <li>"/text"</li>
+ <li>"/canvas"</li>
+ <li>"/browsers"</li>
+ <li>"/strokes"</li>
+ <li>"/videos"</li>
+ <li>"/grids"</li>
+</ul>
+</p>
+
+<h2>OUTPUT</h2>
+
+<p>
+What you should get: json with the list of the first 25 workspaces
+</p>
+
+
+<table class="table table-striped">
+        <tr>
+            <td><b>Element</b></td>
+            <td><b>Json</b></td>
+            <td><b>Comments</b></td>
+        </tr>
+        <tr>
+            <td>Image ID</td>
+            <td>['images'][N]['id']</td>
+            <td>where N is the N-th workspace in the list.</td>
+        </tr>
+        <tr>
+            <td>Image Title</td>
+            <td>['workspaces'][N]['title']</td>
+            <td>where N is the N-th workspace in the list.</td>
+        </tr>
+        <tr>
+            <td>Image URL</td>
+            <td>['workspaces'][N]['url']</td>
+            <td>where N is the N-th image in the list.</td>
+        </tr>
+      
+      </table>
+
+
+<h3>Output Json sample</h3>
+<pre>
+{'images': [{'comments': [{'actorId': '38988',
+           'actorType': 'user',
+           'date': '2019-07-23T17:37:03+00:00',
+           'id': '5d3745bfda1ecc2c2d00036c',
+           'name': 'Ansel Adams',
+           'text': 'Nice picture, beautiful dunes.'}],
+     'height': 871,
+     'id': '5d374593da139IOOd000369',
+     'order': 193,
+     'pin': False,
+     'scale': 0.4,
+     'strokeIds': [],
+     'title': 'Screen Shot 2019-06-18 at 2.51.06 PM.png',
+     'traits': [{'http://test.bluescape.com/picture/description': 'Sand '
+                                                                  'Dunes, '
+                                                                  'big, '
+                                                                  'light '
+                                                                  'on '
+                                                                  'one '
+                                                                  'side, '
+                                                                  'shadow '
+                                                                  'ont '
+                                                                  'he '
+                                                                  'other '
+                                                                  'one',
+                 'http://test.bluescape.com/picture/tags': ['sand '
+                                                            'dunes',
+                                                            'light',
+                                                            'desert',
+                                                            'blue sky',
+                                                            'yellow '
+                                                            'sand',
+                                                            'sand'],
+                 'http://test.bluescape.com/picture/title': 'Nice sand '
+                                                            'dunes '
+                                                            'picture'}],
+                 'url': 'https://s3.amazonaws.com/public-assets.bluescape.com/sessions/objects/QJh-lZUZGaFinBFuz2/5d37459cc2c9Ad000369.png?X-Amz&lt;-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=BKIXIWO33I6HA%2F20191723%2Fus-1%2Fs3%2Faws4_request&X-Amz-Date=20190723T230936Amz-Expires=300',
+                 'width': 1394,
+                 'workspace_uid': 'QJh-lZU9RRFinOuzeR2',
+                 'x': 6344,
+                 'y': 4520}
+                ]
+}     
+</pre>
+
+
+<br />
+If you have any questions or comments, please contact us at <a href="https://support.bluescape.com" target="_blank">Bluescape support</a>.
+
+

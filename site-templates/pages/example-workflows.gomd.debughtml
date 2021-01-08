@@ -1,0 +1,60 @@
+<h2>Workflow: Adding Content Into a Workspace</h2> 
+
+<p><h3>Summary</h3>
+    <p>
+        This page explains the workflows for adding content into a Workspace. The content to add to the workspace is generally a document or an image that you want to share or collaborate on.
+    </p></p>
+
+<p><h3>Diagram</h3>
+    <p>
+        <img src="/docs/assets/images/workflow_upload_content_into_workspace.png" height="650">
+    </p></p>
+
+<p><h3>Manually Upload content from Local Folder</h3>
+    <p>You can upload content into your Workspaces manually:
+        <ul>
+            <li>Use the upload tool available in the Workspaces. You can upload images, videos and documents.</li>
+            <li>Go to your workspace and on the left column menu click on the Add ("+") icon.<br />
+                <img src="/docs/assets/images/upload_from_workspace.png" width="450"></li>
+            <li>By clicking the Browse icon, you can upload content directly from your local drive.</li>
+            <li>Or upload content directly from Box, Dropbox, Google Drive or OneDrive. Authentication will be required to access the content on these systems.</li>
+        </ul>
+    </p></p>
+
+<p><h3>Use Application or Script to run Bluescape APIs to Upload Content from Local Drive</h3>
+    <p>You can automate the process of uploading content into your Workspace by using the Bluescape APIs.</p>
+    <p>
+        <ul>
+            <li>You can write scripts using the Bluescape APIs to automatically upload the content in your local drive into a workspace.</li>
+            <li>For example, you may want to share reports with your team:</li>
+            <ul>
+                <li>Create the reports as image files or as PDF documents</li>
+                <li>Save or move the report files into a predetermined folder in your local drive (e.g. "/to_upload_into_bluescape")</li>
+                <li>Trigger your script that uses the Bluescape APIs to upload the report files directly into your Bluescape Workspace</li>
+                <li>Now you are ready to collaborate with your team.</li>
+            </ul>
+        </ul>
+    </p>
+    <p>
+        Where do I start?
+        <ul>
+            <li>You can use the code samples provided in the <a href="/docs/page/guides">Guides section</a> to get familiarized with the way the Bluescape APIs work and learn about the authentication alternatives.</li>
+            <li>In particular, visit the example of how to <a href="/docs/page/upload-from-local-drive-into-a-canvas">upload content from a local drive into a Canvas</a>. This example explains the building blocks of how to upload content into a Workspace using the Bluescape APIs.</li>
+            <li></li>
+        </ul>
+    </p></p>
+
+<p><h3>Integrate with external Application to add Content to Workspace</h3>
+    <p>This option allows full automation of the process to upload content from external applications into your Workspace.</p>
+    <p>
+        <ul>
+            <li>You can write scripts using the Bluescape APIs and external applications APIs (such as Salesforce, Tableau and others) to automatically populate content into a workspace.</li>
+            <li>For example, you may want to share Sales reports with your team:</li>
+            <ul>
+                <li>Use the external application APIs (e.g. Salesforce) to generate the specific reports you want to share.</li>
+                <li>Depending on the way the external application works, you may need to use a staging repository to save your reports (if they are too big)</li>
+                <li>Use a script that uses the Bluescape APIs to upload the report files directly into your Bluescape Workspace.</li>
+                <li>Now you are ready to collaborate with your team.</li>
+            </ul>
+        </ul><br>
+    </p></p>

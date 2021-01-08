@@ -9,7 +9,7 @@
     {{end}}
   {{end}}
     <div>
-        <strong>APIs</strong>
+        <strong>Bluescape v3 APIs</strong>
         <ul>
         {{range $i, $element := .S.K8sStore.Slice }}
             {{$svc := $element.Service}}
@@ -31,6 +31,65 @@
         </ul>
     </div>
     <br />
+    {{if or (eq $.CurrentPage "reference") (eq $.CurrentPage "urls") (eq $.CurrentPage "pagination") (eq $.CurrentPage "listener-events") (eq $.CurrentPage "permissions") (eq $.CurrentPage "versioning") (eq $.CurrentPage "sso")}}
+    <div>
+        <strong>Reference</strong>
+        <ul>
+            <li><a href="/docs/page/urls">URLs</a></li>
+            <li><a href="/docs/page/pagination">Pagination</a></li>
+            <li><a href="/docs/page/listener-events">Listener Events</a></li>
+            <li><a href="/docs/page/permissions">Permissions</a></li>
+            <li><a href="/docs/page/versioning">Versioning</a></li>
+            <li><a href="/docs/page/sso">Single Sign On (SSO)</a></li>
+
+            {{/* <li><h3>API Reference</h3></li>
+            {% include 'reference/api-toc' %} */}}
+
+        </ul>
+    </div>
+    <br />
+    {{end}}
+    {{if or (eq $.CurrentPage "guides") (eq $.CurrentPage "app-auth") (eq $.CurrentPage "basic-api-requests") (eq $.CurrentPage "get-list-of-workspaces") (eq $.CurrentPage "get-all-images-from-a-workspace") (eq $.CurrentPage "create-canvas-and-add-note") (eq $.CurrentPage "upload-from-local-drive-into-a-canvas")  (eq $.CurrentPage "traits-api") (eq $.CurrentPage "attachments-api") (eq $.CurrentPage "listeners-api") (eq $.CurrentPage "wall-apis") }}
+    <div>
+        <ul>
+            <li class="spacer"><strong>Guides</strong></li>
+            <!--
+            <li><a href="/docs/page/whats-new">What's New</a></li> 
+            -->
+
+            <!-- v2 Additions -->
+            
+            <li><a href="/docs/page/guides">Getting Started</a></li>
+            <li class="subitemguide"><a href="/docs/page/app-auth">1. Application Authorization</a></li>
+            <li class="subitemguide"><a href="/docs/page/basic-api-requests">2. Basic API Requests</a></li>    
+            <li class="subitemguide"><a href="/docs/page/get-list-of-workspaces">3. Get list of workspaces</a></li>
+            <!-- <li> - <a href="/reference/TBD">Add parameters to your API call</a></li> -->
+            <li class="subitemguide"><a href="/docs/page/get-all-images-from-a-workspace">4. Get all images from a Workspace</a></li>
+            <li class="subitemguide"><a href="/docs/page/create-canvas-and-add-note">5. Create a Canvas and add a note to it</a></li>
+            <li class="subitemguide"><a href="/docs/page/upload-from-local-drive-into-a-canvas">6. Upload content from local drive into a Canvas</a></li>
+
+            <!---
+            <li><a href="/docs/page/simple-app">Simple Application</a></li>
+            --->
+            <li><a href="/docs/page/traits-api">Traits APIs</a></li>
+            <li><a href="/docs/page/attachments-api">Attachments APIs</a></li>
+            <!-- <li><a href="/docs/page/attachments-listener-events">Attachment Listener Events</a></li> -->
+            <li><a href="/docs/page/listeners-api">Listeners APIs</a></li>
+            <li><a href="/docs/page/wall-apis">Wall APIs</a></li>
+        </ul>
+    </div>
+    <br />
+    {{end}}
+    {{if or (eq $.CurrentPage "support") (eq $.CurrentPage "supportFAQ")}}
+    <div>
+        <strong>Support Reference</strong>
+        <ul>
+            <li><a href="/docs/page/supportFAQ">FAQ</a></li>    
+            <li><a href="https://community.bluescape.com/s/">Contact Us</a></li>
+        </ul>
+    </div>
+    <br />
+    {{end}}
     <div>
         <strong>Reference</strong>
         <ul>
@@ -43,4 +102,20 @@
             {{end}}
         </ul>
     </div>
+    {{if $haveOther}}
+    <br />
+    <div>
+        <strong>Services without documentation</strong>
+        <ul>
+        {{range $i, $element := .S.K8sStore.Slice }}
+            {{$svc := $element.Service}}
+            {{if not $element.Metadata.HasDoc}}
+            <li>
+                <samp>{{$svc.Namespace}}.{{$svc.Name}}</samp>
+            </li>
+            {{end}}
+        {{end}}
+        </ul>
+    </div>
+    {{end}}
 </nav>

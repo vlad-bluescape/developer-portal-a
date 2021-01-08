@@ -1,0 +1,221 @@
+<h1>Get the list of your workspaces</h1>
+
+<p>
+<b>Objective</b>: get a list of all Workspaces you can access. You do not need to know your user_id to perform this operation. From this list you can retrieve the workspace UIDs to use on other APIs that require you to have the Workspace UID. This is a good test to verify the functionality of your Access Token.
+</p>
+
+<p>
+    All API endpoints share the same base URL:
+</p>
+
+<pre>
+[[apiHost]]
+</pre>
+
+<p>
+After you receive the authentication token, you can get a list of all the workspaces you can access.
+</p>
+
+<table class="table table-striped">
+  <tr>
+    <td><b>Endpoint</b></td>
+    <td>/v2/users/me/workspaces</td>
+  </tr>
+  <tr>
+      <td><b>Method</b></td>
+      <td>GET</td>
+  </tr>  
+  <tr>
+    <td><b>Comments</b></td>
+    <td>You do not need to know the client_id to get this list of workspaces of the user.</td>
+  </tr>
+</table>
+
+<h2>Code sample</h2>
+  <p>
+    See below code samples in Python and Node.js.
+  </p>
+
+    <p>
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class="lang lang-python">
+# Python Code (python 3.5+)
+import requests
+import pprint
+
+'''
+Required modules:
+    requests 2.22.0
+'''
+
+# Get the list of workspaces the user account associates to the Authentication Token can access
+
+token = 'SET_YOUR_TOKEN_HERE'
+
+if __name__ == "__main__":
+   portal = "[[apiHost]]"
+
+   # Get all the images from a workspace
+   API_version = 'v2'
+
+   API_endpoint = '/' + API_version + '/users/me/workspaces'
+
+   the_request = requests.get(
+       portal + API_endpoint,
+       headers={"Authorization": "Bearer " + token}
+   )
+
+  # format answer to json
+   json_response = the_request.json()
+   # By default we get the first 25 workspaces
+
+  # added to format display of json output
+   pprint.pprint(json_response)
+</pre>
+</p>
+
+
+<p>
+<pre class="lang lang-node">
+// NodeJS
+var axios = require('axios');
+
+/*
+
+How to run:
+node this_script_name.js
+
+Requires "axios" module (0.19.0), run:
+npm install axios
+
+website: https://github.com/axios/axios
+
+*/
+
+const token = 'SET_YOUR_TOKEN_HERE';
+const portal = '[[apiHost]]';
+const api_version = 'v2';
+const api_endpoint = '/users/me/workspaces';
+
+request_values = {
+    method: 'GET',
+    url: portal + '/' +api_version + api_endpoint,
+    headers : {
+        'Authorization': "Bearer " + token,
+        'Content-Type' : 'application/json'    
+    }
+  };
+
+axios(request_values)
+    .then(function (response) {
+      if (response.status == 200)
+      {
+          console.log("Success");
+          console.log(response.data);
+      }
+    })
+    .catch (function (error) {
+        console.log('Error: ' + error.message);
+    });
+    
+</pre>
+</p>
+
+<h2>OUTPUT</h2>
+
+<p>
+What you should get: json with the list of the first 25 workspaces your user has access to.
+</p>
+
+<table class="table table-striped">
+  <tr>
+    <td><b>Element</b></td>
+    <td><b>Json</b></td>
+    <td><b>Comments</b></td>
+  </tr>
+  <tr>
+      <td>Workspace UID</td>
+      <td>['workspaces'][N]['uid']</td>
+      <td>where N is the N-th workspace in the list.</td>
+  </tr>
+  <tr>
+      <td>Workspace name</td>
+      <td>['workspaces'][N]['name']</td>
+      <td>where N is the N-th workspace in the list.</td>
+  </tr>
+
+</table>
+
+<p><h3>Output Json sample</h3>
+<pre>
+  {'limit': 25,
+  'offset': 0,
+  'paging': {'next': '/v2/users/me/workspaces?offset=25&amp;limit=25',
+             'prev': None,
+             'self': '/v2/users/me/workspaces?offset=0&amp;limit=25'},
+  'size': 25,
+  'total': 121,
+  'workspaces': [{'active_users_count': 0,
+                  'created_at': '2016-11-18T01:34:10.000Z',
+                  'default_role_uid': None,
+                  'description': '',
+                  'favorite': 0,
+                  'has_meeting': False,
+                  'name': 'Hello',
+                  'organization': {'default_public_workspace_role_uid': 'mmFwoDayeaLnPGx3QTcZ',
+                                   'name': 'Bluescape',
+                                   'uid': '2M-EiUhza9MZgrw2CJ31'},
+                  'organization_uid': '2M-EiUhza9MZgrw2CJ31',
+                  'public': True,
+                  'publish_state': 'published',
+                  'publish_state_at': '2016-11-18T01:35:38.000Z',
+                  'published_at': '2016-11-18T01:35:38.000Z',
+                  'published_url': '<a href="https://viewer.bluescape.com/9r1UGKtsoxRfv_x3kd-E'">https://viewer.bluescape.com/9r1UGKtsoxRfv_x3kd-E'</a>,
+                  'uid': '9r1UGKtsoxRfv_x3kd-E',
+                  'updated_at': '2019-10-07T21:59:03.000Z',
+                  'users_count': 2,
+                  'workspace_owner': {'avatar_url': None,
+                                      'created_at': '2016-06-27T23:41:14.000Z',
+                                      'email': 'indiana.jones@bluescape.com',
+                                      'first_name': 'Indiana',
+                                      'industry': 'Other - not listed',
+                                      'last_name': 'Jones',
+                                      'locked_at': None,
+                                      'phone_number': '4085553848',
+                                      'title': None,
+                                      'uid': 'JnPiG6qd2EtFCjipWRE1',
+                                      'updated_at': '2019-02-04T11:11:32.000Z'},
+                  'workspace_role': {'can_at_mention': True,
+                                     'can_comment': True,
+                                     'can_download_assets': True,
+                                     'can_edit_workspace_content': True,
+                                     'can_list_collaborators': True,
+                                     'can_send_message': True,
+                                     'can_send_to_wall': True,
+                                     'can_view_workspace_content': True,
+                                     'can_view_workspace_settings': True,
+                                     'description': 'Editor can view workspace '
+                                                    'settings, can view, '
+                                                    'comment and edit '
+                                                    'workspaces content, and '
+                                                    'can view collaborators',
+                                     'display_order': 3,
+                                     'is_custom': False,
+                                     'name': 'Editor',
+                                     'type': 'user',
+                                     'uid': 'mmFwoDayeaLnPGx9QTcZ'}},
+                 {'active_users_count': 0,
+                  'created_at': '2016-12-12T20:32:57.000Z',
+                  'default_role_uid': None,<br>
+                  ...
+                  ...
+</pre></p>
+
+<p><br />
+If you have any questions or comments, please contact us at <a href="https://support.bluescape.com" target="_blank">Bluescape support</a>.</p>

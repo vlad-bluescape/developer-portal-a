@@ -1,0 +1,321 @@
+<h1>Create a Canvas and add a Note to it</h1>
+
+<p>
+<b>Objective</b>: create a new Canvas in your Workspace and add a Note to this new Canvas. You will learn how to get the IDs of newly created objects within your Workspace, and how to use them to associate other objects with them. You will need the Workspace UID.  
+</p>
+
+<h4>Create Canvas</h4>
+
+<table class="table table-striped">
+        <tr>
+          <td><b>Endpoint</b></td>
+          <td>/v2/workspaces/&lt;workspace_uid&gt;/elements/canvas</td>
+        </tr>
+        <tr>
+            <td><b>Method</b></td>
+            <td>POST</td>
+        </tr>
+        <!-- 
+        <tr>
+            <td><b>Developer Portal URL</b></td>
+            <td><a href="/reference/apis#Canvas:postWorkspacesElementsCanvasByWorkspaceid">[[developerPortalHost]]/reference/apis#Canvas:postWorkspacesElementsCanvasByWorkspaceid</a></td>
+        </tr>
+        -->
+        <tr>
+          <td><b>Comments</b></td>
+          <td>You need to know the workspace UID.</td>
+        </tr>
+</table>
+
+<h4>Create Note within Canvas</h4>
+
+<table class="table table-striped">
+        <tr>
+          <td><b>Endpoint</b></td>
+          <td>/v2/workspaces/&lt;workspace_uid&gt;/elements/canvas/&lt;canvas_id&gt;/notes</td>
+        </tr>
+        <tr>
+            <td><b>Method</b></td>
+            <td>POST</td>
+        </tr>
+        <!-- 
+        <tr>
+            <td><b>Developer Portal URL</b</td>
+            <td><a href="/reference/apis#Notes:postWorkspacesElementsCanvasNotesByWorkspaceidCanvasid">[[developerPortalHost]]/reference/apis#Notes:postWorkspacesElementsCanvasNotesByWorkspaceidCanvasid</a></td>
+        </tr>
+        -->
+        <tr>
+          <td><b>Comments</b></td>
+          <td>You need to know the Canvas ID.</td>
+        </tr>
+</table>
+
+
+<h2>Code sample</h2>
+
+<p>
+        See below code samples in Python and Node.js.
+</p>
+
+<p>
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class="lang lang-python">
+# Python Code (python 3.5+)
+import requests
+import datetime
+import pprint
+
+'''
+
+Required modules:
+    requests 2.22.0
+
+'''
+
+token = 'ADD_YOUR_TOKEN_HERE'        
+
+if __name__ == "__main__":
+    portal = '[[apiHost]]' 
+    workspace_uid = 'ADD_YOUR_WORKSPACE_UID'  # REMEMBER TO ADD WORKSPACE UID
+
+    # Create new Canvas
+    # Path:     /v2/workspaces/&lt;workspace_uid&gt;/elements/canvas
+
+    API_endpoint = '/v2/workspaces/' + workspace_uid + '/elements/canvas'
+
+    timestamp = datetime.datetime.now()
+
+    data_load = {
+        'x': 10000,
+        'y': 1000,
+        'width': 4000,
+        'height': 4000,
+        'name': "New Canvas - Creation time: " + str(timestamp),
+        'borderColor': 'Yellow'
+    }
+
+    the_request = requests.post(
+        portal + API_endpoint,
+        headers={"Authorization": "Bearer " + token,
+                    "Content-Type": "application/json"
+                    },
+        json=data_load
+    )
+
+    json_response = the_request.json()
+    # pprint.pprint(json_response) 
+
+    canvas_id = json_response['canvas']['id']
+
+
+    # Add a Note to a canvas  
+    # Path: 	/v2/workspaces/&lt;workspace_uid&gt;/elements/canvas/&lt;canvas_id&gt;/notes
+
+    API_endpoint = '/v2/workspaces/' + workspace_uid + '/elements/canvas/' + canvas_id + '/notes'
+    params = ''
+
+    timestamp = datetime.datetime.now()
+
+    # The X and Y coordinates for objects within a Canvas are relative to the top left corner of the Canvas
+    data_load = {
+        "x": 400,
+        "y": 400,
+        "text": "Hello! New note, added at " + str(timestamp),
+        "backgroundColor": "Red"
+    }
+
+    the_request = requests.post(
+        portal + API_endpoint,
+        headers={"Authorization": "Bearer " + token,
+                    "Content-Type": "application/json"
+                    },
+        json=data_load
+    )
+
+    json_response = the_request.json()
+
+    pprint.pprint(json_response)
+
+    note_id = json_response['note']['id']
+</pre>
+</p>
+
+<p>
+
+<pre class="lang lang-node">
+// Node.js Javascript
+/*
+
+How to run:
+node this_script_name.js
+
+Requires "axios" module (0.19.0), run:
+npm install axios
+
+website: https://github.com/axios/axios
+
+*/
+
+var axios = require('axios');
+
+const token = 'SET_YOUR_TOKEN_HERE';
+const portal = '[[apiHost]]';
+const workspace_uid = 'SET_WORKSPACE_UID_HERE';
+const api_version = 'v2';
+var api_endpoint = '/workspaces/' + workspace_uid + '/elements/images';
+
+function runRequest(portal,api_version,api_endpoint,the_method,data_load) {
+    var request_values = {
+        url : portal + '/' + api_version + api_endpoint,
+        method : the_method ,
+        headers : {
+            'Authorization': "Bearer " + token,
+            'Content-Type' : 'application/json'    
+        },
+        data : data_load,
+    };
+
+    let req = axios(request_values)
+            .catch(error => { 
+                console.error('ERROR processing ' + portal + '/' + api_version + api_endpoint);
+                console.error(error.message); 
+                console.error(error.response.data);
+                return Promise.reject(error);
+            });;
+    
+    return req;
+}
+
+async function runAPIRequests() {
+    try {
+
+        // Create canvas
+
+        api_endpoint = '/workspaces/' + workspace_uid + '/elements/canvas';
+        the_method = 'POST';
+        var currtime = new Date().toISOString().slice(0,16).replace('T',' ');
+
+        data_load = {
+            'x': 1000,
+            'y': 1000,
+            'width': 4000,
+            'height': 4000,
+            'name': "New Canvas - Creation time: " + currtime ,
+            'borderColor': 'Yellow'
+        }
+        
+        var canvas_creation = await runRequest(portal,api_version,api_endpoint,the_method,data_load);
+
+        const canvas_id = canvas_creation.data.canvas.id;
+
+        console.log("canvas ID: " + canvas_id);
+
+        // Now add a Note to the Canvas
+
+        currtime = new Date().toISOString().slice(0,16).replace('T',' ');
+
+        api_endpoint = '/workspaces/' + workspace_uid + '/elements/canvas/' + canvas_id + '/notes'
+        method = 'POST';
+        data_load = {
+            "x": 400,
+            "y": 400,
+            "text": "Hello! New note, added at " + currtime,
+            "backgroundColor": "Red"
+        }
+
+
+        var note_creation = await runRequest(portal,api_version,api_endpoint,the_method,data_load);
+
+        var note_id = note_creation.data.note.id;
+
+        console.log('Note ID: ' + note_id);
+
+    } catch (error) {
+        console.error('ERROR:');
+        console.error(error.message);
+    }
+}
+
+// Run the requests
+runAPIRequests();
+</pre>
+
+</p>
+
+
+<h2>OUTPUT</h2>
+
+<p>
+Each time you run a POST API, you will get back a Response Body with the properties of the newly created object. Within this data you can get the object ID and other important information.
+</p>
+
+
+<table class="table table-striped">
+        <tr>
+            <td><b>Element</b></td>
+            <td><b>Json</b></td>
+            <td><b>Comments</b></td>
+        </tr>
+        <tr>
+            <td>Image ID</td>
+            <td>['images'][N]['id']</td>
+            <td>where N is the N-th workspace in the list.</td>
+        </tr>
+        <tr>
+            <td>Image Title</td>
+            <td>['workspaces'][N]['title']</td>
+            <td>where N is the N-th workspace in the list.</td>
+        </tr>
+        <tr>
+            <td>Image URL</td>
+            <td>['workspaces'][N]['url']</td>
+            <td>where N is the N-th image in the list.</td>
+        </tr>
+      
+      </table>
+
+
+<h3>Output Json sample</h3>
+
+<h4>Canvas creation</h4>
+
+From this answer you can obtain the newly created Canvas ID: ['canvas']['id']
+<pre>
+{'canvas': {'borderColor': 'Yellow',
+            'height': 4000,
+            'id': '5d3f40a660c539001477f4ea',
+            'name': 'New Canvas - Creation time: 2019-07-29 11:53:26.290894',
+            'order': 215,
+            'width': 4000,
+            'x': 10000,
+            'y': 1000}
+}    
+</pre>
+
+<h4>Note Creation</h4>
+<pre>
+{'note': {'backgroundColor': 'Red',
+            'fontWeight': 'normal',
+            'height': 320,
+            'id': '5d3f40a7b068af0014933ae2',
+            'order': 216,
+            'pin': False,
+            'scale': 1,
+            'text': 'Hello! New note, added at 2019-07-29 11:53:26.791257',
+            'width': 560,
+            'x': 10400,
+            'y': 1400}
+}
+</pre>
+
+
+<br />
+If you have any questions or comments, please contact us at <a href="https://support.bluescape.com" target="_blank">Bluescape support</a>.
+
+

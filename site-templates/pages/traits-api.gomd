@@ -1,0 +1,180 @@
+<h1>Traits: API for elements traits</h1>
+
+<h2>What are Traits?</h2>
+<p>Traits are a new feature that allows to associate metadata to objects within a workspace via a REST API, they are open-ended metadata for workspace objects. For example, if you upload assets (images, documents, etc.) that belong to a specific project, you can add that project information as Traits to each asset in the workspace. Later, you could download those assets and the data in the Traits of each asset will let you know the original project data.</p>
+
+<h2>Highlights of Traits</h2>
+    <p>Important points regarding Traits:
+        <ul>
+            <li>Traits are always represented as a JSON array.</li>
+            <li>Unlike Bluescape comments, traits can be specified on object creation.</li>
+            <li>Any number of traits can be associated with a workspace object, forming an ordered list.</li>
+            <li>Similarly to Bluescape comments, traits are append-only, i.e., traits can only grow monotonically over time, <b>they cannot be deleted</b>.</li>
+        </ul>
+
+    </p>
+
+
+    <h3>To what elements can I associate a Trait?</h3>
+    <p>
+            Traits may be associated with the following workspace elements (object_type):
+            <ul>
+                <li>Notes</li>
+                <li>Canvas</li>
+                <li>Browsers</li>
+                <li>Documents</li>
+                <li>Images</li>
+                <li>Strokes</li>
+                <li>Text</li>
+            </ul>
+            </p>
+            <p>
+            Traits may be associated with a workspace element upon its creation, or at a later time, until the deletion of the element. The following element types currently support trait association upon element creation:
+            <ul>
+                <li>Notes</li>
+                <li>Canvas</li>
+                <li>Browsers</li>
+                <li>Strokes</li>
+                <li>Text</li>
+            </ul>
+            </p>
+
+    <h3>Trait structure</h3>
+    <p>
+            In every request and response of the Bluescape REST API operating on elements of the supported types, traits are represented as a JSON array. Each item in the array must conform to the JSON-LD specification (<a href="https://json-ld.org/" target="_blank">https://json-ld.org/</a>). While the JSON-LD specification contains a rich set of features for data modeling, their use not necessary. The only relevant constraint imposed by the JSON-LD specification is that every JSON property name must either:
+            <ul>
+                <li>be a Uniform Resource Locator (URI)</li>
+                <li>be a JSON-LD keyword - one of 13 reserved names starting with the "@" symbol</li>
+                <li>resolve to a URI, as directed by the "@context" keyword</li>
+            </ul>
+        <br />
+        <b>IMPORTANT</b>: If traits do not conform to this structure, traits API calls will produce HTTP error response <span
+        class="pre">400 Bad Request</span>.
+        <br />
+        <br />
+        API clients are encouraged to choose the HTTP URI schema to reduce the possibility of inadvertent namespace collisions, and use a base URI derived from the DNS name of their organization, thus enabling multiple organizations to cooperatively share the traits namespace. For instance, the traits specified above can be augmented by another organization. See example below:
+    </p>
+    <p>
+        Example of the data load: 
+<pre>
+    {
+        // trait from framework A
+        "http://acme.com/file-data/name":  “background-test-1.jpg”,
+        "http://acme.com/file-data/version": "1.0.4-First-review"
+    },
+    { // trait from framework B
+        "http://ajax.com/project/": {
+            "http://ajax.com/project/owner": "Joe Smith",
+            "http://ajax.com/project/deadline": "2019Q4"
+        },
+        "http://ajax.com/project/name": "Lorem Ipsum, the Return"
+    }
+</pre>
+    </p>
+
+<h2>How to implement Traits?</h2>
+
+<h3>Add Traits when creating an element</h3>
+    <p>
+       As mentioned above, you can add Traits to an element at the creation moment if the element is one of the following ones:
+        <ul>
+                <li>Notes</li>
+                <li>Canvas</li>
+                <li>Browsers</li>
+                <li>Strokes</li>
+                <li>Text</li>
+            </ul>
+
+    </p>
+    <p>
+        You will need to add the JSON Array as a <span
+        class="pre">'traits'</span> field in the data load. For example, when craeting a Canvas, you can add Traits as in the example below:
+<pre>
+...
+data_load = {
+    'x': 10000,
+    'y': 1000,
+    'width': 4000,
+    'height': 4000,
+    'name': "New Canvas - Creation time: " + str(timestamp),
+    'borderColor': 'Yellow',
+    'traits' : [{"http://acme.com/project": "Lorem Ipsum, The Return"},{"http://acme.com/project/review" : "First Review, gathering Feedback"}]
+}
+...
+</pre>
+    </p>
+
+<h3>Add Traits to an existing element</h3>
+    <p>
+
+        <table class="table table-striped">
+                <tr>
+                  <td><b>Endpoint</b></td>
+                  <td>/v2/workspaces/&lt;workspace_uid&gt;/elements/&lt;object_type&gt;/&lt;object_id&gt;/traits</td>
+                </tr>
+                <tr>
+                    <td><b>Method</b></td>
+                    <td>POST</td>
+                </tr>
+                <tr>
+                  <td><b>Comments</b></td>
+                  <td>If traits do not conform to the specified structure, Traits API calls will produce HTTP error response <span
+                    class="pre">400 Bad Request</span>.</td>
+                </tr>
+        </table>
+        <br />
+    
+        When adding Traits to an object, you will need to provide a JSON Array as the data load for the API. An example of the data load for adding Traits to an image object would be:
+<pre>
+data_load = [{
+    "http://acme.com/picture/title": "Sand dunes picture",
+    "http://acme.com/picture/description": "Sand Dunes, big, light on one side, shadow on the other side",
+    "http://acme.com/picture/tags": ["sand dunes","light","desert","blue sky","yellow sand","sand"]
+    }]
+</pre>
+    </p>
+
+    
+<h3>Get a list of the Traits in an object</h3>
+<p>
+        <table class="table table-striped">
+                <tr>
+                  <td><b>Endpoint</b></td>
+                  <td>/v2/workspaces/&lt;workspace_uid&gt;/elements/&lt;object_type&gt;/&lt;object_id&gt;/traits</td>
+                </tr>
+                <tr>
+                    <td><b>Method</b></td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                  <td><b>Comments</b></td>
+                  <td></td>
+                </tr>
+        </table>
+
+
+    </p>
+
+
+<h3>Cannot Delete/Edit Traits: alternative</h3>
+   
+<p>       
+        As previously mentioned, the traits of an element are never deleted during its lifetime, and all the traits association is cumulative. However, the API client is free to interpret cumulative traits associations as updates or deletions. For instance, another traits association may result in the traits array becoming this:
+<pre>
+[{ "http://acme.com/bluescape#assetId": "869C287E-59BB-4319-9261-F791F659C54A" },
+    { "http://ajax.com/bscp#assetId": "98d03812452e0b6cabdbde5eff14e89f" },
+    { "http://acme.com/bluescape#assetId": null }]
+</pre>
+    <br />
+        The API client using the "http://acme.com" prefix is free to interpret such association as a deletion of the assetId property of the associated <span class="pre">bluescape#assetId</span> element by processing the values from older to newer (top to bottom in this example).
+</p>  
+
+<p>
+        
+        
+              
+
+
+</p>
+<br />
+If you have any questions or comments, please contact us at <a href="https://support.bluescape.com" target="_blank">Bluescape support</a>.
