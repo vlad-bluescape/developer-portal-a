@@ -21,11 +21,12 @@
 }
 
 .c-header__nav > ul > li > a {
-  color: var(--primary-color);
-  font-weight: 700;
+  color: #222;
+  text-decoration: none;
+  /* font-weight: 700; */
   /* text-transform: uppercase; */
-  line-height: var(--header-height);
-  height: var(--header-height);
+  line-height: 20px;
+  font-size: 16px;
   padding: 0 10px;
   display: block;
 }
