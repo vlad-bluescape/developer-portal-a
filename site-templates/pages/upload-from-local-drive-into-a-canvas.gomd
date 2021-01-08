@@ -1,0 +1,597 @@
+<h1>Upload content from local drive into a Canvas</h1>
+<p>
+<b>Objective</b>: create a new Canvas and upload content from a local drive to a this new Canvas.
+</p>
+<p>The currently supported file extensions for uploading content to a Workspace include:  png, jpeg, gif, tiff, pdf, docx, pptx, xlsx, doc, ppt, xls.<br />
+    The image may be uploaded as a binary attachment, multipart form data, or via a remote url.<br />
+</p>
+<p>
+    See below examples for the upload methods: multipart form data and via remote URL.
+</p>
+<p><b>NOTE:</b> You can use this same code to implement upload to a Workspace, just changing the API endpoint (removing the <span class="pre">/canvas/&lt;canvas_id&gt;</span> part from the path).</p>
+
+<h4>Create Canvas</h4>
+
+<table class="table table-striped">
+        <tr>
+          <td><b>Endpoint</b></td>
+          <td>/v2/workspaces/&lt;workspace_uid&gt;/elements/canvas</td>
+        </tr>
+        <tr>
+            <td><b>Method</b></td>
+            <td>POST</td>
+        </tr>
+        <!--
+        <tr>
+            <td><b>Developer Portal URL</b></td>
+            <td><a href="/reference/apis#Canvas:postWorkspacesElementsCanvasByWorkspaceid">[[developerPortalHost]]/reference/apis#Canvas:postWorkspacesElementsCanvasByWorkspaceid</a></td>
+        </tr>
+        -->
+        <tr>
+          <td><b>Comments</b></td>
+          <td>You need to know the workspace UID.</td>
+        </tr>
+</table>
+
+<h4>Upload files into a Canvas</h4>
+
+<table class="table table-striped">
+        <tr>
+          <td><b>Endpoint</b></td>
+          <td>/v2/workspaces/&lt;workspace_uid&gt;/elements/canvas/&lt;canvas_id&gt;/documents and <br />/v2/workspaces/&lt;workspace_uid&gt;/elements/canvas/&lt;canvas_id&gt;/images </td>
+        </tr>
+        <tr>
+            <td><b>Method</b></td>
+            <td>POST</td>
+        </tr>
+        <!-- 
+        <tr>
+            <td><b>Developer Portal URL</b></td>
+            <td><a href="/reference/apis#Documents:postWorkspacesElementsCanvasDocumentsByWorkspaceidCanvasid">[[developerPortalHost]]/reference/apis#Documents:postWorkspacesElementsCanvasDocumentsByWorkspaceidCanvasid</a> and 
+                <a href="/reference/apis#Images:postWorkspacesElementsCanvasImagesByWorkspaceidCanvasid">[[developerPortalHost]]/reference/apis#Images:postWorkspacesElementsCanvasImagesByWorkspaceidCanvasid</a></td>
+        </tr>
+        -->
+        <tr>
+          <td><b>Comments</b></td>
+          <td>You need to know the workspace UID.</td>
+        </tr>
+</table>
+
+
+
+
+
+<h2>Code sample</h2>
+
+<p>Upload method: Multipart Form Data
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class="lang lang-python">
+# Python Code (python 3.5+)
+import requests
+from requests.exceptions import HTTPError
+import datetime
+from os import listdir
+from os.path import isfile, join
+import pprint
+
+
+'''
+This script:
+1) Creates a canvas
+2) Uploads the content from a specific folder into the canvas: documents and images
+3) Upload method for images and documents: MULTIPART FORM DATA
+
+Required modules:
+    requests 2.22.0
+'''
+
+token = '&lt;SET_YOUR_TOKEN_HERE&gt;'
+
+if __name__ == "__main__":
+    portal = '[[apiHost]]'
+    workspace_uid = '&lt;SET_YOUR_WORKSPACE-UID_HERE&gt;'
+    API_version = 'v2'
+    API_endpoint = '/' + API_version + '/workspaces/' + workspace_uid + '/elements/canvas'
+    parameters = ''
+
+    canvas_x = 0
+    canvas_y = 0
+
+    canvas_width = 4000
+    canvas_height = 4000
+
+    date_time = datetime.datetime.now()
+
+    data_load = {
+            'x': canvas_x,
+            'y': canvas_y,
+            'width': canvas_width,
+            'height': canvas_height,
+            'name': "Data Load on " + str(date_time),
+            'borderColor': 'Yellow'
+        }
+
+    # IMPORTANT: canvas has to be bigger than document/object coming inside, or the object does NOT stick to the canvas
+
+    the_request = requests.post(
+        portal + API_endpoint,
+        headers={"Authorization": "Bearer " + token,
+                    "Content-Type": "application/json"
+                    },
+        json=data_load,
+        params=parameters
+    )
+
+    json_response = the_request.json()
+
+    pprint.pprint(json_response)
+
+    canvas_id = json_response['canvas']['id']
+
+    pprint.pprint(json_response)
+
+    # Add the files in the folder into the Canvas
+    # /v2/workspaces/&lt;workspace_uid&gt;/elements/canvas/&lt;canvas_id&gt;/documents
+    # /v2/workspaces/&lt;workspace_uid&gt;/elements/canvas/&lt;canvas_id&gt;/images
+
+    mypath = '&lt;SET_PATH_HERE&gt;'
+    onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+
+    API_endpoint = '/' + API_version + '/workspaces/' + workspace_uid + '/elements/canvas/' + canvas_id + '/documents'
+
+    # Canvas coordinates are from its top left corner, relative from there
+    xx = 100
+    yy = 200
+
+
+    # Supported: png, jpeg, gif, tiff, pdf, docx, pptx, xlsx, doc, ppt, xls
+
+    document_extensions = ['pdf','docx','pptx','xlsx','doc','ppt','xls']
+    image_extensions    = ['jpg','png','jpeg','tiff']
+    not_supported_extensions = ['txt']
+
+    for this_file in onlyfiles:
+
+        print("\nFile: ", this_file)
+
+        file_extension = this_file.split('.')[1]
+
+        full_path_file = mypath + this_file
+
+
+        file_type_key = ''
+
+        is_supported_extension = True
+
+        if file_extension in document_extensions:
+            API_endpoint = '/' + API_version + '/workspaces/' + workspace_uid + '/elements/canvas/' + canvas_id + '/documents'
+            file_type_key = 'document'
+        elif file_extension in image_extensions:
+            API_endpoint = '/' + API_version + '/workspaces/' + workspace_uid + '/elements/canvas/' + canvas_id + '/images'
+            file_type_key = 'image'
+        else:
+            is_supported_extension = False
+
+        if is_supported_extension:
+
+            the_params = {
+                'x': xx,
+                'y': yy,
+                'title': this_file,
+                'scale': 1,
+            }
+
+            print("Data_load:", str(the_params))
+            print(portal + API_endpoint)
+
+            # NOTE for this library: do not use "Content-Type" in headers, does not need to be set to 'multipart/form-data', it is set automatically
+            the_request = requests.post(
+                portal + API_endpoint,
+                headers={"Authorization": "Bearer " + token
+                            },
+                params=the_params,
+                files={ file_type_key : (this_file, open(full_path_file, "rb")) }
+            )
+
+            json_response = the_request.json()
+
+            # pprint.pprint(json_response) # uncomment if you want to see response
+
+            delta = 1300
+            if the_request.status_code == 200:
+                yy += delta
+            else:
+                print("[[ERROR]] Could not upload object. Status code: " + str(the_request.status_code))
+
+            # Check if the objects's position is outside the canvas. If so, start in new column
+            if yy > canvas_height:
+                yy = 200
+                xx += delta  
+
+</pre>
+</p>
+
+<p> 
+<pre class="lang lang-node">
+// Node.js Javascript
+// Upload method:
+var request = require('request');
+var path = require('path');
+var fs = require('fs');
+
+/*
+How to run:
+node this_script_name.js 
+
+Requires "request" module, run:
+npm install request
+
+*/
+
+const token = '&lt;SET_YOUR_TOKEN_HERE&gt;';
+const portal = 'https://api.apps.us.bluescape.com';
+const workspace_uid = '&lt;SET_WORKSPACE-UID_HERE&gt;';
+const api_version = 'v2';
+var api_endpoint = '/' + api_version + '/workspaces/' + workspace_uid + '/elements/images';
+var method = '';
+
+const canvas_x = 0;
+const canvas_y = 0;
+
+const canvas_width = 3000;
+const canvas_height = 6000;
+
+// Canvas coordinates are from its top left corner, relative from there
+var xx = 100;
+var yy = 200;
+
+function runUploadRequest(portal,api_endpoint,method,data_load){
+    return new Promise((resolve, reject) => {
+        var request_values = {
+            uri : portal + api_endpoint ,
+            method : method ,
+            headers : {
+                'Authorization': "Bearer " + token,
+                'Content-Type' : 'multipart/form-data'    
+            },
+            formData : data_load
+        };
+
+        request(request_values, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                // Print out the result
+                console.log("Successful request. Body response: " + JSON.stringify(body,null,"     ")); 
+                } else {
+                reject('Invalid status code &lt;' + response.statusCode + '&gt;'); 
+                }
+                resolve(body);
+        })
+    });
+}
+
+function runRequest(portal,api_endpoint,method,data_load) {
+    return new Promise((resolve, reject) => {
+        var request_values = {
+            uri : portal + api_endpoint ,
+            method : method ,
+            headers : {
+                'Authorization': "Bearer " + token,
+                'Content-Type' : 'application/json'    
+            },
+            body : data_load,
+            json: true
+        };
+
+        request(request_values, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                // Print out the result
+                console.log("Successful request. Body response: " + JSON.stringify(body,null,"     ")); 
+                } else {
+                reject('Invalid status code &lt;' + response.statusCode + '&gt;'); 
+                }
+                resolve(body);
+        })
+
+    });
+}
+
+async function asyncForEach(array, callback) {
+    for (let index = 0; index &lt; array.length; index++) {
+        await callback(array[index], index, array);
+    }
+}
+
+async function runAPIRequests() {
+    try {
+        // Create canvas
+        api_endpoint = '/v2/workspaces/' + workspace_uid + '/elements/canvas';
+        method = 'POST';
+        var currtime = new Date().toISOString().slice(0,16).replace('T',' ');
+
+        var data_load = {
+            'x': canvas_x,
+            'y': canvas_y,
+            'width': canvas_width,
+            'height': canvas_height,
+            'name': "New Canvas - Creation time: " + currtime ,
+            'borderColor': 'Red'
+        }
+        
+        const canvasResponse = await runRequest(portal,api_endpoint,method,data_load);
+
+        const canvas_id = canvasResponse['canvas']['id'];
+
+        // Let's upload the files into the Canvas
+
+        // Supported: png, jpeg, gif, tiff, pdf, docx, pptx, xlsx, doc, ppt, xls
+
+        var allowedDocExtensions = new RegExp(/.*\.(pdf|docx|pptx|xlsx|doc|ppt|xls)$/i);
+        var allowedImageExtensions = new RegExp(/.*\.(jpg|png|jpeg|tiff)$/i)
+
+        const pathSource = '&lt;SET_FULL_PATH_TO_YOUR_LOCAL_FOLDER&gt;';
+        var myPath = path.dirname(pathSource +'*'); // Absolute path
+        // passsing myPath and callback function
+        fs.readdir(myPath, function (errorIssue, files) {
+            //handling error
+            if (errorIssue) {
+                return console.log('Unable to read directory: ' + errorIssue);
+            } 
+                
+            asyncForEach(files, async(filename) => {
+
+                var api_endpoint = '';
+                var file_type_key = '';
+
+                var is_supported_extension = true;
+
+                // Check if the file is a supported one for uploading.
+                if (allowedDocExtensions.test(filename) ){
+                    api_endpoint = '/v2/workspaces/' + workspace_uid + '/elements/canvas/' + canvas_id + '/documents';
+                    file_type_key = 'document';
+                } else if (allowedImageExtensions.test(filename)) {
+                    api_endpoint = '/v2/workspaces/' + workspace_uid + '/elements/canvas/' + canvas_id + '/images';
+                    file_type_key = 'image';
+                } else {
+                    is_supported_extension = false;
+                }
+
+                if (is_supported_extension) {
+                    console.log("Going to update: " + filename);
+                    console.log("File type: " + file_type_key)
+
+                    var data_load = {
+                        'x': xx,
+                        'y': yy,
+                        'title': filename,
+                        'scale': 1,
+                    };
+
+                    // Cannot add values for the keys using a variable name, it uses the name of the variable instead of its value.
+                    data_load[file_type_key] = fs.createReadStream( pathSource + filename );
+
+                    method = 'POST';
+
+                    try {
+                        var uploadResponse = await runUploadRequest(portal,api_endpoint,method,data_load);
+                    } catch (error) {
+                        console.error('ERROR  when uploading content for file '+ filename);
+                        console.error(error);
+                    }
+
+                    delta = 1600;
+                    yy += delta;
+
+                    //  Check if the object's position is outside the canvas. If so, start in new column
+                    if (yy > canvas_height){
+                        yy = 200;
+                        xx += delta;
+                    }                      
+                }
+            } ); 
+        });
+
+
+    } catch (error) {
+        console.error('ERROR:');
+        console.error(error);
+    }
+}
+
+// Run the requests
+runAPIRequests();        
+</pre>
+</p>
+
+<br />
+
+
+<p> Upload Method: Remote URL
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class="lang lang-python">
+# Python Code (python 3.5+)
+import requests
+import pprint
+
+'''
+Upload an image to a Workspace from a URL, directly from a URL without a staging object.
+
+Required Libraries:
+- requests 2.22.0
+
+'''
+
+token = '<SET_YOUR_TOKEN_HERE>'
+
+if __name__ == "__main__":
+
+    portal = 'https://api.apps.us.bluescape.com'
+    workspace_uid = '<SET_YOUR_WORKSPACE-UID_HERE>' 
+    API_version = 'v2'    
+    params = ''
+
+    API_endpoint = '/' + API_version + '/workspaces/' + workspace_uid + '/elements/images'
+
+    # URL of the image, public URL
+    objectURL = '<URL_OF_IMAGE_TO_UPLOAD>'
+    
+    # The minimum needed is just the 'url' key
+    data_load = {
+        'url' : objectURL,
+        'scale' : 3,
+        'x' : 100,
+        'y' : 100
+    }
+
+    # Run the upload
+    try: 
+        the_request = requests.post(
+            portal + API_endpoint,
+            headers={"Authorization": "Bearer " + token
+                    },
+            params = params,
+            json=data_load
+        )
+        
+        json_response = the_request.json()
+
+        pprint.pprint(json_response)
+
+        if the_request.status_code != 200:
+            # Error found
+            print("Error found:")
+            print(the_request)
+        else:
+            json_response = the_request.json()
+            pprint.pprint(json_response)
+    except Exception as e:
+        print("Error: ", str(e))
+                  
+</pre>
+</p>
+<p> 
+<pre class="lang lang-node">
+// Node.js Javascript
+var request = require('request');
+
+/*
+
+Uploads an image into a workspace using the URL of the image as source of the image
+How to run:
+node this_script_name.js 
+
+Requires "request" module, version 2.88.2,  run:
+npm install request@2.88.2
+
+*/
+
+const token = '<SET_YOUR_TOKEN_HERE>';
+const portal = 'https://api.apps.us.bluescape.com';
+const workspace_uid = '<SET_WORKSPACE-UID_HERE>';
+const api_version = 'v2';
+var api_endpoint = '/' + api_version + '/workspaces/' + workspace_uid + '/elements/images'; 
+const imageURL = '<IMAGE_URL>'
+const imageURL = 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1-1024x512.png'
+
+var options = {
+    'method': 'POST',
+    'url': portal + api_endpoint,
+    'headers': {
+    'Authorization': 'Bearer ' + token   
+    },
+    formData: {
+    'url': imageURL,
+    'x': 1000,
+    'y': 1000
+    }
+};
+
+request(options, function (error, response) { 
+    if (error) throw new Error(error);
+    console.log(response.body);
+});
+</pre>
+</p>
+
+
+
+<h2>OUTPUT</h2>
+
+<p>
+Each time you run a POST API, you will get back a Response Body with the properties of the newly created object. Within this data you can get the object ID and other important information.
+</p>
+
+
+<table class="table table-striped">
+        <tr>
+          <td><b>Element</b></td>
+          <td><b>Json</b></td>
+          <td><b>Comments</b></td>
+        </tr>
+        <tr>
+            <td>Image ID</td>
+            <td>['images'][N]['id']</td>
+            <td>where N is the N-th workspace in the list.</td>
+        </tr>
+        <tr>
+            <td>Image Title</td>
+            <td>['workspaces'][N]['title']</td>
+            <td>where N is the N-th workspace in the list.</td>
+        </tr>
+        <tr>
+            <td>Image URL</td>
+            <td>['workspaces'][N]['url']</td>
+            <td>where N is the N-th image in the list.</td>
+        </tr>
+      
+      </table>
+
+
+<h3>Output Json sample</h3>
+
+<h4>Canvas creation</h4>
+
+From this answer you can obtain the newly created Canvas ID: ['canvas']['id']
+<pre>
+{'canvas': {'borderColor': 'Yellow',
+            'height': 4000,
+            'id': '5d3f40a660c539001477f4ea',
+            'name': 'New Canvas - Creation time: 2019-07-29 11:53:26.290894',
+            'order': 215,
+            'width': 4000,
+            'x': 10000,
+            'y': 1000}
+}    
+</pre>
+
+<h4>Note Creation</h4>
+<pre>
+{'note': {'backgroundColor': 'Red',
+            'fontWeight': 'normal',
+            'height': 320,
+            'id': '5d3f40a7b068af0014933ae2',
+            'order': 216,
+            'pin': False,
+            'scale': 1,
+            'text': 'Hello! New note, added at 2019-07-29 11:53:26.791257',
+            'width': 560,
+            'x': 10400,
+            'y': 1400}
+}
+</pre>
+
+
+<br />
+If you have any questions or comments, please contact us at <a href="https://support.bluescape.com" target="_blank">Bluescape support</a>.
+

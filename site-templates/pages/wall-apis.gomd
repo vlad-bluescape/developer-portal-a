@@ -1,0 +1,469 @@
+<h1>Wall APIs</h1>
+
+<h2>Highlights of Wall APIs</h2>
+    <ul>
+        <li>Provides a method to programmatically get <b>wallUids</b> for all Walls within an organization.</li>
+        <li>Allows users to Send and Unsend their workspaces to a Wall client programmatically.</li>
+        <li>Introduces a new user permission <b>Send to Workspace</b> that is automatically inherited by any role with the <b>Edit</b> permission.</li>
+    </ul>
+<br />
+
+<h2>Table of Contents:</h2>
+<p>
+    <a href="#get-walls">Get All Walls Owned By an Organization</a> <br />
+    <a href="#send-to-wall">Send To Wall</a> <br />
+    <a href="#unsend-from-wall">Unsend From Wall</a> <br />
+    <a href="#permissions">Permissions</a> <br />
+</p>
+<br />
+
+<h2>API Examples</h2>
+
+<a name="get-walls"><h3>Get All Walls Owned By an Organization</h3></a>
+        Authenticated User must have the <i>Can List Organization Walls</i> permission group to get all Walls in an organization. 
+        The query parameter 'order_by' supports fields 'name' and 'location'. You can define multiple 'order_by' and 'order_direction' values. Example: '[ASC, DESC]'. The filter parameter 'filter_by' supports fields 'name', 'location'. 
+        Only one filter parameter may be provided at a time, any extras will be ignored. Example: 'filter_by=name:testwall'.
+    <table class="table table-striped">
+            <tr>
+                <td><b>Endpoint</b></td>
+                <td>/v2/organizations/&lt;organization_uid&gt;/walls</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><b>Method</b></td>
+                <td>GET</td>
+                <td></td>
+            </tr>
+    </table>
+
+<h4>Request</h4>
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class="lang lang-python">
+    # Python Code (python 3.5+)
+    import requests
+    from requests.exceptions import HTTPError
+    import pprint
+
+    token = 'SET_YOUR_TOKEN_HERE'
+    portal = '[[apiHost]]'
+    organization_uid = 'SET_ORGANIZATION_UID_HERE'
+
+
+    if __name__ == "__main__":
+
+        API_endpoint = '/v2/organizations/' + organization_uid + '/walls'
+
+        data_load = {                  # Example showing how to use the filter_by field
+            'filter_by=name' : 'NAME_TO_FILTER_BY' 
+        }
+
+        the_request = requests.get(
+                portal + API_endpoint,
+                headers={"Authorization": "Bearer " + token,
+                            "Content-Type": "application/json"
+                        },
+                params = data_load
+            )
+
+        if the_request.status_code != 200:
+            # Error found        
+            print("Error found:")
+            pprint.pprint(the_request)
+        else:
+            json_response = the_request.json()
+            pprint.pprint(json_response)    
+
+        # From here you will need to parse your response to get the UID of the desired wall.
+</pre>
+
+<pre class="lang lang-node">
+    // Node.js Javascript
+    var axios = require('axios');
+
+    /*
+
+    How to run:
+    node this_script_name.js
+
+    Requires "axios" module (0.19.0), run:
+    npm install axios
+
+    website: https://github.com/axios/axios
+
+    */
+
+    const token = 'SET_YOUR_TOKEN_HERE';
+    const portal = '[[apiHost]]';
+    const api_version = 'v2';
+    const api_endpoint = '/organizations/' + workspace_uid + '/walls';
+
+        const data_load = {
+        'filter_by=name' : 'NAME_TO_FILTER_BY' 
+        }
+
+    request_values = {
+        method: 'GET',
+        url: portal + '/' + api_version + api_endpoint,
+        headers : {
+            'Authorization': "Bearer " + token,
+            'Content-Type' : 'application/json'    
+        },
+        data: data_load
+    };
+
+    axios(request_values)
+        .then(function (response) {
+        if (response.status == 200)
+        {
+            console.log("Success");
+            console.log(response.data);
+        }
+        })
+        .catch (function (error) {
+            console.log('Error: ' + error.message);
+        });
+        // From here you will need to parse the response to get the UID of the desired wall.
+</pre>
+
+<h4>Response</h4>
+    If no extra parameters are used, a list of the top 25 results will be returned.
+    <table class="table table-striped">
+        <tr>
+          <td><b>Element</b></td>
+          <td><b>Json</b></td>
+          <td><b>Comments</b></td>
+        </tr>
+        <tr>
+            <td>Wall UID</td>
+            <td>['walls'][N]['uid']</td>
+            <td>Where N is the N-th Wall in the list.</td>
+        </tr>
+        <tr>
+            <td>Wall Name</td>
+            <td>['walls'][N]['name']</td>
+            <td>Where N is the N-th wall name in the list</td>
+        </tr>
+      
+      </table>
+<h4>Example JSON Output:</h4>
+<pre>
+    'walls': [{'location': None,
+        'name': 'Z270-test-tiki2-asset1237',
+        'uid': 'JqsR29S2osjPax75szsb'}]}
+</pre>
+
+<p>
+    <b>*Note:</b> You need to save the wall <b>uid</b> that is returned to be able to send and unsend the workspace to a Wall.
+</p>
+
+
+
+<a name="send-to-wall"><h3>Send Workspace to Wall</h3></a>
+
+    Send workspace to wall. Requires <b>Send to Wall</b> permission group. You can obtain the <b>wallUid</b> value by using the <b>Wall</b> API described above.
+
+    <table class="table table-striped">
+            <tr>
+                <td><b>Endpoint</b></td>
+                <td>/v2/workspaces/&lt;workspace_uid&gt;/session/send_to_wall</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><b>Method</b></td>
+                <td>POST</td>
+                <td></td>
+            </tr>
+            <tr>
+                    <th>Body</th>
+                    <td>wallUID</td>
+            </tr>
+    </table>
+<h4>Request</h4>
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class="lang lang-python">
+    # Python Code (python 3.5+)
+    import requests
+    from requests.exceptions import HTTPError
+    
+    '''
+    Required modules:
+        requests 2.22.0
+    '''
+
+    token = 'ADD_YOUR_TOKEN_HERE'    
+    portal = '[[apiHost]]'
+    workspace_uid = 'ADD_YOUR_WORKSPACE_UID'  # REMEMBER TO ADD WORKSPACE UID
+    API_version = 'v2'
+    API_endpoint = '/' + API_version + '/workspaces/' + workspace_uid + '/session/send_to_wall'
+
+    data_load = {
+        'wallUid' : 'SET_WALLUID_HERE'
+    }
+
+    the_request = requests.put(
+            portal + API_endpoint,
+            headers={"Authorization": "Bearer " + token,
+                        "Content-Type": "application/json"
+                    },
+            json=data_load
+        )
+    
+    if the_request.status_code != 200:
+        # Error found        
+        print("Error found:")
+        pprint.pprint(the_request)
+    else:
+        json_response = the_request.json()
+        pprint.pprint(json_response)     
+</pre>
+<br />
+
+<pre class="lang lang-node">
+    // Node.js Javascript
+    var axios = require('axios');
+
+    /*
+    
+    How to run:
+    node this_script_name.js
+    
+    Requires "axios" module (0.19.0), run:
+    npm install axios
+    
+    website: https://github.com/axios/axios
+    
+    */
+    
+    const token = 'SET_YOUR_TOKEN_HERE';
+    const portal = '[[apiHost]]';
+    const workspace_uid = 'SET_YOUR_WORKSPACE_UID'
+    const api_version = 'v2';
+    const api_endpoint = '/workspaces/' + workspace_uid + '/session/send_to_wall';
+    const wallUid = 'SET_WALL_UID_HERE' // Example: 68734
+    
+    const data_load = {
+        'wallUid': wallUid
+    }
+    
+    request_values = {
+        method: 'GET',
+        url: portal + '/' + api_version + api_endpoint,
+        headers : {
+            'Authorization': "Bearer " + token,
+            'Content-Type' : 'application/json'    
+        },
+        data: data_load
+      };
+    
+    axios(request_values)
+        .then(function (response) {
+          if (response.status == 200)
+          {
+              console.log("Success");
+              console.log(response.data);
+          }
+        })
+        .catch (function (error) {
+            console.log('Error: ' + error.message);
+        });
+</pre>
+
+<h4>Response</h4>
+<pre>
+        {'wallName': 'hq_wall_client_asset_4',
+        <b>'wallUid': '1mgrGsuTr29Qq-9Gjpls'</b>}
+</pre>
+
+
+<a name="unsend-from-wall"><h3>Unsend Workspace From Wall</h3></a>
+    Unsend workspace from a Wall.
+    A workspace <b>Owner</b> can unsend the workspace from any wall. 
+    A workspace user with <b>Editor</b> or <b>Editor+</b> role can unsend the workspace if they were the sender of the workspace previously.
+    <table class="table table-striped">
+            <tr>
+                <th>Endpoint</th>
+                <td>/v2/workspaces/&lt;workspace_uid&gt;/session/unsend_from_wall</td>
+            </tr>
+            <tr>
+                <th>Method</th>
+                <td>POST</td>
+            </tr>
+            <tr>
+                <th>Body</th>
+                <td>wallUID</td>
+            </tr>
+    </table>
+<h4>Request</h4>
+
+<div class="lang-selector">
+    <button data-lang="curl" type="button" class="btn btn-sm btn-primary curlButton">cURL</button>
+    <button data-lang="node" type="button" class="btn btn-sm btn-primary nodeButton">Node.js</button>
+    <button data-lang="python" type="button" class="btn btn-sm btn-primary pythonButton">Python</button>
+</div>
+
+<pre class="lang lang-python">
+    # Python Code (python 3.5+)
+    import requests
+    from requests.exceptions import HTTPError
+
+    '''
+    Required modules:
+        requests 2.22.0
+    '''
+
+    token = 'ADD_YOUR_TOKEN_HERE'    
+    portal = '[[apiHost]]'
+    workspace_uid = 'ADD_YOUR_WORKSPACE_UID'  # REMEMBER TO ADD WORKSPACE UID
+    API_version = 'v2'    
+    API_endpoint = '/' + API_version + '/workspaces/' + workspace_uid + '/session/unsend_from_wall'
+    
+    data_load = {
+        'wallUid' : 'SET_WALLUID_HERE' 
+    }
+
+    the_request = requests.put(
+            portal + API_endpoint,
+            headers={"Authorization": "Bearer " + token,
+                        "Content-Type": "application/json"
+                    },
+            json=data_load
+        )
+
+    if the_request.status_code != 200:
+        # Error found        
+        print("Error found:")
+        pprint.pprint(the_request)
+    else:
+        # Successful execution returns Null
+        print("Execution successful!")    
+</pre>
+
+<pre class="lang lang-node">
+    // Node.js Javascript
+    var axios = require('axios');
+
+    /*
+    How to run:
+    node this_script_name.js
+
+    Requires "axios" module (0.19.0), run:
+    npm install axios
+
+    website: https://github.com/axios/axios
+
+    */
+
+    const token = 'SET_YOUR_TOKEN_HERE';
+    const portal = '[[apiHost]]';
+    const workspace_uid = 'SET_WORKSPACE_UID_HERE'
+    const api_version = 'v2';
+    const api_endpoint = '/workspaces/' + workspace_uid + '/session/send_to_wall';
+    const wallUid = 'SET_WALL_UID_HERE'
+
+    const data_load = {
+        'wallUid': wallUid
+    }
+
+    request_values = {
+        method: 'GET',
+        url: portal + '/' + api_version + api_endpoint,
+        headers : {
+            'Authorization': "Bearer " + token,
+            'Content-Type' : 'application/json'    
+        },
+        data: data_load
+    };
+
+    axios(request_values)
+        .then(function (response) {
+        if (response.status == 200)
+        {
+            console.log("Success");
+            console.log(response.data);
+        }
+        })
+        .catch (function (error) {
+            console.log('Error: ' + error.message);
+        });
+
+</pre>
+
+<p>
+    <b>*Note:</b> The <b>wallUid</b> used as the body for the request is the one that was saved from the returned values from <i>Send to Wall</i> request.
+</p>
+
+<h4>Response</h4>
+<pre>
+       none
+</pre>
+
+</br>
+
+
+<a name="permissions"><h2>Permissions</h2></a>
+<p>
+   Workspace owners may now extend the ability to <i>Send to Wall</i> to various users in their workspace. Initially, only workspace owners can
+   send and unsend their workspace to a wall. This can be extended to allow different levels of users to perform this action. By default, any user with
+   permissions to <i>Edit</i> a workspace will inherit this <i>Send to Wall</i> permission.
+</p>
+<table class="table table-striped">
+    <tr>
+        <th></th>
+        <th>Send to Wall</th>
+        <th>Unsend From Wall</th>
+    </tr>
+    <tr>
+        <th>Owner</th>
+        <td>Always</td>
+        <td>Always</td>
+    </tr>
+    <tr>
+        <th>Admin</th>
+        <td>With Edit Permissions</td>
+        <td>Yes if Sender*</td>
+    </tr>
+    <tr>
+        <th>User</th>
+        <td>With Edit Permissions</td>
+        <td>Yes if Sender*</td>
+    </tr>
+    <tr>
+        <th>Guest</th>
+        <td>No, must be invited</td>
+        <td>No</td>
+    </tr>
+</table>
+
+<div class="well">
+    <p>
+        <b>*Note:</b>  A workspace <b>User</b> can only unsend a workspace from a Wall if they were the ones who
+        sent the workspace to the wall in the first place, however
+        a workspace <b>Owner</b> can ALWAYS unsend their workspace from a Wall regardless of who sent it there.
+    </p>
+</div>
+
+You can verify if your user has the required permissions by following these steps:
+<ul>
+    <li>Log into Bluescape</li>
+    <li>Go to the list of Collaborators for a specific workspace</li>
+    <li>On the header of the list of users, click the question mark icon at the right of "Workspace Role"</li>
+    <li>You will get a popup with the permissions of your Collaborators</li>
+    <li>Verify that you can see the <span class="pre">Send to Wall</span> permission</li>
+    <li><img src="/docs/assets/images/collaborators_permissions_list.png" height="500"></li>
+</ul>
+   
+
+<br />
+If you have any questions or comments, please contact us at <a href="https://support.bluescape.com" target="_blank">Bluescape support</a>.

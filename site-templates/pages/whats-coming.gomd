@@ -1,0 +1,161 @@
+<h2>New Changes Coming in Release 19.11.1 on November 22, 2019</h2>
+
+<h3>Summary</h3>
+<p>
+  As communicated previously, the use of a version parameter on the API endpoints will become mandatory starting with our next major release 19.11.1, currently scheduled to be released on November 22, 2019.  This means that you need to add the <span class="pre">/v1/</span> or <span class="pre">/v2/</span> parameter to your scripts to ensure they will continue to work after the release 19.11.1 is launched.  Any API calls not using a version parameter will stop working.
+</p>
+
+
+<h3>API Version v0</h3>
+<p>
+    <ul>
+        <li>The support for API version <span class="pre">/v0/</span> will be discontinued starting with release 19.11.1.</li>
+        <li>All API calls to an endpoint must now include a (<span class="pre">/v1/</span> or <span class="pre">/v2/</span>) version parameter.</li>
+    </ul>
+</p>
+
+
+<h3>API Version v2</h3>
+<p>
+    <ul>
+        <li>The release 19.11.1 includes new features and security improvements, and will use the version parameter <span class="pre">/v2/</span> on its API endpoints</li>
+        <li>Scripts updated to use version parameter <span class="pre">/v2/</span> must also be updated to handle any field using id to instead use the newly introduced <b>uid</b> (see the <i>id Fields are Migrating to uid</i> section below for more detail).</li>
+    </ul>
+</p>
+
+
+<h3>New APIs</h3>
+<p>
+  The release 19.11.1 also includes two new APIs that enable the use case for sending and unsending a workspace to a Wall client.
+  <ul>
+    <li>Send to Wall</li>
+    <li>Unsend From Wall</li>
+  </ul>
+</p>
+
+
+<h3>FAQ</h3>
+<p>
+    <b>Q: So what does this mean to me?</b><br />
+    <b>A</b>: After the release 19.11.1, API version<span class="pre">/v0/</span>will be completely discontinued. This means that any calls to a endpoint not contiaining version parameters <span class="pre">/v1/</span> or <span class="pre">/v2/</span> will no longer work. You must add the <span class="pre">/v1/</span> or <span class="pre">/v2/</span> parameter to your API calls to ensure they will continue to work after release 19.11.1 is launched.<br /><br />
+</p>
+
+<p>
+  <b>Q: Will my scripts using version 1 (<span class="pre">/v1/</span>) stop working?</b><br />
+  
+  <b>A</b>: The scripts including version 1 (<span class="pre">/v1/</span>) parameter will continue to work once the upcoming release 19.11.1 is released.  No changes are required to ensure that your scripts will continue to work after the release 19.11.1 is launched.  However, to further safeguard your work and prepare for a future release when version 1 (<span class="pre">/v1/</span>) is eventually turned off, we encourage you to upgrade your scripts to use version 2 (<span class="pre">/v2/</span>)<br /><br />
+</p>  
+
+<p>
+    <b>Q: What do I do with endpoints that are currently using ids?</b><br />
+    
+    <b>A</b>: Any scripts using the <span class="pre">/v1/</span> endpoint will continue to work with both id and uid fields. See the <i>id Fields are Migrating to uid</i> section below for more details.<br /><br />
+</p>  
+
+<p>
+    <b>Q: Do I simply add version 2 (<span class="pre">/v2/</span>) to my scripts?</b><br />
+    
+    <b>A</b>: Scripts updated to use version parameter <span class="pre">/v2/</span> must also be updated to handle any field using id to instead use the newly introduced <b>uid</b> (see the <i>id Fields are Migrating to uid</i> section below for more details).<br /><br />
+</p>   
+
+
+<h3>id Fields are Migrating to uid</h3>
+<p>
+  Starting with release 19.11.1, we are switching from integer based ids to string based uids for better security. All API calls currently using integer ids will need to switch to using strings, and the API will now return uids in the response.
+</p>
+  <p>
+    For example, the <span class="pre">/v1/</span> route (/api/v1/users/:user_id/organizations/:organization_id/workspaces) will be replaced by (/api/v2/users/:user_uid/organizations/:organization_uid/workspaces) and the list of workspaces in the response will only contain the workspace uid, and not the workspace id.
+  </p>
+  <p>
+    To allow for applications that have stored resource ids a chance to transition, from the release 19.11.1 and until <span class="pre">/v1/</span> APIs are turned off, <span class="pre">/v1/</span> responses that include an id field will also include the corresponding uid field.
+  </p>
+  <p>
+    The example below illustrates these changes by comparing the return response of an API call between version <span class="pre">/v1/</span> and <span class="pre">/v2/</span>. The response table is obtained by using the /&lt;API_VERSION&gt;/workspaces/&lt;WORKSPACE_UID&gt; endpoint.
+  </p>
+  <p>
+  <table class="table table-striped">
+      <tr>
+          <td><center><b>/v1/</b></center></td>
+          <td><center><b>/v2/</b></center></td>
+      </tr>
+      <tr> 
+          <td>Both <span class="pre">id</span> (integer) and <span class="pre">uid</span> (alphanumeric) fields are included in the response</td>
+          <td>Only <span class="pre">uid</span> fields are included in the response</td>
+      </tr>
+      <tr>
+          <td>
+  <pre>
+  {
+    "workspace": {
+      <b>"id": 1050576</b>,
+      <b>"uid": "Trz8PDWgGoTozvmPGHAMV"</b>,
+      "name": "Test APIs v1 and v2",
+      "description": "",
+      <b>"organization_id": 16</b>,
+      <b>"default_role_id": 3</b>,
+      ... 
+      "organization": {
+        "name": "Bluescape",
+        <b>"id": 16</b>,      
+        <b>"default_public_workspace_role_id": 3</b>,
+        ...
+        ...
+      },
+      "favorite": false,
+      "users_count": 1,
+      "workspace_owner": {
+        <b>"id": 1787</b>,
+        "email": "indiana.jones@bluescape.com",
+        ...
+      },
+      "workspace_role": {
+        <b>"id": 1</b>,
+        "name": "Owner",
+        "description": "Workspace owners can edit their workspace settings, can view, comment and edit workspaces content, and can add and edit collaborators",
+        "type": "owner",
+      ... 
+      }
+    }
+  }
+   
+  </pre>
+          </td>
+          <td>
+  <pre>
+  {
+    "workspace": {
+     <b>"uid": "Trz8PDWgGoTozvmPGHAMV"</b>,
+      "name": "Test APIs v1 and v2",
+      "description": "",
+      ... 
+      <b>"organization_uid": "2P0EiUhzc9MZgrW2CJ2q"</b>,
+      <b>"default_role_uid": "mnFwoD1oaeLnPG39QTcZ"</b>,
+      ... 
+      "organization": {
+        "name": "Bluescape",
+        <b>"uid": "2P0EiUhzc9MZgr2CJ2q"</b>,
+        <b>"default_public_workspace_role_uid": "mmFwoDioeaLnPGx9QTcZ"</b>,
+        ... 
+      },
+      "favorite": false,
+      "users_count": 1,
+      "workspace_owner": {
+        <b>"uid": "tXcY0pG7s-9Xsrgc-ZSA"</b>,
+        "email": "indiana.jones@bluescape.com",            
+        ... 
+      },
+      "workspace_role": {
+        "name": "Owner",
+        <b>"uid": "BfgAk70qWNgcmytjwOYx"</b>,
+        "description": "Workspace owners can edit their workspace settings, can view, comment and edit workspaces content, and can add and edit collaborators",
+        "type": "owner",
+        ...
+      },
+     ...
+    }
+  }   
+  </pre>
+          </td>
+      </tr>
+  </table>
+  </p>

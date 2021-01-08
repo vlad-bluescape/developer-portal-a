@@ -21,11 +21,12 @@
 }
 
 .c-header__nav > ul > li > a {
-  color: var(--primary-color);
-  font-weight: 700;
-  text-transform: uppercase;
-  line-height: var(--header-height);
-  height: var(--header-height);
+  color: #222;
+  text-decoration: none;
+  /* font-weight: 700; */
+  /* text-transform: uppercase; */
+  line-height: 20px;
+  font-size: 16px;
   padding: 0 10px;
   display: block;
 }
@@ -42,7 +43,7 @@
 .c-header__misc {
   margin-left: auto;
   display: inline-flex;
-  align-items: center
+  align-items: center;
 }
 
 .c-header__misc > * {
@@ -59,4 +60,3 @@
   line-height: 1.5;
   color: var(--primary-color);
 }
-

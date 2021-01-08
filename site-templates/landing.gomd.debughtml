@@ -1,0 +1,59 @@
+<header id="home-header" class="page-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 style="color: #FFF; text-align: center;">PUBLIC REPO<br />------------------<br />Integrate Bluescape with the tools that drive your organization’s creativity and productivity.</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h4 style="color: #FFF; text-align: center;">We bring you guides, reference documentation and support to help you succeed.</h4>
+
+        <div style="text-align: center; font-size: larger;">
+          <a class="button-one" href="/docs/page/overview" title="Get Started">
+            Get Started
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="main-4" style="background-color: #F0F2F5;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5 col-md-offset-1">
+        <h4>Guides</h4>
+
+        <p>
+          <a href="/docs/page/guides">Learn</a> the basics and graduate to advanced concepts in no time.
+        </p>
+      </div>
+      <div class="col-md-5">
+        <h4>API Reference</h4>
+
+        <p>
+          View <a href="/docs/page/reference">reference</a> documentation for all of our APIs and authorization flows.
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5 col-md-offset-1">
+        <h4>Support</h4>
+
+        <p>
+          Get the <a href="/docs/page/support">help</a> you need from our FAQs, forums, and support system.
+        </p>
+      </div>
+    
+      <div class="col-md-5">
+        <!--
+        <h4>What's New?</h4>
+        <p>
+            We have several new features on this November release, please check <a href="/docs/page/whats-new">what is new</a>.
+        </p>
+        -->
+      </div>
+    </div>
+  </div>
+</section>
